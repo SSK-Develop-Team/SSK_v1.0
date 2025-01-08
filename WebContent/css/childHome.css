@@ -1,0 +1,78 @@
+@charset "UTF-8";
+
+.container{
+	width : 100%;
+}
+
+.menuBox{
+	width : 30%;
+	margin : 0 auto;
+}
+
+#howToUse{
+	width : 100%;
+	height : auto;
+}
+.langGroup button{
+	border : 1px solid #51459E;
+	border-radius : 10px;
+	background-color:#51459E;
+	padding : 10px;
+	margin : 5px;
+	color : white;
+	width : 100%;
+	height : auto;
+	font-size : 1.4em;
+}
+
+.sdqGroup button{
+	border : 1px solid #FF92A4;
+	border-radius : 10px;
+	background-color:#FF92A4;
+	padding : 10px;
+	margin : 5px;
+	color : white;
+	width : 100%;
+	height : auto;
+	font-size : 1.4em;
+}
+
+.langGroup{
+	display: flex;
+	flex-basis: 100%;
+	justify-content : center;
+}
+
+.sdqGroup{
+	display: flex;
+	flex-basis: 100%;
+	justify-content : center;
+}
+
+.testLine {
+      display: flex;
+      flex-basis: 100%;
+      align-items: center;
+      color: rgba(0, 0, 0, 0.35);
+      font-size: 18px;
+      font-weight : bold;
+      margin: 12px 0px;
+      
+    }
+   .testLine::before,
+   .testLine::after {
+      content: "";
+      flex-grow: 1;
+      background: rgba(0, 0, 0, 0.35);
+      height: 1px;
+      font-size: 0px;
+      line-height: 0px;
+      margin: 0px 16px;
+   }
+   
+   .sdq01{
+   	width : 100%;
+   }
+   .sdq02{
+   	width : 100%;
+   }

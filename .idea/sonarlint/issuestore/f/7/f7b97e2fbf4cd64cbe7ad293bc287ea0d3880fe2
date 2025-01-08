@@ -1,0 +1,53 @@
+
+u
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(¤Öˆ“ÿÿÿÿÿ
+u
+java:S2293 "YReplace the type specification in this constructor call with the diamond operator ("<>").(¤Öˆ“ÿÿÿÿÿ
+u
+java:S2293½"YReplace the type specification in this constructor call with the diamond operator ("<>").(¤Öˆ“ÿÿÿÿÿ
+‹
+java:S1319z"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(—¤¿Ëûÿÿÿÿ
+Œ
+java:S1319˜"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(ßÆÔ¿üÿÿÿÿ
+‡
+java:S1319¸"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(·½¬„
+m	java:S117="QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(İò÷8‹¶´éã1
+g	java:S117¸"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·½¬„
+g	java:S117Õ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÕÒï«
+g	java:S117å"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€Ñ„Ô
+‰
+java:S1488k"gImmediately return this expression instead of assigning it to the temporary variable "generatedUserId".(æš–±øÿÿÿÿ8‹¶´éã1
+l
+java:S20957"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(÷Óè‡8¦¶´éã1
+k
+java:S2095ç"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ÅÚÆ úÿÿÿÿ
+e
+java:S2095­"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ê¨ã0
+f
+java:S2095•"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ÏûÚ
+e
+java:S2095|"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ÁÃ“
+f
+java:S2095×"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(‡ÌÌ
+k
+java:S2095ø"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ÓéÅşÿÿÿÿ
+l
+java:S2095!"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(÷Óè‡8¦¶´éã1
+q
+java:S2095\"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(‚ƒ¬ıÿÿÿÿ8¦¶´éã1
+k
+java:S2095º"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(åæáÆúÿÿÿÿ
+f
+java:S2095š"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(«²öŒ
+W
+java:S1118":Add a private constructor to hide the implicit public one.(ÁÇæÅ8§¶´éã1
+b
+java:S1124"EReorder the modifiers to comply with the Java Language Specification.(ÒÅ÷©8¨¶´éã1
+c
+java:S1126%"AReplace this if-then-else statement by a single return statement.(òãã şÿÿÿÿ8©¶´éã1
+B
+java:S1168”"+Return an empty collection instead of null.(¥¹ï
+B
+java:S1168³"+Return an empty collection instead of null.(¥¹ï
+B
+java:S1168Ğ"+Return an empty collection instead of null.(¥¹ï

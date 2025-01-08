@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.modal-content{
+	width:40vw;
+}
+.modal-content div p{
+	margin-top:9rem;
+	margin-bottom:9rem;
+}
+
+.modal-content div img{
+	margin-bottom:3rem;
+}

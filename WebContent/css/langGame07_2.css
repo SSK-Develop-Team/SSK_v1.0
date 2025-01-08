@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+.container {
+	position: relative;
+}
+.container .numImg{
+	position: absolute;
+	border: none;
+	cursor: pointer;
+}
+.container #numImg01{
+	top: 74%;
+	left: 39%;
+	width:2rem;
+	height:2rem;
+	transform: translate(-74%, -61%);
+	-ms-transform: translate(-74%, -61%);
+}
+.container #numImg02{
+	top: 57%;
+	left: 53%;
+	width:2.3rem;
+	height:2.3rem;
+	transform: translate(-57%, -47%);
+	-ms-transform: translate(-57%, -47%);
+
+}
+.container #numImg03{
+	top: 55%;
+	left: 72%;
+	width:1.6rem;
+	height:1.4rem;
+	transform: translate(-55%, -38%);
+	-ms-transform: translate(-55%, -38%);
+
+}
+.container #numImg04{
+	top: 7%;
+	left: 84%;
+	width:1.7rem;
+	height:1.7rem;
+	transform: translate(-7%, -16%);
+	-ms-transform: translate(-7%, -16%);
+}

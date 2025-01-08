@@ -1,0 +1,11 @@
+
+^
+java:S2259J"HA "NullPointerException" could be thrown; "dataSource" is nullable here.(§ÿÒ¬
+M
+java:S2589K"7Remove this expression which always evaluates to "true"(¡ææú
+œ
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(“ßé”þÿÿÿÿ
+V	java:S125#"<This block of commented-out lines of code should be removed.(†ÍŸòüÿÿÿÿ
+N	java:S106C"9Replace this use of System.out or System.err by a logger.(ÔþÁž
+S	java:S106M"9Replace this use of System.out or System.err by a logger.(ÉÁÖèøÿÿÿÿ
+S	java:S106Q"9Replace this use of System.out or System.err by a logger.(Þæ¾üúÿÿÿÿ

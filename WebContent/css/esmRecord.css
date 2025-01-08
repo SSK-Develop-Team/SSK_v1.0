@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+.fc-daygrid-event-harness{
+	display:inline-block;
+	box-sizing:content-box;
+}
+.fc-daygrid-day-events{
+	text-align:right;
+	height:1px;
+}
+.record-box{
+	min-height:8em;
+}
+.record-create{
+	min-height:9em;
+}
