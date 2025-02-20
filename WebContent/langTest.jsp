@@ -200,7 +200,6 @@
 		var inputReply5 = document.createElement('input');
 		inputReply5.setAttribute('type', 'hidden');
 		inputReply5.setAttribute('name', 'langTestProgress5');
-
 		inputReply5.setAttribute('value', reply5);
 
 		form.appendChild(input);

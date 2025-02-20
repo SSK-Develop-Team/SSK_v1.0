@@ -52,21 +52,45 @@
 <body>
 	<%@ include file="sidebar.jsp" %>
 	<div class="w3-container w3-center"><h4><b>정서 반복 기록</b></h4></div>
+	<div class="w3-container w3-center">
+		<c:set var="target" scope="page" value="<%=esmEmotionList.get(0).getEsmTarget()%>" />
+		<c:choose>
+		<c:when test="${target eq 'CHILD'}">
+			<div style="color:#555555;margin: 0.3em;">현재 자신의 마음 상태를 표시하세요.</div>
+		</c:when>
+		<c:when test="${target eq 'PARENT'}">
+			<div style="color:#555555;margin: 0.3em;">당신 자녀의 현재 정서 상태를 표시하세요.</div>
+		</c:when>
+		</c:choose>
+		<c:remove var="target" scope="page" />
+	</div>
+	<div>&nbsp;</div>
+	
 	<div class="w3-row" >
-		<div class="w3-col m3 l4">&nbsp;</div>
-		<div class="w3-col s12 m6 l4" id="sdqChat" style="padding-bottom:6px;padding-top:10px;">
+		<div class="w3-col m2 l3">&nbsp;</div>
+		<div class="w3-col s12 m8 l6" id="esmChat" style="padding-bottom:6px;padding-top:10px;">
 			<form id="esmForm" method="post" action="GetEsmTest">
 			<input type="hidden" id="currEsmType" name="currEsmType" value="<%=esmEmotionList.get(0).getEsmType()%>"/>
+			<input type="hidden" id="target" name="target" value="<%=esmEmotionList.get(0).getEsmTarget()%>"/>
+			
 			<%for(int i=0;i<esmEmotionList.size();i++){ %>
 				<div class="w3-center">
 					<div class=""><%=esmEmotionList.get(i).getEsmEmotionKr() %></div>
 					<div class=""><%=esmEmotionList.get(i).getEsmEmotion() %></div>
-					<div class="radio">
+					<div class="w3-col s2 m2 l2">
+						<div>&nbsp;</div>
+						전혀 아니다. 
+					</div>
+					<div class="w3-col s8 m8 l8 radio">
 						<input type="radio" class="w3-radio" style="width:1.25em; height:1.25em; margin-right:0.25em; margin-left:0.25em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="1" checked>
 						<input type="radio" class="w3-radio" style="width:1.75em; height:1.75em; margin-right:0.25em; margin-left:0.25em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="2">
 						<input type="radio" class="w3-radio" style="width:2.25em; height:2.25em; margin-right:0.25em; margin-left:0.25em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="3">
 						<input type="radio" class="w3-radio" style="width:2.75em; height:2.75em; margin-right:0.25em; margin-left:0.25em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="4">
 						<input type="radio" class="w3-radio" style="width:3.25em; height:3.25em; margin-right:0.25em; margin-left:0.25em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="5">
+					</div>
+					<div class="w3-col s2 m2 l2">
+						<div>&nbsp;</div>
+						매우 그렇다.
 					</div>
 				</div>
 				<div>&nbsp;</div>
@@ -84,7 +108,7 @@
 				<%} %>
 			</div>
 		</div>
-		<div class="w3-col s1 m1 l4">&nbsp;</div>
+		<div class="w3-col s1 m2 l3">&nbsp;</div>
 	</div>
 	<div>&nbsp;</div>
 	<div>&nbsp;</div>
