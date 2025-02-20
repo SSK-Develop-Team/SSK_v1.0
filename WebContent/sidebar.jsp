@@ -69,8 +69,10 @@
 	  		</c:choose>
 	  		<c:remove var="user" scope="page" />
 	  		</div>
-	  		<div style="margin-left:2em;margin-right:2em;transform:translateY(-1.5em);">
-		  		<div class="logo w3-center" style="font-weight:bold;font-size:1.6rem;">PSLE</div>
+	  		<div style="margin-left:2em; margin-right:2em; transform:translateY(-1.5em);">
+		  		<div class="logo w3-center" style="font-weight:bold; font-size:1.6rem;">
+		  			<a href="childHome.jsp" style="text-decoration:none; color:ingerit;">PSLE</a>
+		  		</div>
 		  		<hr>
 	  		</div>
 	</div>
