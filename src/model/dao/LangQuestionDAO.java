@@ -25,6 +25,7 @@ public class LangQuestionDAO {
 				langQuestion.setAgeGroupId(rs.getInt(2));
 				langQuestion.setLangType(rs.getString(3));
 				langQuestion.setLangQuestionContent(rs.getString(4));
+				langQuestion.setIsLangGame(rs.getInt(5));
 				
 				langQuestionList.add(langQuestion);
 			}
@@ -46,6 +47,7 @@ public class LangQuestionDAO {
 				langQuestion.setAgeGroupId(rs.getInt(2));
 				langQuestion.setLangType(rs.getString(3));
 				langQuestion.setLangQuestionContent(rs.getString(4));
+				langQuestion.setIsLangGame(rs.getInt(5));
 			}
 			return langQuestion;
 			

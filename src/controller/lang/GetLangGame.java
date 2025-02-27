@@ -3,6 +3,7 @@ package controller.lang;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,7 +54,7 @@ public class GetLangGame extends HttpServlet {
 		session.setAttribute("langProgList", langProgList);
 		session.setAttribute("langGameID", gameID);
 		
-		ArrayList<LangGame> currLangGameList = LangGameDAO.getLangGameListByLangQuestionId(con, gameID);
+		List<LangGame> currLangGameList = LangGameDAO.getLangGameListByLangQuestionId(con, gameID);
 		session.setAttribute("currLangGameList", currLangGameList);
 		session.setAttribute("currLangGameIndex", 0);
 		

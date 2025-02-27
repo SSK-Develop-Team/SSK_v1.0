@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
@@ -59,9 +60,11 @@ public class GetLangResultAll extends HttpServlet {
 		 	focusUser  = UserDAO.getUserById(conn, childId);
 		 	curAge = UserInfoProcessor.getUserBirthToCurrAge(focusUser.getUserBirth());
 		}
-
+	 	
+	 	int userId = focusUser.getUserId();
+	 	
 		//All
-		ArrayList<LangTestLog> langTestLogList = LangTestLogDAO.getLangTestLogByUserId(conn, focusUser.getUserId());
+		List<LangTestLog> langTestLogList = LangTestLogDAO.getLangTestLogByUserId(conn, userId);
 		
 		if(langTestLogList.size() == 0) {
 			PrintWriter out = response.getWriter();
@@ -76,8 +79,8 @@ public class GetLangResultAll extends HttpServlet {
 			
 			ArrayList<ArrayList<LangReply>> allLangReplyList = new ArrayList<ArrayList<LangReply>>();
 			for(int j=0; j< logListSize; j++) {
-				ArrayList<LangReply> langReplyElement = LangReplyDAO.getLangReplyListByLangTestLogId(conn, langTestLogIDList.get(j));
-					allLangReplyList.add(langReplyElement);
+				ArrayList<LangReply> langReplyElement = new ArrayList<>(LangReplyDAO.getLangReplyListByLangTestLogId(conn, langTestLogIDList.get(j)));
+				allLangReplyList.add(langReplyElement);
 			}
 			
 			ArrayList<Integer> allAgeGroupIDList = new ArrayList<Integer>();
@@ -104,7 +107,8 @@ public class GetLangResultAll extends HttpServlet {
 			if(langLogIdListByUser != null) {//결과보기창에서 AgeGroup을 선택한 경우
 				for(int i=0; i<langLogIdListByUser.size(); i++) {
 					langLogListByUser.add(LangTestLogDAO.getLangTestLogById(conn, langLogIdListByUser.get(i)));
-					langReplyContentListByUser.add(LangReplyDAO.getLangReplyListByLangTestLogId(conn, langLogIdListByUser.get(i)));
+					ArrayList<LangReply> langReplyElement = new ArrayList<>(LangReplyDAO.getLangReplyListByLangTestLogId(conn, langLogIdListByUser.get(i)));
+					langReplyContentListByUser.add(langReplyElement);
 				}
 			}
 			
@@ -143,8 +147,8 @@ public class GetLangResultAll extends HttpServlet {
 			
 			
 			int langTestAgeGroupId = (int)LangReplyDAO.getLangAgeGroupIdByLogId(conn, selectedLangTestLog.getLangTestLogId());		
-			ArrayList<LangReply> selectLangReplyList = (ArrayList<LangReply>)LangReplyDAO.getLangReplyListByLangTestLogId(conn, selectedLangTestLog.getLangTestLogId());
-			ArrayList<LangQuestion> selectLangQuestionList = (ArrayList<LangQuestion>)LangQuestionDAO.getLangQuestionListByAgeGroupId(conn, langTestAgeGroupId);
+			ArrayList<LangReply> selectLangReplyList = new ArrayList<>(LangReplyDAO.getLangReplyListByLangTestLogId(conn, selectedLangTestLog.getLangTestLogId()));
+			ArrayList<LangQuestion> selectLangQuestionList = new ArrayList<LangQuestion>(LangQuestionDAO.getLangQuestionListByAgeGroupId(conn, langTestAgeGroupId));
 
 
 			Collections.sort(selectLangQuestionList, new Comparator<LangQuestion>() {/*sorting question list by lang type*/

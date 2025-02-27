@@ -1,3 +1,4 @@
+<!-- 질문에 맞는 그림 누르기 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ page import="model.dto.User" %>

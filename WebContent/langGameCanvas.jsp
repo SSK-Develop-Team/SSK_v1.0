@@ -49,19 +49,31 @@
           <img src="./image/reload.png" style="width:1.5em;height:1.5em;">
         </button>
       </div>
-      <%if(gameID==64 && currLangGameElement.getLangGameOrder()==3) { %>
-		<div class="w3-left">'할머니'를 써보세요.</div>
-	  <%}else if(gameID==64 && currLangGameElement.getLangGameOrder()==4) { %>
-		<div class="w3-left">'미나'를 써보세요.</div>
-	  <%}else if(gameID==31 && currLangGameElement.getLangGameOrder()==8) {%>
-	  	<div class="w3-left">이름을 써보세요.</div>
+      <%if(gameID==30 && currLangGameElement.getLangGameOrder()==2) { %>
+		<div class="w3-left">이름을 써보세요.</div>
+	  <%}else if(gameID==35 && currLangGameElement.getLangGameOrder()==2) { %>
+		<div class="w3-left">이름을 써보세요.</div>
+		
+	  <%}else if(gameID==60 && currLangGameElement.getLangGameOrder()==2) { %>
+		<div class="w3-left">'할머니, 안녕하세요.'를 써보세요.</div>
+	  <%}else if(gameID==60 && currLangGameElement.getLangGameOrder()==3) { %>
+		<div class="w3-left">'저는 인형을 받고 싶어요.'를 써보세요.</div>
+	  <%}else if(gameID==60 && currLangGameElement.getLangGameOrder()==4) { %>
+		<div class="w3-left">'감사합니다. 곧 만나요.'를 써보세요.</div>
+		
+	  <%}else if(gameID==63 && currLangGameElement.getLangGameOrder()==2) { %>
+		<div class="w3-left">'비가 올 때는 우산을 씁니다.'를 써보세요.</div>
+	  <%}else if(gameID==63 && currLangGameElement.getLangGameOrder()==3) { %>
+		<div class="w3-left">'아이가 장화를 신고 있어요.'를 써보세요.</div>
+	  <%}else if(gameID==63 && currLangGameElement.getLangGameOrder()==4) { %>
+		<div class="w3-left">'아이 옆으로 자동차가 지나가요.'를 써보세요.</div>
 	  <%} %>
     </div>
     <div id="canvas-container" style="width:100%;height:400px;">
       <canvas id="jsCanvas" class="canvas"></canvas>
     </div>
     <div class="w3-container w3-right">
-      <button class="w3-button w3-round-large" onclick="history.go(-1);" style="border:none; background-color:#12192C; color:white; ">이전으로</button>
+      <button class="w3-button w3-round-large" onclick="history.go(-1);" style="border:none; background-color:#12192C; color:white; ">이전</button>
       <%if(i<=langGameList.size()-1){ %><button class="w3-button w3-round-large" onclick="getNextContent(<%=i%>, <%= gameID %>,<%=langGameList.size()%>);" style="border:none; background-color:#12192C; color:white; ">완료 </button><%}%>
     </div>
   </div>

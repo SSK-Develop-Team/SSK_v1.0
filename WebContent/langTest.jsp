@@ -71,7 +71,6 @@
 						for(int i=0; i < currQuestionList.size(); i++){
 
 							int gameID = currQuestionList.get(i).getLangQuestionId();
-							if(gameID == 50) continue;
 							if(gameID < 10) currNumStr = "Q0" + gameID;
 							else currNumStr = "Q" + gameID;
 					%>
@@ -81,10 +80,17 @@
 							<div class="testNum"><b><%=currNumStr%></b></div>
 							<div class="w3-row w3-margin">
 								<div class="w3-col s12 m9 l10" style="background: #F4F4F4;">
-									<div class="w3-margin w3-center question-content"><%="우리 아이는 "  + currQuestionList.get(i).getLangQuestionContent() %></div>
+									<div class="w3-margin w3-center question-content"><%=currQuestionList.get(i).getLangQuestionContent() %></div>
 								</div>
 								<div class="w3-col s5 m3 l2 w3-right" style="padding-top:16px;padding-bottom:16px;padding-left:8px;">
-									<div class="w3-button w3-round-large w3-padding" style="background-color:#51459E;color:white;padding:0px;" onclick="selectGame(<%=gameID%>);">게임하고 오기</div>
+								
+								
+								<% if(currQuestionList.get(i).getIsLangGame()==1){ %>
+								    <div class="w3-button w3-round-large w3-padding" style="background-color:#51459E; color:white; padding:0px;" onclick="selectGame(<%=gameID%>);">
+								         게임하고 오기
+								    </div>
+								<% } %>					
+								
 								</div>
 							</div>
 						</div>
