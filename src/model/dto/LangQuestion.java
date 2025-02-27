@@ -5,6 +5,8 @@ public class LangQuestion {
 	private int ageGroupId;
 	private String langType;
 	private String langQuestionContent;
+	private int IsLangGame;
+	
 	public int getLangQuestionId() {
 		return langQuestionId;
 	}
@@ -28,6 +30,12 @@ public class LangQuestion {
 	}
 	public void setLangQuestionContent(String langQuestionContent) {
 		this.langQuestionContent = langQuestionContent;
+	}
+	public int getIsLangGame() {
+		return IsLangGame;
+	}
+	public void setIsLangGame(int IsLangGame) {
+		this.IsLangGame = IsLangGame;
 	}
 	
 

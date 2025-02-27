@@ -1,3 +1,4 @@
+<!-- 글자쓰기 버튼 출력 -> 그림판 페이지 이동 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ page import="model.dto.User" %>

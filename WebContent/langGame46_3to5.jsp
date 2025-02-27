@@ -1,3 +1,4 @@
+<!-- 문제 아래 그림판 생성 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ page import="model.dto.User" %>
@@ -47,6 +48,7 @@
     <div><img src="<%=currLangGameElement.getLangGameImg() %>" style="width:100%"/></div>
     <% if(currLangGameElement.getLangGameSpeaker().equals("-")) { %><div class="w3-col m2 l3">&nbsp;</div><%} %>
     <% if(! currLangGameElement.getLangGameSpeaker().equals("-")){%><div class="w3-container w3-round-large" style="background-color:#12192C; color:white; width:100px;text-align:center;padding:2px;"><%=currLangGameElement.getLangGameSpeaker() %></div><%} %>
+    
     <div class="w3-container w3-round-large w3-padding" style="border:1px solid #12192C;">
       <div class="w3-container w3-padding-32"><%=langGameContent%></div>
       <div class="w3-panel w3-round-large" style="background-color: #f6f9fc;">
