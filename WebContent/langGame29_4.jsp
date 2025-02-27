@@ -1,3 +1,4 @@
+<!-- 다음 누르면 바로 이름쓰기 페이지 등장-->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ page import="model.dto.User" %>

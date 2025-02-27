@@ -34,26 +34,54 @@
 <div class="w3-row">
 	<div class="w3-col w3-hide-small m1 l3">&nbsp;</div>
 	<div class="w3-col w3-container s12 m10 l6">
-		<div style="font-size:1em;font-weight:bold;">직접평가 #<%= gameID %></div>
-		<div><img src="<%=currLangGameElement.getLangGameImg() %>" style="width:100%"/></div>
-		<% if(currLangGameElement.getLangGameSpeaker().equals("-")) { %><div class="w3-col m2 l3">&nbsp;</div><%} %>
-		<% if(! currLangGameElement.getLangGameSpeaker().equals("-")){%><div class="w3-container w3-round-large" style="background-color:#12192C; color:white; width:100px;text-align:center;padding:2px;"><%=currLangGameElement.getLangGameSpeaker() %></div><%} %>
-		
-
-			<% if(langGameContent.equals("-")) { %>
-			<div class="w3-container w3-round-large w3-padding">
-				<div class="w3-col m2 l3">&nbsp;</div><%} %>
-			<% if(! langGameContent.equals("-")) { %>
-			<div class="w3-container w3-round-large w3-padding" style="border:1px solid #12192C;">
-				<div class="w3-container w3-padding-32"><%=langGameContent%></div><%} %>
-			<div class="w3-container w3-right">
-				<%if(i>0){%><button class="w3-button" onclick="getPrevContent(<%=i%>);" style="border:none; background-color:#FFFFFF;"> &lt; 이전</button><%} %>
-				<%if(i<=langGameList.size()-1){ %><button class="w3-button" onclick="getNextContent(<%=i%>, <%= gameID %>,<%=langGameList.size()%>);" style="border:none; background-color:#FFFFFF;">다음 &gt; </button><%}%>
-			</div>
+		<div style="font-size:1em;font-weight:bold;">
+			<button class="w3-button" onclick="FinishGame(<%= gameID %>);" style="border:none; background: none; cursor: pointer;">
+			    <img src="./image/left-arrow.png" alt="이전 페이지" style="width: 20px; height: auto;">
+			</button>
+			직접평가 #<%= gameID %>
 		</div>
+		
+		<!-- 직접평가 이미지 -->
+		<div><img src="<%=currLangGameElement.getLangGameImg() %>.jpg" style="width:100%"/></div>
+		
+		<!-- 직접평가 화자 -->
+		<% if(currLangGameElement.getLangGameSpeaker().equals("-")) { %>
+			<div class="w3-col m2 l3">&nbsp;</div><%} %>
+		<% if(! currLangGameElement.getLangGameSpeaker().equals("-")){%>
+			<div class="w3-container w3-round-large" style="background-color:#12192C; color:white; width:100px;text-align:center;padding:2px;">
+			<%=currLangGameElement.getLangGameSpeaker() %></div><%} %>
+		
+		<!-- 직접평가 컨텐츠 -->
+		<% boolean hasLangGameContent = !langGameContent.equals("-"); %>
+		
+		<div class="w3-container w3-round-large w3-padding" 
+		     style="<%= hasLangGameContent ? "border:1px solid #12192C;" : "" %>">
+		    <div class="w3-col m2 l3">&nbsp;</div>
+		
+		    <% if (hasLangGameContent) { %>
+		        <div class="w3-container w3-padding-32"><%= langGameContent %></div>
+		    <% } %>
+		
+		    <!-- 이전/다음 버튼 -->
+		    <div class="w3-container w3-right">
+		        <% if (i > 0) { %>
+		            <button class="w3-button" onclick="getPrevContent(<%= i %>);" style="border:none; background-color:#FFFFFF;"> 
+		            	&lt; 이전
+		            </button>
+		        <% } %>
+		        
+		        <% if (i <= langGameList.size() - 1) { %>
+		            <button class="w3-button" onclick="getNextContent(<%= i %>, <%= gameID %>, <%= langGameList.size() %>);" style="border:none; background-color:#FFFFFF;">
+						다음 &gt;
+		            </button>
+		        <% } %>
+		    </div>
+		</div>
+			
 		<div class="w3-left" style="margin-top:5px;">
+			<!-- 팁 버튼 -->
 			<%if(currLangGameElement.getLangGameHint()!=null||currLangGameElement.getLangGameHintVoice()!=null){ %>
-			<button class="w3-button w3-round-large" onclick="openHint();" style="background-color:#12192C; color:white; text-align:center;font-size:0.9em;margin-right:5px;">힌트 확인하기</button>
+			<button class="w3-button w3-round-large" onclick="openHint();" style="background-color:#12192C; color:white; text-align:center;font-size:0.9em;margin-right:5px;">팁</button>
 			<div id="hint-modal" class="w3-modal">
 				<div class="w3-modal-content w3-animate-opacity w3-round-large modal-content">
 					<div class="w3-container w3-center">
@@ -65,8 +93,10 @@
 				</div>
 			</div>
 			<%} %>
+			
+			<!-- 정답 버튼 -->
 			<%if(currLangGameElement.getLangGameAnswer()!=null||currLangGameElement.getLangGameAnswerVoice()!=null){ %>
-			<button class="w3-button w3-round-large" onclick="openAnswer();" style="background-color:#12192C; color:white; text-align:center;font-size:0.9em;margin-right:5px;">정답 확인하기</button>
+			<button class="w3-button w3-round-large" onclick="openAnswer();" style="background-color:#12192C; color:white; text-align:center;font-size:0.9em;margin-right:5px;">정답 </button>
 			<div id="answer-modal" class="w3-modal">
 				<div class="w3-modal-content w3-animate-opacity w3-round-large modal-content">
 					<div class="w3-container w3-center">
@@ -83,16 +113,31 @@
 				</div>
 			</div>
 			<%} %>
+			
+			<!-- 평가기준 버튼 -->
+			<%if(currLangGameElement.getLangGameCriteria()!=null){ %>
+			<button class="w3-button w3-round-large" onclick="openCriteria();" style="background-color:#12192C; color:white; text-align:center;font-size:0.9em;margin-right:5px;">평가기준 </button>
+			<div id="criteria-modal" class="w3-modal">
+				<div class="w3-modal-content w3-animate-opacity w3-round-large modal-content">
+					<div class="w3-container w3-center">
+						<span onclick="closeCriteria();" class="w3-button w3-display-topright w3-round-xxlarge">&times;</span>
+						<%if(currLangGameElement.getLangGameCriteria()!=null){ %>
+						<p><%=currLangGameElement.getLangGameCriteria() %></p>
+						<%} %>
+					</div>
+				</div>
+			</div>
+			<%} %>
+					
 		</div>
 	</div>
 	<div class="w3-col w3-hide-small m1 l3">&nbsp;</div>
 </div>
-</div>
-</body>
 <script>
 	window.onload = function () {
 		var audio = new Audio();
 		audio.src="<%=langGameList.get(i).getLangGameVoice()%>";
+		
 		if(<%=audioEndedNextFlag%>==1){
 			audio.addEventListener("ended",function(){
 				setTimeout(() => getNextContent(<%=i%>,<%=gameID%>,<%=langGameList.size()%>),2000);
@@ -103,4 +148,5 @@
 	}
 </script>
 <script type="text/javascript" src="js/langGame.js" charset="UTF-8"></script>
+</body>
 </html>

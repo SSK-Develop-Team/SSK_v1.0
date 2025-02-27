@@ -12,6 +12,7 @@ public class LangGame {
 	private String langGameHintVoice;
 	private String langGameAnswer;
 	private String langGameAnswerVoice;
+	private String langGameCriteria;
 
 	public int getLangGameId() {
 		return langGameId;
@@ -79,5 +80,10 @@ public class LangGame {
 	public void setLangGameAnswerVoice(String langGameAnswerVoice) {
 		this.langGameAnswerVoice = langGameAnswerVoice;
 	}
-
+	public String getLangGameCriteria() {
+		return langGameCriteria;
+	}
+	public void setLangGameCriteria(String langGameCriteria) {
+		this.langGameCriteria = langGameCriteria;
+	}
 }

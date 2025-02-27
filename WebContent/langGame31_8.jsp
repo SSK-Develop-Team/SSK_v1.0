@@ -1,3 +1,4 @@
+<!-- 이름쓰기 버튼 출력-->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ page import="model.dto.User" %>
@@ -56,21 +57,43 @@
 	<div class="w3-col w3-hide-small m1 l3">&nbsp;</div>
 	<div class="w3-col w3-container s12 m10 l6">
 		<div style="font-size:1em;font-weight:bold;">직접평가 #<%= gameID %></div>
+		
 		<div class="container">
+			<!-- 직접평가 이미지 -->
 			<img src="<%=currLangGameElement.getLangGameImg() %>" style="width:100%"/>
+			
+			<!-- 글자 쓰기 버튼 -->
 			<button class="btn w3-button" onclick="location.href='langGameCanvas.jsp';">이름 쓰기</button>
 		</div>
-		<% if(currLangGameElement.getLangGameSpeaker().equals("-")) { %><div class="w3-col m2 l3">&nbsp;</div><%} %>
-		<% if(! currLangGameElement.getLangGameSpeaker().equals("-")){%><div class="w3-container w3-round-large" style="background-color:#12192C; color:white; width:100px;text-align:center;padding:2px;"><%=currLangGameElement.getLangGameSpeaker() %></div><%} %>
+		
+		<!-- 직접평가 화자 -->
+		<% if(currLangGameElement.getLangGameSpeaker().equals("-")) { %>
+			<div class="w3-col m2 l3">&nbsp;</div><%} %>
+		<% if(! currLangGameElement.getLangGameSpeaker().equals("-")){%>
+			<div class="w3-container w3-round-large" style="background-color:#12192C; color:white; width:100px;text-align:center;padding:2px;">
+			<%=currLangGameElement.getLangGameSpeaker() %></div><%} %>
+			
+		<!-- 직접평가 컨텐츠 -->
 		<div class="w3-container w3-round-large w3-padding" style="border:1px solid #12192C;">
-
 			<div class="w3-container w3-padding-32"><%=langGameContent%></div>
+			
+			<!-- 이전/다음 버튼 -->
 			<div class="w3-container w3-right">
-				<%if(i>0){%><button class="w3-button" onclick="getPrevContent(<%=i%>);" style="border:none; background-color:#FFFFFF;"> &lt; 이전</button><%} %>
-				<%if(i<=langGameList.size()-1){ %><button class="w3-button" onclick="getNextContent(<%=i%>, <%= gameID %>,<%=langGameList.size()%>);" style="border:none; background-color:#FFFFFF;">다음 &gt; </button><%}%>
+				<%if(i>0){%>
+					<button class="w3-button" onclick="getPrevContent(<%=i%>);" style="border:none; background-color:#FFFFFF;"> 
+						&lt; 이전
+					</button>
+				<%} %>
+				<%if(i<=langGameList.size()-1){ %>
+					<button class="w3-button" onclick="getNextContent(<%=i%>, <%= gameID %>,<%=langGameList.size()%>);" style="border:none; background-color:#FFFFFF;">
+						다음 &gt; 
+					</button>
+				<%}%>
 			</div>
 		</div>
+		
 		<div class="w3-left" style="margin-top:5px;">
+			<!-- 팁 버튼 -->
 			<%if(currLangGameElement.getLangGameHint()!=null||currLangGameElement.getLangGameHintVoice()!=null){ %>
 			<button class="w3-button w3-round-large" onclick="openHint();" style="background-color:#12192C; color:white; text-align:center;font-size:0.9em;margin-right:5px;">힌트 확인하기</button>
 			<div id="hint-modal" class="w3-modal">
@@ -84,6 +107,8 @@
 				</div>
 			</div>
 			<%} %>
+			
+			<!-- 정답 버튼 -->
 			<%if(currLangGameElement.getLangGameAnswer()!=null||currLangGameElement.getLangGameAnswerVoice()!=null){ %>
 			<button class="w3-button w3-round-large" onclick="openAnswer();" style="background-color:#12192C; color:white; text-align:center;font-size:0.9em;margin-right:5px;">정답 확인하기</button>
 			<div id="answer-modal" class="w3-modal">
@@ -102,6 +127,7 @@
 				</div>
 			</div>
 			<%} %>
+	
 		</div>
 	</div>
 	<div class="w3-col w3-hide-small m1 l3">&nbsp;</div>

@@ -3,6 +3,7 @@ package controller.esm.test;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
@@ -38,22 +39,26 @@ public class GetEsmTest extends HttpServlet {
 	    request.setCharacterEncoding("UTF-8");
 	    HttpSession session = request.getSession(true);
 	    
+	    // for DB Connection
 	 	ServletContext sc = getServletContext();
 	 	Connection conn= (Connection) sc.getAttribute("DBconnection");
 	 	
+	 	String esmTarget = request.getParameter("target");
 	 	String esmType = request.getParameter("currEsmType");
 	 	String forwardLocation = "/esmTest.jsp";
-	 	
+	 		 	
 	 	if(esmType.equals("none")) {//기록 시작
 	 		esmType = "positive";
 	 		
 	 		//다음 감정 문항 전달
-		 	ArrayList<EsmEmotion> esmEmotionList = (ArrayList<EsmEmotion>)EsmEmotionDAO.getEsmEmotionListByEsmType(conn, esmType);
-		 	request.setAttribute("esmEmotionList", esmEmotionList);
-		 	
+	 		List<EsmEmotion> esmEmotionList = EsmEmotionDAO.getEsmEmotionListByEsmType(conn, esmType, esmTarget);
+	 		request.setAttribute("esmEmotionList", esmEmotionList);
+
+	 		
 	 	}else if(esmType.equals("positive")){//긍정 감정 기록 종료 시
-	 		ArrayList<EsmEmotion> esmEmotionTargetList = (ArrayList<EsmEmotion>)EsmEmotionDAO.getEsmEmotionListByEsmType(conn, esmType);
+	 		List<EsmEmotion> esmEmotionTargetList = EsmEmotionDAO.getEsmEmotionListByEsmType(conn, esmType, esmTarget);
 	 		HashMap<Integer, Integer> esmEmotionRecordMap = new HashMap<Integer, Integer>();//emotion번호, 결과
+	 		
 	 		
 	 		for(int i=0;i<esmEmotionTargetList.size();i++) {
 	 			esmEmotionRecordMap.put(esmEmotionTargetList.get(i).getEsmEmotionId(), Integer.parseInt(request.getParameter(esmEmotionTargetList.get(i).getEsmEmotion())));
@@ -63,12 +68,12 @@ public class GetEsmTest extends HttpServlet {
 	 		esmType = "negative";
 	 		
 	 		//다음 감정 문항 전달
-		 	ArrayList<EsmEmotion> esmEmotionList = (ArrayList<EsmEmotion>)EsmEmotionDAO.getEsmEmotionListByEsmType(conn, esmType);
+	 		List<EsmEmotion> esmEmotionList = EsmEmotionDAO.getEsmEmotionListByEsmType(conn, esmType, esmTarget);
 		 	request.setAttribute("esmEmotionList", esmEmotionList);
 	 		
 	 	}else if(esmType.equals("negative")) {//부정 감정 기록 종료 시 
-	 		ArrayList<EsmEmotion> esmEmotionTargetList = (ArrayList<EsmEmotion>)EsmEmotionDAO.getEsmEmotionListByEsmType(conn, esmType);
-	 		
+	 		List<EsmEmotion> esmEmotionTargetList = EsmEmotionDAO.getEsmEmotionListByEsmType(conn, esmType, esmTarget);
+
 	 		@SuppressWarnings("unchecked")
 			HashMap<Integer, Integer> esmEmotionRecordMap = (HashMap<Integer, Integer>)session.getAttribute("esmEmotionRecordMap");
 	 		
