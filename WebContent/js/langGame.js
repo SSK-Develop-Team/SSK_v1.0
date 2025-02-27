@@ -22,6 +22,17 @@ function getNextContent(i,questionNum,gameSize){
     nextForm.submit();
 }
 
+function FinishGame(questionNum){
+    if(!confirm(questionNum + "번 문항의 게임을 종료하시겠습니까?")){return;}
+    
+    var BackForm = document.createElement("form");
+    BackForm.setAttribute("charset", "UTF-8");
+    BackForm.setAttribute("method", "post");
+    BackForm.setAttribute("action", "GetLangGameBackToTest");
+    document.body.appendChild(BackForm);
+    BackForm.submit();
+}
+
 function openHint(){
 	document.getElementById('hint-modal').style.display='block';
 }
@@ -33,15 +44,29 @@ function closeHint(){
 function openAnswer(){
 	document.getElementById('answer-modal').style.display='block';
 	const audio = document.getElementById('answer-audio');
-	audio.load();
-	audio.play();
+	if (audio) {
+		audio.load();
+		audio.play();
+	}
 }
 
 function closeAnswer(){
-	document.getElementById('answer-modal').style.display='none'
-	document.getElementById('answer-audio').pause();
+	document.getElementById('answer-modal').style.display='none';
+	const audio = document.getElementById('answer-audio');
+	if (audio) {
+		audio.pause();
+	}
 }
 
-document.getElementById('answer-audio').addEventListener("ended", function() {
+function openCriteria(){
+	document.getElementById('criteria-modal').style.display='block';
+}
+
+function closeCriteria(){
+	document.getElementById('criteria-modal').style.display='none'
+}
+
+/*document.getElementById('answer-audio').addEventListener("ended", function() {
+
 	setTimeout(() =>document.getElementById('answer-modal').style.display='none',1000);
-});
+});*/

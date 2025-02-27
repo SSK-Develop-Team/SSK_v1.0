@@ -1,3 +1,4 @@
+<!-- 서로 다른 부분 찾아 눌러보기(사진 당 2개) -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ page import="model.dto.User" %>

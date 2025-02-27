@@ -1,3 +1,4 @@
+<!-- 버튼 3개 중 골라 클릭 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <!DOCTYPE html>
