@@ -183,12 +183,12 @@
 		<div class="w3-col s2 m1 l2">&nbsp;</div>
 		
 		<div class="w3-col w3-row s3 m2 l1">
-		    <button class="w3-button w3-col print-button"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1em;align-items : center;padding:0px;" onclick="printPage()">출력하기</button>
+ 		   <!-- <button class="w3-button w3-col print-button"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1em;align-items : center;padding:0px;" onclick="printPage()">출력하기</button>
 			    <script>
 			        function printPage() {
 			            window.print();
 			        }
-			    </script>
+			    </script> -->
 		</div>
 
 		<div class="w3-col w3-row s3 m2 l1">
