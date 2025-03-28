@@ -39,21 +39,14 @@ public class LangGameProcessor {
 		String location = "/langGame.jsp";
 
 		// 이미지 버튼 터치 게임 Except01
-		if(langQuestionId == 2 && (langGameId == 1 || langGameId == 3 || langGameId == 5 || langGameId == 7 || langGameId == 9)) {
-			location = "/langGameExcept01.jsp";
-		}else if(langQuestionId == 3 && (langGameId == 1 || langGameId == 2 || langGameId == 3)) {
-			location = "/langGameExcept01.jsp";
-		}else if(langQuestionId == 10 && (langGameId == 1 || langGameId == 2 || langGameId == 3)) {
-			location = "/langGameExcept01.jsp";
-		}else if(langQuestionId == 26 && (langGameId == 1 || langGameId == 2 || langGameId == 3)) {
-			location = "/langGameExcept01.jsp";
-		}else if(langQuestionId == 39 && (langGameId == 1 || langGameId == 2 || langGameId == 3)) {
-			location = "/langGameExcept01.jsp";
-		}else if(langQuestionId == 47 && (langGameId == 1 || langGameId == 2 || langGameId == 3)) {
-			location = "/langGameExcept01.jsp";
-		}else if(langQuestionId == 42 && (langGameId == 1 || langGameId == 2 || langGameId == 3)) {
-			location = "/langGameExcept01.jsp";
-		}else if(langQuestionId == 49 && (langGameId == 1 || langGameId == 2)) {
+		if((langQuestionId == 2 && (langGameId == 1 || langGameId == 3 || langGameId == 5 || langGameId == 7 || langGameId == 9))||
+				(langQuestionId == 3 && (langGameId == 1 || langGameId == 2 || langGameId == 3))||
+				(langQuestionId == 10 && (langGameId == 1 || langGameId == 2 || langGameId == 3))||
+				(langQuestionId == 26 && (langGameId == 1 || langGameId == 2 || langGameId == 3))||
+				(langQuestionId == 39 && (langGameId == 1 || langGameId == 2 || langGameId == 3))||
+				(langQuestionId == 47 && (langGameId == 1 || langGameId == 2 || langGameId == 3))||
+				(langQuestionId == 42 && (langGameId == 1 || langGameId == 2 || langGameId == 3))||
+				(langQuestionId == 49 && (langGameId == 1 || langGameId == 2))){
 			location = "/langGameExcept01.jsp";
 		}
 		// 번호 터치 후 화면 전환 게임 Except02
@@ -68,7 +61,7 @@ public class LangGameProcessor {
 			location = "/langGameExcept03.jsp";
 		}
 		// 글자쓰기 게임 Except 04
-		else if(langQuestionId == 50 && (langGameId == 2 || langGameId == 3 || langGameId == 4 || langGameId == 5)){
+		else if(langQuestionId == 50 && (langGameId == 1 || langGameId == 2 || langGameId == 3 || langGameId == 4)){
 			location = "/langGameExcept04.jsp";
 		}
 		return location;
@@ -133,12 +126,12 @@ public class LangGameProcessor {
 	        pageNum = new int[]{1, 2, 3};
 	        isImageDuplicated = false;
 	    }    
-		// 화면 오른쪽 버튼 3개 & 버튼 이미지 동일
+		// 화면 가운데 버튼 3개 & 버튼 이미지 동일
 		else if (langQuestionId == 47 && (langGameId == 1 || langGameId == 2 || langGameId == 3)){
 	        buttonData = Arrays.asList(
-	                Map.of("left", "36%", "top", "33%", "width", "17%"),
-	                Map.of("left", "56%", "top", "33%", "width", "17%"),
-	                Map.of("left", "76%", "top", "33%", "width", "17%"));
+	                Map.of("left", "15%", "top", "34%", "width", "15%"),
+	                Map.of("left", "43%", "top", "34%", "width", "15%"),
+	                Map.of("left", "70%", "top", "34%", "width", "15%"));
 	        correctAnswer = new int[]{1, 3, 2};
 	        pageNum = new int[]{1, 2, 3};
 	    }

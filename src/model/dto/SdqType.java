@@ -3,11 +3,11 @@ package model.dto;
 import java.util.Arrays;
 
 public enum SdqType {
-	socialBehavior("사회지향행동"),
+	socialBehavior("사회성 행동"),
 	hyperactivity("과잉행동"),
-	emotionalSymptoms("정서증상"),
+	emotionalSymptoms("정서적 상태"),
 	behaviorProblem("품행문제"),
-	peerProblem("또래문제");
+	peerProblem("또래관계문제");
 	
 	final private String typeName;
 	
