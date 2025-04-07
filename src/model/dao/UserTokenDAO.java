@@ -38,4 +38,19 @@ public class UserTokenDAO {
             return false;
         }
     }
+
+    public static boolean deleteUserToken(Connection conn, int userId, String fcmToken) {
+        String sql = "DELETE FROM user_tokens WHERE user_id = ? AND fcm_token = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, fcmToken);
+
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0; // 삭제 성공 여부 반환
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
