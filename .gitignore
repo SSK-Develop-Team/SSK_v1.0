@@ -45,5 +45,9 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+# key 
+/src/alarm/firebase/service-account.json
+# .DS_Store
+.DS_Store
 
 # End of https://www.toptal.com/developers/gitignore/api/maven,java
