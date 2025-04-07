@@ -23,4 +23,19 @@ public class UserTokenDAO {
         }
         return tokens;
     }
+
+    // 사용자 토큰 삽입 또는 업데이트
+    public static boolean insertUserToken(Connection con, int userId, String fcmToken) {
+        String sql = "INSERT INTO ssk.user_tokens (user_id, fcm_token) VALUES (?, ?)";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, fcmToken);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0; // 성공적으로 저장되었으면 True 반환
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
