@@ -93,11 +93,15 @@ public class AlarmJob implements Job {
                 System.out.println("최근 기록 없음: 알람 전송 필요");
                 return true;
             }
-            // 알람 시간 파싱
-            LocalTime alarmLocalTime = LocalTime.parse(alarmTime, DateTimeFormatter.ofPattern("HH:mm:ss"));
-            LocalDate today = LocalDate.now(); // 오늘 날짜
 
-            LocalDateTime alarmDateTime = LocalDateTime.of(today, alarmLocalTime); // 오늘의 알람 시간
+            // 현재 날짜와 시간
+            LocalDateTime now = LocalDateTime.now();
+
+            // 오늘 날짜 + 알람 시간
+            LocalTime alarmLocalTime = LocalTime.parse(alarmTime, DateTimeFormatter.ofPattern("HH:mm:ss"));
+            LocalDateTime alarmDateTime = LocalDateTime.of(now.toLocalDate(), alarmLocalTime);
+
+            // lowerBound
             LocalDateTime lowerBound = alarmDateTime.minusMinutes(20); // 20분 전 시간
 
             // 최근 검사 기록 시간
@@ -109,37 +113,12 @@ public class AlarmJob implements Job {
             System.out.println("최근 기록 시간: " + recentLogDateTime);
             System.out.println("20분 이전 시간: " + lowerBound);
 
-            // 자정 경계 조건: 알람 시간이 자정을 포함하는 경우 어제의 기록도 허용
-            // 자정 경계 조건 처리
-            if (alarmLocalTime.isBefore(LocalTime.of(0, 20))) { // 알람이 00:00~00:19인 경우
-                LocalDateTime yesterdayLowerBound = lowerBound.minusDays(1); // 어제의 20분 전 시간
-                LocalDateTime yesterdayUpperBound = LocalDateTime.of(today.minusDays(1), LocalTime.of(23, 59, 59)); // 어제의
-                                                                                                                    // 끝
-
-                System.out.println("자정 조건 활성화: 어제 기록 허용 범위 확인");
-
-                // 어제의 기록이 유효 범위 내에 있는지 확인
-                boolean isYesterdayInRange = recentLogDateTime.isAfter(yesterdayLowerBound)
-                        && recentLogDateTime.isBefore(alarmDateTime);
-
-                // 오늘의 기록이 유효 범위 내에 있는지 확인
-                boolean isTodayInRange = recentLogDateTime.isAfter(lowerBound)
-                        && recentLogDateTime.isBefore(alarmDateTime);
-
-                boolean isWithinRange = isYesterdayInRange || isTodayInRange;
-
-                System.out.println("범위 내 기록 존재 여부: " + isWithinRange);
-                return !isWithinRange; // 범위 내에 기록이 없으면 알림 전송
-            }
-            // 일반 조건: 오늘 날짜와 시간만 확인
-            boolean isWithinRange = recentLogDateTime.isAfter(lowerBound) && recentLogDateTime.isBefore(alarmDateTime);
+            boolean isWithinRange = !recentLogDateTime.isBefore(lowerBound)
+                    && !recentLogDateTime.isAfter(alarmDateTime);
             System.out.println("최근 기록이 범위 내에 있음: " + isWithinRange);
 
-            // boolean isWithinRange = recentLogLocalTime.isAfter(lowerBound)
-            // && recentLogLocalTime.isBefore(alarmLocalTime);
-            // System.out.println("최근 기록이 범위 내에 있음: " + isWithinRange);
-
             return !isWithinRange;
+
         } catch (Exception e) {
             System.out.println("시간 비교 중 오류 발생: " + e.getMessage());
             return false; // 예외가 발생하면 기본적으로 알람을 보내지 않음
