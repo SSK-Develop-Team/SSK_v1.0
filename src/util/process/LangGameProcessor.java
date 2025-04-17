@@ -92,8 +92,8 @@ public class LangGameProcessor {
         // 화면 오른쪽 버튼 2개
 		else if(langQuestionId == 3 && (langGameId == 1 || langGameId == 2 || langGameId == 3)) {
 			buttonData = Arrays.asList(
-	                Map.of("left", "48%", "top", "33%", "width", "17%"),
-	                Map.of("left", "73%", "top", "33%", "width", "17%"));
+	                Map.of("left", "42%", "top", "24%", "width", "25%"),
+	                Map.of("left", "70%", "top", "24%", "width", "26%"));
 	        correctAnswer = new int[]{2, 1, 2};
 	        pageNum = new int[]{1, 2, 3};
 	    } 

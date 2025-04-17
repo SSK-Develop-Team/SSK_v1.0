@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
@@ -58,7 +59,8 @@ public class GetSdqResultAll extends HttpServlet {
 		}
 		
 		//모든 SdqTestLog
-		ArrayList<SdqTestLog> sdqTestLogList = SdqTestLogDAO.getSdqTestLogAllByUserId(conn, focusUser.getUserId());
+		List<SdqTestLog> sdqTestLogList = SdqTestLogDAO.getSdqTestLogAllByUserId(conn, focusUser.getUserId());
+		
 		if(sdqTestLogList.size()==0) {
  			PrintWriter out = response.getWriter();
  			out.println("<script>alert('검사 기록이 없습니다.');history.go(-1);</script>");
@@ -75,13 +77,13 @@ public class GetSdqResultAll extends HttpServlet {
  			}
  			
  			//선택한 테스트 로그에 대한 응답값을 기준으로 결과 값 가져오기
- 			ArrayList<SdqResultOfType> sdqResult = (ArrayList<SdqResultOfType>)SdqReplyDAO.getSdqResultOfTypesBySdqTestLogId(conn, selectedSdqTestLog.getSdqTestLogId());
+ 			List<SdqResultOfType> sdqResult = (List<SdqResultOfType>)SdqReplyDAO.getSdqResultOfTypesBySdqTestLogId(conn, selectedSdqTestLog.getSdqTestLogId());
  			
  			//결과 분석
  			ArrayList<SdqResultAnalysis> sdqResultAnalysisList = new ArrayList<SdqResultAnalysis>();
 
  			for(int i=0;i<sdqResult.size();i++) {
- 				sdqResultAnalysisList.add(SdqResultAnalysisDAO.findSdqResultAnalysisByTypeAndValue(conn, sdqResult.get(i).getSdqType(),sdqResult.get(i).getResult()));
+ 				sdqResultAnalysisList.addAll(SdqResultAnalysisDAO.findSdqResultAnalysisByTypeAndValue(conn, sdqResult.get(i).getSdqType(),sdqResult.get(i).getResult()));
  			}
  			
  			request.setAttribute("focusUser", focusUser);

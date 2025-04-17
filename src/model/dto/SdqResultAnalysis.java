@@ -4,6 +4,7 @@ public class SdqResultAnalysis {
 
 	private String sdqType;
 	private String sdqAnalysisResult;
+	private String sdqTarget;
 	private int minValue;
 	private int maxValue;
 	private String color;
@@ -20,6 +21,12 @@ public class SdqResultAnalysis {
 	}
 	public void setSdqAnalysisResult(String sdqAnalysisResult) {
 		this.sdqAnalysisResult = sdqAnalysisResult;
+	}
+	public String getSdqTarget() {
+		return sdqTarget;
+	}
+	public void setSdqTarget (String sdqTarget) {
+		this.sdqTarget = sdqTarget;
 	}
 	public int getMinValue() {
 		return minValue;

@@ -21,11 +21,11 @@ public class SdqReplyDAO {
 	private final static String SQLST_SELECT_SDQ_REPLY_LIST_BY_SDQ_TEST_LOG_ID = "select * from sdq_reply where sdq_test_log_id = ? ORDER BY sdq_question_id";
 
 	private final static String SQLST_SELECT_SDQ_REPLY_CONTENT_LIST_BY_SDQ_TEST_LOG_ID = "SELECT CASE WHEN sdq_scoring_type=\"forward\" THEN sdq_reply_content-1\n" +
-			"\t\t\tWHEN sdq_scoring_type=\"reverse\" THEN 4-sdq_reply_content END as 'sdqReplyContentNum' FROM sdq_reply\n" +
+			"\t\t\tWHEN sdq_scoring_type=\"reverse\" THEN 3-sdq_reply_content END as 'sdqReplyContentNum' FROM sdq_reply\n" +
 			"            LEFT JOIN sdq_question on sdq_reply.sdq_question_id = sdq_question.sdq_question_id \n" +
 			"            WHERE sdq_test_log_id=? ORDER BY sdq_reply.sdq_question_id";
 	private final static String SQLST_SELECT_SDQ_REPLY_SUM_BY_TEST_LOG_ID_GROUP_BY_SDQ_TYPE = "SELECT sdq_type, SUM(CASE WHEN sdq_scoring_type=\"forward\" THEN sdq_reply_content-1 \r\n" + 
-			"					WHEN sdq_scoring_type=\"reverse\" THEN 4-sdq_reply_content END) as 'resultOfType' FROM sdq_reply \r\n" +
+			"					WHEN sdq_scoring_type=\"reverse\" THEN 3-sdq_reply_content END) as 'resultOfType' FROM sdq_reply \r\n" +
 			"LEFT JOIN sdq_question on sdq_reply.sdq_question_id = sdq_question.sdq_question_id \r\n" + 
 			"WHERE sdq_test_log_id=? GROUP BY sdq_type";
 	private final static String SQLST_SELECT_SDQ_TARGET_BY_SDQ_TEST_LOG_ID = "SELECT sdq_target FROM sdq_reply A LEFT JOIN sdq_question B ON A.sdq_question_id = B.sdq_question_id WHERE A.sdq_test_log_id = ? LIMIT 1;";

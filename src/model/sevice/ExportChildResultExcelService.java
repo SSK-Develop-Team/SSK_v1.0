@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -44,7 +45,7 @@ public class ExportChildResultExcelService {
     public static  ArrayList<LangExcelDTO> getLangDataListOfUser(Connection con, int childId, String childName){
         ArrayList<LangExcelDTO> langDataList = new ArrayList<LangExcelDTO>();
 
-        ArrayList<LangTestLog> langTestLogList = LangTestLogDAO.getLangTestLogByUserId(con, childId);
+        List<LangTestLog> langTestLogList = LangTestLogDAO.getLangTestLogByUserId(con, childId);
         for(int i=0;i<langTestLogList.size();i++){
             LangTestLog langTestLog = langTestLogList.get(i);
 
@@ -55,7 +56,7 @@ public class ExportChildResultExcelService {
             langData.setDateStr(langTestLog.getLangTestDate());
             langData.setAgeGroupStr(LangReplyDAO.getLangAgeGroupIdByLogId(con,langTestLog.getLangTestLogId()));
 
-            ArrayList<LangReply> langReplyList = LangReplyDAO.getLangReplyListByLangTestLogId(con,langTestLog.getLangTestLogId());
+            List<LangReply> langReplyList = LangReplyDAO.getLangReplyListByLangTestLogId(con,langTestLog.getLangTestLogId());
             ArrayList<String> langReplyStrList = new ArrayList<String>();
             ArrayList<String> langTypeList = new ArrayList<String>();
             langTypeList.add("구문");

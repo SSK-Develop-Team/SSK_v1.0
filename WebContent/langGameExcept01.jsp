@@ -113,6 +113,14 @@
 		            	&lt; 이전
 		            </button>
 		        <% } %>
+
+		        <!-- 다시듣기 버튼 -->
+		        <% if (langGameList.get(i).getLangGameVoice()!= null & audioEndedNextFlag != 1) { %>
+		            <button class="w3-button" onclick="audioReplay()" style="border:none;"> 
+		            	<img src="./image/reload.png" alt="다시듣기" style="width: 25px; height: auto;">
+		            </button>
+		        <% } %>	        
+	
 		        <% if (i <= langGameList.size() - 1) { %>
 		            <button class="w3-button" onclick="getNextContent(<%= i %>, <%= gameID %>, <%= langGameList.size() %>);" style="border:none; background-color:#FFFFFF;">
 						다음 &gt;
@@ -156,6 +164,28 @@
 				</div>
 			</div>
 			<%} %>
+			
+	        <!-- 다시듣기 버튼 -->
+	        <% if (langGameList.get(i).getLangGameVoice()!= null & audioEndedNextFlag != 1) { %>
+	            <button class="w3-button w3-round-large" onclick="audioReplay()" style="background-color:#12192C; color:white; text-align:center;font-size:0.9em;margin-right:5px;">다시 듣기 </button>
+	            </button>
+	        <% } %>
+	        
+			<!-- 평가기준 버튼 -->
+			<%if(currLangGameElement.getLangGameCriteria()!=null){ %>
+			<button class="w3-button w3-round-large" onclick="openCriteria();" style="background-color:#12192C; color:white; text-align:center;font-size:0.9em;margin-right:5px;">평가기준 </button>
+			<div id="criteria-modal" class="w3-modal">
+				<div class="w3-modal-content w3-animate-opacity w3-round-large modal-content">
+					<div class="w3-container w3-center">
+						<span onclick="closeCriteria();" class="w3-button w3-display-topright w3-round-xxlarge">&times;</span>
+						<%if(currLangGameElement.getLangGameCriteria()!=null){ %>
+						<p><%=currLangGameElement.getLangGameCriteria() %></p>
+						<%} %>
+					</div>
+				</div>
+			</div>
+			<%} %>
+	
 		</div>
 		
 	</div>
@@ -166,14 +196,14 @@
 <script src="https://code.jquery.com/jquery-3.6.0.slim.js"></script>
 <script type="text/javascript">
 
-var audio = new Audio();
-audio.src="<%=langGameList.get(i).getLangGameVoice()%>";
-
-//음성 재생
-window.onload = function () {
-	audio.load();
-	audio.play();
-}
+	var audio = new Audio();
+	audio.src="<%=langGameList.get(i).getLangGameVoice()%>";
+	
+	//음성 재생
+	window.onload = function () {
+		audio.load();
+		audio.play();
+	}
 	
 	function wrongA(){
 		var audio = new Audio('./audio/wrong.mp3');
@@ -185,6 +215,11 @@ window.onload = function () {
 		audio.play();
 	}
 
+	function audioReplay() {
+		if (audio.paused) {
+			audio.play();
+		}
+	}
 	
 </script>
 <script type="text/javascript" src="js/langGame.js" charset="UTF-8"></script>
