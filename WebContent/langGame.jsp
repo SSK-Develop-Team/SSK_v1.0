@@ -70,6 +70,13 @@
 		            </button>
 		        <% } %>
 		        
+		        <!-- 다시듣기 버튼 -->
+		        <% if (langGameList.get(i).getLangGameVoice()!= null & audioEndedNextFlag != 1) { %>
+		            <button class="w3-button" onclick="audioReplay()" style="border:none;"> 
+		            	<img src="./image/reload.png" alt="다시듣기" style="width: 25px; height: auto;">
+		            </button>
+		        <% } %>
+		
 		        <% if (i <= langGameList.size() - 1) { %>
 		            <button class="w3-button" onclick="getNextContent(<%= i %>, <%= gameID %>, <%= langGameList.size() %>);" style="border:none; background-color:#FFFFFF;">
 						다음 &gt;
@@ -114,6 +121,12 @@
 			</div>
 			<%} %>
 			
+	        <!-- 다시듣기 버튼 -->
+	        <% if (langGameList.get(i).getLangGameVoice()!= null & audioEndedNextFlag != 1) { %>
+	            <button class="w3-button w3-round-large" onclick="audioReplay()" style="background-color:#12192C; color:white; text-align:center;font-size:0.9em;margin-right:5px;">다시 듣기 </button>
+	            </button>
+	        <% } %>
+	        
 			<!-- 평가기준 버튼 -->
 			<%if(currLangGameElement.getLangGameCriteria()!=null){ %>
 			<button class="w3-button w3-round-large" onclick="openCriteria();" style="background-color:#12192C; color:white; text-align:center;font-size:0.9em;margin-right:5px;">평가기준 </button>
@@ -128,16 +141,16 @@
 				</div>
 			</div>
 			<%} %>
-					
+			
 		</div>
 	</div>
 	<div class="w3-col w3-hide-small m1 l3">&nbsp;</div>
 </div>
 <script>
+	var audio = new Audio();
+	audio.src="<%=langGameList.get(i).getLangGameVoice()%>";
+	
 	window.onload = function () {
-		var audio = new Audio();
-		audio.src="<%=langGameList.get(i).getLangGameVoice()%>";
-		
 		if(<%=audioEndedNextFlag%>==1){
 			audio.addEventListener("ended",function(){
 				setTimeout(() => getNextContent(<%=i%>,<%=gameID%>,<%=langGameList.size()%>),2000);
@@ -145,6 +158,12 @@
 		}
 		audio.load();
 		audio.play();
+	}
+	
+	function audioReplay() {
+		if (audio.paused) {
+			audio.play();
+		}
 	}
 </script>
 <script type="text/javascript" src="js/langGame.js" charset="UTF-8"></script>

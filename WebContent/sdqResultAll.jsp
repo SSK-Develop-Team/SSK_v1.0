@@ -22,6 +22,14 @@
 	ArrayList<SdqResultOfType> sdqResult = (ArrayList<SdqResultOfType>)request.getAttribute("sdqResult");
 	ArrayList<SdqResultAnalysis> sdqResultAnalysisList = (ArrayList<SdqResultAnalysis>)request.getAttribute("sdqResultAnalysisList");
 
+    /*for (SdqResultAnalysis item : sdqResultAnalysisList) {
+        out.println("1: " + item.getSdqType() + "<br>");
+        out.println("2: " + item.getSdqAnalysisResult() + "<br>");
+        out.println("3: " + item.getSdqTarget() + "<br>");
+        out.println("4: " + item.getDescription() + "<br>");
+        out.println("---------------------------<br>");
+    }*/
+    
 	int selectedIndex = sdqTestLogList.indexOf(selectedSdqTestLog);
 %>
 <style>
@@ -61,15 +69,37 @@
  }
  
 @media print {
-    body { 
-        background-color: white;
-        color: black;
-        padding: 10px;
+    body {
+        font-size: 16px !important;
+        line-height: 1.6;
+        zoom: 2.5; /* 전체 확대 */
+        margin: 0;
+        padding: 0;
     }
-}
-@page {
-    size: A4 portrait; 
-    margin: 2cm; 
+
+    #printArea {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .report-result {
+        font-size: 16px !important;
+        margin-bottom: 10px;
+    }
+
+    .report-intro {
+        font-size: 16px !important;
+        margin-bottom: 25px;
+    }
+
+    .w3-button, .non-print, nav, footer, button {
+        display: none !important;
+    }
+
+    html, body {
+        -webkit-print-color-adjust: exact !important; /* 색 보존 */
+        print-color-adjust: exact !important;
+    }
 }
 
 
@@ -201,25 +231,120 @@
 		<div class="w3-col s2 m2 l3">&nbsp;</div>
 	</div>
 	
+	<!-- 검사 결과 보기 모달 -->
 	<div id="modal" class="w3-modal">
     <div class="w3-modal-content">
       <div class="w3-container">
         <span onclick="document.getElementById('modal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
         <p class="dsc">
 			<div id="sdqAnalysis" style="text-align:center;">
+			
+				<!-- 토글 버튼 -->
+				<div style="text-align: center; margin: 20px;">
+				    <button onclick="showTarget('CHILD')" class="w3-button w3-round-large w3-light-grey">자녀용 보고서</button>
+				    <button onclick="showTarget('PARENT')" class="w3-button w3-round-large w3-light-grey">부모용 보고서</button>
+				</div>
+				
+				<div id="printArea">
+					<div class="report-title" style="font-size:1.5em;font-weight:bold;"><정서⋅행동 발달 평가 결과 보고서></div>
+					<div>&nbsp;</div>
+					<!-- 안내문: 아동용 -->
+					<div class="report-intro" data-target="CHILD" style="display: block;text-align: left;">
+					    안녕하세요. 이화여자대학교 SSK 연구팀입니다.<br>
+					    본 검사는 아동·청소년의 정신 건강 상태를 평가하기 위해 전 세계적으로 널리 사용되는 표준화된 강점·난점 검사(SDQ)를 한국 실정에 적합하도록 수정한 것입니다.
+					    총 25개 문항을 통해 여러분의 심리적 상태를 다섯 가지 주요 영역(사회성 행동, 과잉행동, 정서적 상태, 품행문제, 또래관계문제)에서 종합적으로 평가합니다.
+					    SDQ는 단순히 어려움을 확인하는 데 그치지 않고, 여러분의 강점과 긍정적인 모습을 함께 살펴보는 데 초점을 맞추고 있습니다.
+					    이를 통해 자신을 더 잘 이해하고, 앞으로 어떻게 하면 더 나아질 수 있을지 생각해보는 기회가 되길 바랍니다.
+					</div>
+					
+					<!-- 안내문: 부모용 -->
+					<div class="report-intro" data-target="PARENT" style="display: none;text-align: left;">
+					    안녕하세요. 이화여자대학교 SSK 연구팀입니다.<br>
+					    본 검사는 아동·청소년의 정신 건강 상태를 평가하기 위해 전 세계적으로 널리 사용되는 표준화된 강점·난점 검사(SDQ)를 한국 실정에 적합하도록 수정한 것입니다.
+					    총 25개 문항을 통해 자녀의 심리적 상태를 다섯 가지 주요 영역(사회성 행동, 과잉행동, 정서적 상태, 품행문제, 또래관계문제)에서 종합적으로 평가합니다.
+					    SDQ는 단순히 자녀의 어려움을 확인하는 데 그치지 않고, 자녀의 긍정적인 면을 함께 살펴보는 데 초점을 맞추고 있습니다.
+					    이에 SDQ 결과를 해석할 때는 현재 자녀가 겪고 있는 어려움뿐만 아니라 강점을 확인함으로써 자녀의 심리적 특성에 대한 폭넓은 시각을 가지는 것이 중요합니다.
+					    아래의 결과를 통해 자녀의 현재 상태를 이해하고, 필요시 적절한 지원 방안을 고민하는 데 도움이 되길 바랍니다.
+					</div>
+					
+					<!-- 결과 출력 -->
+					<%
+					for (SdqResultAnalysis result : sdqResultAnalysisList) {
+						String type = result.getSdqType();						// 또래문제, 또래관계문제,품행문제, 정서증상, 정서적 상태, 과잉행동, 사회성 행동
+						String analysisResult = result.getSdqAnalysisResult(); 	// 정상, 경계선, 개입필요
+					    String target = result.getSdqTarget(); 					// CHILD, PARENT
+					    String color = result.getColor();
+					    String description = result.getDescription();
+					%>
+					
+						<div class="report-result" data-target="<%= target %>" style="display: <%= "CHILD".equals(target) ? "block" : "none" %>;">
+							<div>&nbsp;</div>
+							<p style="font-weight: bold; text-align: left;"><%= type %></p>
+							<p style="text-align: left;">
+								-
+						        <% if ("PARENT".equalsIgnoreCase(target)) { %>
+						            	자녀의 <%= type %> 행동은 
+						        <% } else { %>
+						            <%= focusUser.getUserName() %>의 <%= type %> 행동은 
+						        <% } %>
+						        
+						   <span style="text-decoration: underline;"><%= analysisResult %></span>
+						        범위에 있습니다. <%= description %>
+						        
+							</p>
+						</div>
+					<% } %>
+				</div>
+				
+				<div style="text-align: right; margin: 20px;">
+				    <button onclick="printResult()" class="w3-button w3-round-large w3-dark-grey">
+				        	인쇄
+				    </button>
+				</div>
+				
+				<!-- 기존 결과 출력 -->
+				<!--  
 				<div style="font-size:1.5em;font-weight:bold;"><%=focusUser.getUserName()%>의 SDQ 검사 결과 설명</div>
-				<%for(int i = 0 ; i<sdqResultAnalysisList.size() ; i++){ %>
-					<p style="font-weight: bold;">[ <%=sdqResultAnalysisList.get(i).getSdqType()%> ]</p>
-					<p>
-						<span style="color:<%=sdqResultAnalysisList.get(i).getColor()%>;"><%=sdqResultAnalysisList.get(i).getSdqAnalysisResult()%></span><br>
-						<%=sdqResultAnalysisList.get(i).getDescription()%>
-					</p>
-					<br>
-				<%} %>
+					<%for(int i = 0 ; i<sdqResultAnalysisList.size() ; i++){ %>
+						<p style="font-weight: bold;">[ <%=sdqResultAnalysisList.get(i).getSdqType()%> ]</p>
+						<p>
+							<span style="color:<%=sdqResultAnalysisList.get(i).getColor()%>;"><%=sdqResultAnalysisList.get(i).getSdqAnalysisResult()%></span><br>
+							<%=sdqResultAnalysisList.get(i).getDescription()%>
+						</p>
+						<br>
+					<%} %>
+				-->
 			</div>
 		</p>
       </div>
     </div>
-  </div>
+	</div>
+<script>
+function showTarget(targetType) {
+    const allBlocks = document.querySelectorAll('.result-block');
+
+    // 안내문 토글
+    document.querySelectorAll(".report-intro").forEach(el => {
+        el.style.display = (el.getAttribute("data-target") === targetType) ? "block" : "none";
+    });
+
+    // 결과 블록 토글
+    document.querySelectorAll(".report-result").forEach(el => {
+        el.style.display = (el.getAttribute("data-target") === targetType) ? "block" : "none";
+    });
+}
+
+function printResult() {
+    const printContents = document.getElementById("printArea").innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+
+    location.reload(); 
+}
+
+</script>
 </body>
 </html>

@@ -154,9 +154,9 @@ function ableBtn(){
 			<div id="sdqChat" style="overflow:auto; height:55vh; background-color:#ededed;padding-bottom:6px;padding-top:6px;">
 				<form id="sdqForm" method="post" action="DoSdqTest">
 					<%for(int i=0;i<sdqQuestionList.size();i++){ %>
-					<div class="w3-margin w3-padding " id="sdqQuestion<%=i%>" style="border:1px solid #ff6666;border-radius : 0px 10px 10px 10px;clear:both;float:left;background-color:#ff6666;color : white;height:50px;font-size:0.9rem;display:none;align-items : center;"><%=sdqQuestionList.get(i).getSdqQuestionContent() %></div>
-					<div class="w3-margin w3-padding" id="sdqAnswer<%=i%>" style="border:1px solid #ff6666;border-radius : 10px 10px 0px 10px;clear:both;float:right;background-color:white;color : #ff6666;height:50px;font-size:0.9rem;display:none;align-items:center;">아니다</div>
-					<input type="hidden" id="sdqInput<%=i%>" name="sdqInput<%=i%>" value="0"/>
+						<div class="w3-margin w3-padding " id="sdqQuestion<%=i%>" style="border:1px solid #ff6666;border-radius : 0px 10px 10px 10px;clear:both;float:left;background-color:#ff6666;color : white;height:50px;font-size:0.9rem;display:none;align-items : center;"><%=sdqQuestionList.get(i).getSdqQuestionContent() %></div>
+						<div class="w3-margin w3-padding" id="sdqAnswer<%=i%>" style="border:1px solid #ff6666;border-radius : 10px 10px 0px 10px;clear:both;float:right;background-color:white;color : #ff6666;height:50px;font-size:0.9rem;display:none;align-items:center;">아니다</div>
+						<input type="hidden" id="sdqInput<%=i%>" name="sdqInput<%=i%>" value="0"/>
 					<%} %>
 				</form>
 			</div>
