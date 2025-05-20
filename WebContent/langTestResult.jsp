@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
 <%@ page import="model.dto.User" %>
 <%@ page import="model.dto.LangTestLog" %>
 <%@ page import="model.dto.LangReply" %>
@@ -35,11 +38,26 @@
 	ArrayList<LangQuestion> selectLangQuestionList = (ArrayList<LangQuestion>)request.getAttribute("selectLangQuestionList");
 
 	ArrayList<LangTestLog> langLogListByUser = (ArrayList<LangTestLog>)request.getAttribute("langLogListByUser");
+	ArrayList<LangResultAnalysis> langResultAnalysisList = (ArrayList<LangResultAnalysis>)request.getAttribute("langResultAnalysisList");
+	// 분석결과 연령 그룹별로 분리
+	Map<Integer, List<LangResultAnalysis>> resultByReportAgeGroupId = new HashMap<>();
+	for (LangResultAnalysis analysis : langResultAnalysisList){
+		int reportAgeGroupId = analysis.getLangReportAgeGroupId();
+		//연령 그룹 없으면 초기화
+		if (!resultByReportAgeGroupId.containsKey(reportAgeGroupId)){
+			resultByReportAgeGroupId.put(reportAgeGroupId, new ArrayList<>());
+		}
+		// 데이터 추가
+		resultByReportAgeGroupId.get(reportAgeGroupId).add(analysis);
+	}
 	
 	if(request.getAttribute("selectIndex") != null) selectIndex = (int)request.getAttribute("selectIndex");
 	String[] ageGroupStr = new String[]{"3세 0개월 ~ 3세 3개월", "3세 4개월 ~ 3세 5개월", "3세 6개월 ~ 3세 8개월", "3세 9개월 ~ 3세 11개월", "4세 0개월 ~ 4세 3개월",
 			"4세 4개월 ~ 4세 7개월", "4세 8개월 ~ 4세 11개월", "5세 0개월 ~ 5세 5개월", "5세 6개월 ~ 5세 11개월", "6세 0개월 ~ 6세 5개월", "6세 6개월 ~ 6세 11개월",
 			"7세 0개월 ~ 7세 11개월", "8세 0개월 ~ 8세 11개월", "9세 0개월 ~ 9세 11개월", ""};
+	
+	String[] reportAgeGroupStr = new String[] {"3세 0-5개월", "3세 6개월-11개월", "4세 0개월-11개월", "5세 0개월-11개월", "6세 0개월-11개월",
+			"7세 0개월-11개월", "8세 0개월-11개월", "9세 0개월-11개월"};
 %>
 <style>
 
@@ -78,8 +96,71 @@ ul.tabs li.current{
 .tab-content.current{
 	display: inherit;
 }
+.fullBtn{
+	border:1px solid #51459E;
+	border-radius:10px;
+	background-color:#51459E;
+	margin-bottom:10px;
+	height:50px;
+	color:white;
+	font-size:0.9em;
+	align-items : center;
+	padding:0px;
+}
+@media (max-width: 390px) {
+  .fullBtn {
+    font-size:0.8em;
+  }
+}
+@media print {
+    body {
+        font-size: 16px !important;
+        line-height: 1.6;
+        zoom: 0.6; /* 전체 확대 */
+        margin: 0;
+        padding: 0;
+    }
 
+    #printArea {
+        width: 100%;
+        padding: 20px;
+    }
 
+    .report-result {
+        font-size: 16px !important;
+        margin-bottom: 10px;
+    }
+
+    .report-intro {
+        font-size: 16px !important;
+        margin-bottom: 25px;
+    }
+
+    .w3-button, .non-print, nav, footer, button {
+        display: none !important;
+    }
+
+    html, body {
+        -webkit-print-color-adjust: exact !important; /* 색 보존 */
+        print-color-adjust: exact !important;
+    }
+}
+table {
+	border-collapse:collapse;
+	border:0;
+}
+th,
+td {
+  border: 1px solid #aaa;
+  background-clip: padding-box;
+}
+th,
+td {
+  padding: 0.6rem;
+  min-width: 6rem;
+  text-align: left;
+  margin: 0;
+}
 </style>
 
 </head>
@@ -140,21 +221,112 @@ ul.tabs li.current{
 			<div id="tab-2" class="tab-content">
 				<canvas id="myChart2"></canvas>
 			</div>
-
-			<div class="btnbox">
-			<%if(currUser.getUserRole().equals("CHILD")){ %>
-				<input type="button" class="w3-button w3-right w3-round-large w3-margin-top" style="background-color: #1a2a3a;color:white;"id="mainBack" value="돌아가기" onClick="javascript:location.href='childHome.jsp'">
-			<%}else{ %>
-				<input type="button" class="w3-button w3-right w3-round-large w3-margin-top" style="background-color: #1a2a3a;color:white;"id="mainBack" value="돌아가기" onClick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">
-			<%} %>
+			
+			<div class="w3-row w3-margin-top">				
+				<div class="w3-col w3-row s4 m3 l2">
+					<button class="w3-button w3-col fullBtn" onclick="document.getElementById('modal').style.display='block';">검사 결과 보고서</button>
+				</div>
+				<div class="w3-col s5 m7 l8">&nbsp;</div>
+				<div class="w3-col w3-row s3 m2 l2 btnbox">
+				<%if(currUser.getUserRole().equals("CHILD")){ %>
+					<input type="button" class="w3-button w3-right w3-round-large w3-margin-top" style="background-color: #1a2a3a;color:white;"id="mainBack" value="돌아가기" onClick="javascript:location.href='childHome.jsp'">
+				<%}else{ %>
+					<input type="button" class="w3-button w3-right w3-round-large w3-margin-top" style="background-color: #1a2a3a;color:white;"id="mainBack" value="돌아가기" onClick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">
+				<%} %>
+				</div>
 			</div>
+			
 		</div>
 	</div>
 	<div class="w3-col w3-hide-small m1 l3">&nbsp;</div>
 </div>
 
+<!-- 검사 결과 보기 모달 -->
+<div id="modal" class="w3-modal">
+   <div class="w3-modal-content">
+     <div class="w3-container">
+       <span onclick="document.getElementById('modal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+       <p class="dsc">
+		<div id="langAnalysis" style="text-align:center;">
+			
+			<div id="printArea">
+				<div class="report-title" style="font-size:1.5em;font-weight:bold;">< PSLE 언어발달평가 결과 보고서 ></div>
+				<div>&nbsp;</div>
+				
+				<!-- 안내문 -->
+				<div class="report-intro" style="display: block;text-align: left;">
+				 안녕하세요 이화여자대학교 SSK(아동 언어 및 정서 · 행동 발달평가) 연구팀입니다. 
+				본 검사는 언어발달 영역을 의미영역, 구문영역, 조음영역, 화용영역, 문해영역 5가지로 나누고 각 영역 당 아동의 생활연령에 따른 언어발달 수준을 평가하고 어려움을 선별하기 위해 제작되었습니다. 아래의 결과를 통해 자녀의 현재 언어발달을 확인하고 필요시 적절한 지원방안을 고려하는데 도움이 되시길 바랍니다. 
+				</div>
+				
+				<!-- 결과 출력 -->
+				<%
+				for (Map.Entry<Integer, List<LangResultAnalysis>> entry : resultByReportAgeGroupId.entrySet()) {
+					int reportAgeGroupId = entry.getKey();
+					List<LangResultAnalysis> analysisList = entry.getValue();
+				%>
+				
+					<div class="report-result">
+						<p style="font-weight: bold; text-align: left;"> &#9679;  <%= reportAgeGroupStr[reportAgeGroupId] %></p>
+						<table class="report-table" style="width:100%;">
+						<%
+						for (LangResultAnalysis analysis : analysisList){
+						%>
+							<tr>
+								<th style="width:15%; background-color: #f8f8f8;font-weight: bold;"><%= analysis.getLangType() %></th>
+								<td><%= analysis.getDescription() %></td>
+							</tr>
+						<% } %>
+						</table>
+					</div>
+				
+				<% } %>
+				 
+			</div>
+			
+			<div style="text-align: right; margin: 20px;">
+			    <button onclick="printResult()" class="w3-button w3-round-large w3-dark-grey">
+			        	인쇄
+			    </button>
+			</div>
+		</div>
+	</p>
+     </div>
+   </div>
+</div>
 
 <script type="text/javascript">
+function isMobileDevice() {
+	  return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+	}
+function printResult() {
+    const modalContent = document.getElementById("printArea").innerHTML; // 모달 안쪽만
+    const printWindow = window.open('', '', 'height=600,width=800');
+
+    printWindow.document.write('<html><head><title>[<%=ageGroupStr[selectAgeGroupId].toString()%>&nbsp;<%=langLogListByUser.get(selectIndex).getLangTestTime().toString()%>]&nbsp;<%=focusUser.getUserName()%>의 언어발달 검사 결과 설명</title>');
+    if (!isMobileDevice()){
+        printWindow.document.write('<style>@media print {body {zoom: 1.0;margin: 0; padding: 0;}}#printArea {width: 100%;padding: 20px;}</style>'); // 필요 시 스타일 추가
+    }
+    else {
+    	printWindow.document.write('<style>@media print {body {margin: 0; padding: 0;}}#printArea {width: 100%;padding: 20px;}</style>'); // 필요 시 스타일 추가
+    }
+    printWindow.document.write('</head><body >');
+    printWindow.document.write(modalContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+
+    // 분기 처리
+    if (!isMobileDevice()) { // 데스크탑인 경우 자동 인쇄
+      printWindow.onload = function () {
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+      };
+    } else { // 모바일인 경우 안내문 출력
+      alert("모바일에서는 인쇄 미리보기 창이 열렸습니다.\n브라우저 메뉴에서 '공유' 또는 '인쇄'를 선택하세요.");
+    }
+}
+
 	$(document).ready(function(){
 		
 		$('ul.tabs li').click(function(){
@@ -249,7 +421,7 @@ ul.tabs li.current{
         	    data: dataLiteracy,
         	    options: options
         	});
-        
+        	
         
 </script>
 </body>

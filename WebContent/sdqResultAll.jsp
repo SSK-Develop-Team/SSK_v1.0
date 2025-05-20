@@ -21,14 +21,6 @@
 	SdqTestLog selectedSdqTestLog = (SdqTestLog)request.getAttribute("selectedSdqTestLog");
 	ArrayList<SdqResultOfType> sdqResult = (ArrayList<SdqResultOfType>)request.getAttribute("sdqResult");
 	ArrayList<SdqResultAnalysis> sdqResultAnalysisList = (ArrayList<SdqResultAnalysis>)request.getAttribute("sdqResultAnalysisList");
-
-    /*for (SdqResultAnalysis item : sdqResultAnalysisList) {
-        out.println("1: " + item.getSdqType() + "<br>");
-        out.println("2: " + item.getSdqAnalysisResult() + "<br>");
-        out.println("3: " + item.getSdqTarget() + "<br>");
-        out.println("4: " + item.getDescription() + "<br>");
-        out.println("---------------------------<br>");
-    }*/
     
 	int selectedIndex = sdqTestLogList.indexOf(selectedSdqTestLog);
 %>
@@ -72,7 +64,7 @@
     body {
         font-size: 16px !important;
         line-height: 1.6;
-        zoom: 2.5; /* 전체 확대 */
+        zoom: 0.6; /* 전체 확대 */
         margin: 0;
         padding: 0;
     }
@@ -208,25 +200,15 @@
 		<div class="w3-col s2 m2 l3">&nbsp;</div>
 		
 		<div class="w3-col w3-row s4 m3 l2">
-			<button class="w3-button w3-col fullBtn" onclick="document.getElementById('modal').style.display='block';">검사 결과 설명 보기</button>
+			<button class="w3-button w3-col fullBtn" onclick="document.getElementById('modal').style.display='block';">검사 결과 보고서</button>
 		</div>
 		<div class="w3-col s2 m1 l2">&nbsp;</div>
-		
-		<div class="w3-col w3-row s3 m2 l1">
- 		   <!-- <button class="w3-button w3-col print-button"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1em;align-items : center;padding:0px;" onclick="printPage()">출력하기</button>
-			    <script>
-			        function printPage() {
-			            window.print();
-			        }
-			    </script> -->
-		</div>
-
 		<div class="w3-col w3-row s3 m2 l1">
 			<%if(currUser.getUserRole().equals("CHILD")){ %>
 			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;margin-left:10px;height:50px;color:white;font-size:1em;align-items : center;padding:0px;"onclick="location.href='sdqTestMain.jsp';">메인으로</button>
-		<%}else{ %>
-			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;margin-left:10px;height:50px;color:white;font-size:1em;align-items : center;padding:0px;"onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">메인으로</button>
-		<%} %>
+			<%}else{ %>
+				<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;margin-left:10px;height:50px;color:white;font-size:1em;align-items : center;padding:0px;"onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">메인으로</button>
+			<%} %>
 		</div>
 		<div class="w3-col s2 m2 l3">&nbsp;</div>
 	</div>
@@ -334,15 +316,36 @@ function showTarget(targetType) {
     });
 }
 
+function isMobileDevice() {
+	  return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+	}
+
 function printResult() {
-    const printContents = document.getElementById("printArea").innerHTML;
-    const originalContents = document.body.innerHTML;
+    const modalContent = document.getElementById("printArea").innerHTML; // 모달 안쪽만
+    const printWindow = window.open('', '', 'height=600,width=800');
 
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
+    printWindow.document.write('<html><head><title>[<%=selectedSdqTestLog.getSdqTestDate().toString()%>&nbsp;<%=selectedSdqTestLog.getSdqTestTime().toString()%>]&nbsp;<%=focusUser.getUserName()%>의 SDQ 검사 결과 설명</title>');
+    if (!isMobileDevice()){
+        printWindow.document.write('<style>@media print {body {zoom: 1.0;margin: 0; padding: 0;}}#printArea {width: 100%;padding: 20px;}</style>'); // 필요 시 스타일 추가
+    }
+    else {
+    	printWindow.document.write('<style>@media print {body {margin: 0; padding: 0;}}#printArea {width: 100%;padding: 20px;}</style>'); // 필요 시 스타일 추가
+    }
+    printWindow.document.write('</head><body >');
+    printWindow.document.write(modalContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
 
-    location.reload(); 
+    // 분기 처리
+    if (!isMobileDevice()) { // 데스크탑인 경우 자동 인쇄
+      printWindow.onload = function () {
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+      };
+    } else { // 모바일인 경우 안내문 출력
+      alert("모바일에서는 인쇄 미리보기 창이 열렸습니다.\n브라우저 메뉴에서 '공유' 또는 '인쇄'를 선택하세요.");
+    }
 }
 
 </script>

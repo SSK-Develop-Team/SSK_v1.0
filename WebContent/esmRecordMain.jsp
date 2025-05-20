@@ -84,19 +84,19 @@
 <body>
 <%@ include file="sidebar.jsp"%>
 	<div class="w3-row">
-		<div class="w3-col s1 m3 l4">&nbsp;</div>
-		<div class="w3-col s10 m6 l4">
-			<div style="font-size:1.3em;"><b>정서 다이어리</b></div>
-			<div style="font-size:0.8em;">  날짜를 선택한 후 기록하기를 클릭하여 입력해주세요.</div>
+		<div class="w3-col s1 m1 l2">&nbsp;</div>
+		<div class="w3-col s10 m10 l8">
+			<div style="font-size:1.5em;"><b>정서 다이어리</b></div>
+			<div style="font-size:1.2em;">  날짜를 선택한 후 기록하기를 클릭하여 입력해주세요.</div>
 			<div>&nbsp;</div>
 			<div id="calendar-view">
 				<div id='calendar'></div>
 			</div>
 			<div>&nbsp;</div>
-			<button class="w3-button w3-col w3-padding"style="border:1px solid #1A2A3A;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;height:50px;color:white;font-size:1em;align-items : center;" onclick="getCreateEsmRecordPage()">기록하기</button>
-			<button class="w3-button w3-col w3-padding"style="border:1px solid #1A2A3A;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;height:50px;color:white;font-size:1em;align-items : center;" onclick="getDayEsmRecord()">조회하기</button>
+			<button class="w3-button w3-col w3-padding"style="border:1px solid #1A2A3A;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;" onclick="getCreateEsmRecordPage()">기록하기</button>
+			<button class="w3-button w3-col w3-padding"style="border:1px solid #1A2A3A;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;" onclick="getDayEsmRecord()">조회하기</button>
 		</div>
-		<div class="w3-col s1 m3 l4">&nbsp;</div>
+		<div class="w3-col s1 m1 l2">&nbsp;</div>
 	</div>
 	
  	<input type="hidden" id="selectedDateStrInput" name="selectedDateStrInput" value="<%=currDateStr%>"/>

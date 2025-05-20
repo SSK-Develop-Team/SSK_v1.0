@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -56,20 +57,14 @@ public class ExportChildResultExcelService {
             langData.setDateStr(langTestLog.getLangTestDate());
             langData.setAgeGroupStr(LangReplyDAO.getLangAgeGroupIdByLogId(con,langTestLog.getLangTestLogId()));
 
-            List<LangReply> langReplyList = LangReplyDAO.getLangReplyListByLangTestLogId(con,langTestLog.getLangTestLogId());
+            List<String> langTypeList = Arrays.asList("구문", "문해", "문해1", "문해2", "문해3", "의미", "의미1", "의미2", "조음", "화용", "화용1", "화용2");
             ArrayList<String> langReplyStrList = new ArrayList<String>();
-            ArrayList<String> langTypeList = new ArrayList<String>();
-            langTypeList.add("구문");
-            langTypeList.add("문해");
-            langTypeList.add("의미");
-            langTypeList.add("의미1");
-            langTypeList.add("의미2");
-            langTypeList.add("조음");
-            langTypeList.add("화용");
+            
+            List<LangReply> langReplyList = LangReplyDAO.getLangReplyListByLangTestLogId(con,langTestLog.getLangTestLogId());
             
             /**
              * sort reply list by lang type
-             * lang type order : 구문, 문해, 의미, 의미 1, 의미 2, 조음, 화용 (count : 7)
+             * lang type order : 구문, 문해, 문해1, 문해2, 문해3, 의미, 의미 1, 의미 2, 조음, 화용, 화용1, 화용2 (count : 7->12)
              * */
             Collections.sort(langReplyList, new Comparator<LangReply>() {/*sorting reply list by lang type*/
                 @Override
@@ -80,16 +75,21 @@ public class ExportChildResultExcelService {
                 }
             });
             int e = 0;
-            for(int j=0;j < 7 ;j++){
-                LangQuestion q1 = LangQuestionDAO.getLangQuestionById(con, langReplyList.get(e).getLangQuestionId());
-                if(langTypeList.get(0).equals(q1.getLangType())&& e<=5){
-                    langReplyStrList.add(String.valueOf(langReplyList.get(e).getLangReplyContent()));/*순서 보장 필요 -> 쿼리문으로 조정할 것(order by question id)*/
-                    e++;
-                }else{
-                    langReplyStrList.add("-");
-                }
-                langTypeList.remove(0);
+            for(int j=0;j < 12 ;j++){
+            	if (e < langReplyList.size()) {
+	                LangQuestion q1 = LangQuestionDAO.getLangQuestionById(con, langReplyList.get(e).getLangQuestionId());
+	                if(langTypeList.get(0).equals(q1.getLangType())){
+	                    langReplyStrList.add(String.valueOf(langReplyList.get(e).getLangReplyContent()));/*순서 보장 필요 -> 쿼리문으로 조정할 것(order by question id)*/
+	                    e++;
+	                }else{
+	                    langReplyStrList.add("-");
+	                }
+            	} else {
+            		langReplyStrList.add("-");
+            	}
+	            langTypeList.remove(0);
             }
+            
             langData.setReplyList(langReplyStrList);
             langDataList.add(langData);
         }
@@ -191,44 +191,42 @@ public class ExportChildResultExcelService {
            
             ArrayList<LangReply> langReplyList = LangReplyDAO.getLangReplyListByLangTestLogId(con,langTestLog.getLangTestLogId());
             ArrayList<String> langReplyStrList = new ArrayList<String>();
-            ArrayList<String> langTypeList = new ArrayList<String>();
-            langTypeList.add("구문");
-            langTypeList.add("문해");
-            langTypeList.add("의미");
-            langTypeList.add("의미1");
-            langTypeList.add("의미2");
-            langTypeList.add("조음");
-            langTypeList.add("화용");
+            List<String> langTypeList = Arrays.asList("구문", "문해", "문해1", "문해2", "문해3", "의미", "의미1", "의미2", "조음", "화용", "화용1", "화용2");
 
-            /**
-             * sort reply list by lang type
-             * lang type order : 구문, 문해, 의미, 의미 1, 의미 2, 조음, 화용 (count : 7)
-             * */
-            Collections.sort(langReplyList, new Comparator<LangReply>() {/*sorting reply list by lang type*/
-                @Override
-                public int compare(LangReply o1, LangReply o2) {
-                    LangQuestion q1 = LangQuestionDAO.getLangQuestionById(con, o1.getLangQuestionId());
-                    LangQuestion q2 = LangQuestionDAO.getLangQuestionById(con, o2.getLangQuestionId());
-                    return q1.getLangType().compareTo(q2.getLangType());
-                }
-            });
 
-            int e = 0;
-            for(int j=0;j < 7 ;j++){
-                LangQuestion q1 = LangQuestionDAO.getLangQuestionById(con, langReplyList.get(e).getLangQuestionId());
-                if(langTypeList.get(0).equals(q1.getLangType()) && e<=5){
-                    langReplyStrList.add(String.valueOf(langReplyList.get(e).getLangReplyContent()));/*순서 보장 필요 -> 쿼리문으로 조정할 것(order by question id)*/
-                    e++;
-                }else{
-                    langReplyStrList.add("-");
-                }
-                langTypeList.remove(0);
-            }
-            langData.setReplyList(langReplyStrList);
-            langDataList.add(langData);
-        }
-        return langDataList;
-    }
+		    /**
+		     * sort reply list by lang type
+		     * lang type order : 구문, 문해, 문해1, 문해2, 문해3, 의미, 의미 1, 의미 2, 조음, 화용, 화용1, 화용2 (count : 7->12)
+		     * */
+		    Collections.sort(langReplyList, new Comparator<LangReply>() {/*sorting reply list by lang type*/
+		        @Override
+		        public int compare(LangReply o1, LangReply o2) {
+		            LangQuestion q1 = LangQuestionDAO.getLangQuestionById(con, o1.getLangQuestionId());
+		            LangQuestion q2 = LangQuestionDAO.getLangQuestionById(con, o2.getLangQuestionId());
+		            return q1.getLangType().compareTo(q2.getLangType());
+		        }
+		    });
+		    int e = 0;
+		    for(int j=0;j < 12 ;j++){
+		    	if (e < langReplyList.size()) {
+		            LangQuestion q1 = LangQuestionDAO.getLangQuestionById(con, langReplyList.get(e).getLangQuestionId());
+		            if(langTypeList.get(0).equals(q1.getLangType())){
+		                langReplyStrList.add(String.valueOf(langReplyList.get(e).getLangReplyContent()));/*순서 보장 필요 -> 쿼리문으로 조정할 것(order by question id)*/
+		                e++;
+		            }else{
+		                langReplyStrList.add("-");
+		            }
+		    	} else {
+		    		langReplyStrList.add("-");
+		    	}
+		        langTypeList.remove(0);
+		    }
+		    
+		    langData.setReplyList(langReplyStrList);
+		    langDataList.add(langData);
+		}
+		return langDataList;
+	}
 
     /*해당하는 아동 리스트의 모든 정서 행동 발달 검사 결과 */
     public static ArrayList<SdqExcelDTO> getSdqDataList(Connection con, String[] childIdStrList){

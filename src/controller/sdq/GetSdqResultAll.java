@@ -80,7 +80,7 @@ public class GetSdqResultAll extends HttpServlet {
  			List<SdqResultOfType> sdqResult = (List<SdqResultOfType>)SdqReplyDAO.getSdqResultOfTypesBySdqTestLogId(conn, selectedSdqTestLog.getSdqTestLogId());
  			
  			//결과 분석
- 			ArrayList<SdqResultAnalysis> sdqResultAnalysisList = new ArrayList<SdqResultAnalysis>();
+ 			List<SdqResultAnalysis> sdqResultAnalysisList = new ArrayList<SdqResultAnalysis>();
 
  			for(int i=0;i<sdqResult.size();i++) {
  				sdqResultAnalysisList.addAll(SdqResultAnalysisDAO.findSdqResultAnalysisByTypeAndValue(conn, sdqResult.get(i).getSdqType(),sdqResult.get(i).getResult()));

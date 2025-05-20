@@ -75,6 +75,11 @@ public class SskExcelByTest extends SskExcel{
             createCellWithStyle(bodyRow, LANG_ANSWER5.getColumnIndex(), langExcelDTO.getReplyList().get(4), bodyCellStyle);
             createCellWithStyle(bodyRow, LANG_ANSWER6.getColumnIndex(), langExcelDTO.getReplyList().get(5), bodyCellStyle);
             createCellWithStyle(bodyRow, LANG_ANSWER7.getColumnIndex(), langExcelDTO.getReplyList().get(6), bodyCellStyle);
+            createCellWithStyle(bodyRow, LANG_ANSWER8.getColumnIndex(), langExcelDTO.getReplyList().get(7), bodyCellStyle);
+            createCellWithStyle(bodyRow, LANG_ANSWER9.getColumnIndex(), langExcelDTO.getReplyList().get(8), bodyCellStyle);
+            createCellWithStyle(bodyRow, LANG_ANSWER10.getColumnIndex(), langExcelDTO.getReplyList().get(9), bodyCellStyle);
+            createCellWithStyle(bodyRow, LANG_ANSWER11.getColumnIndex(), langExcelDTO.getReplyList().get(10), bodyCellStyle);
+            createCellWithStyle(bodyRow, LANG_ANSWER12.getColumnIndex(), langExcelDTO.getReplyList().get(11), bodyCellStyle);
         }
     }
 
@@ -114,6 +119,21 @@ public class SskExcelByTest extends SskExcel{
             createCellWithStyleInt(bodyRow, SDQ_ANSWER8.getColumnIndex(), sdqExcelDTO.getReplyList().get(7), bodyCellStyle);
             createCellWithStyleInt(bodyRow, SDQ_ANSWER9.getColumnIndex(), sdqExcelDTO.getReplyList().get(8), bodyCellStyle);
             createCellWithStyleInt(bodyRow, SDQ_ANSWER10.getColumnIndex(), sdqExcelDTO.getReplyList().get(9), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER11.getColumnIndex(), sdqExcelDTO.getReplyList().get(10), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER12.getColumnIndex(), sdqExcelDTO.getReplyList().get(11), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER13.getColumnIndex(), sdqExcelDTO.getReplyList().get(12), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER14.getColumnIndex(), sdqExcelDTO.getReplyList().get(13), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER15.getColumnIndex(), sdqExcelDTO.getReplyList().get(14), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER16.getColumnIndex(), sdqExcelDTO.getReplyList().get(15), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER17.getColumnIndex(), sdqExcelDTO.getReplyList().get(16), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER18.getColumnIndex(), sdqExcelDTO.getReplyList().get(17), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER19.getColumnIndex(), sdqExcelDTO.getReplyList().get(18), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER20.getColumnIndex(), sdqExcelDTO.getReplyList().get(19), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER21.getColumnIndex(), sdqExcelDTO.getReplyList().get(20), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER22.getColumnIndex(), sdqExcelDTO.getReplyList().get(21), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER23.getColumnIndex(), sdqExcelDTO.getReplyList().get(22), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER24.getColumnIndex(), sdqExcelDTO.getReplyList().get(23), bodyCellStyle);
+            createCellWithStyleInt(bodyRow, SDQ_ANSWER25.getColumnIndex(), sdqExcelDTO.getReplyList().get(24), bodyCellStyle);
 
             ArrayList<SdqResultOfType> scoreList = sdqExcelDTO.getScoreList();
 

@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import model.dao.LangQuestionDAO;
 import model.dao.LangReplyDAO;
 import model.dao.LangTestLogDAO;
+import model.dao.LangResultAnalysisDAO;
 import model.dao.UserDAO;
 import model.dto.*;
 import util.process.UserInfoProcessor;
@@ -145,7 +146,7 @@ public class GetLangResultAll extends HttpServlet {
 				}
 			}
 			
-			
+			// 결과값 가져온 후 lang type 이름순으로 정렬
 			int langTestAgeGroupId = (int)LangReplyDAO.getLangAgeGroupIdByLogId(conn, selectedLangTestLog.getLangTestLogId());		
 			ArrayList<LangReply> selectLangReplyList = new ArrayList<>(LangReplyDAO.getLangReplyListByLangTestLogId(conn, selectedLangTestLog.getLangTestLogId()));
 			ArrayList<LangQuestion> selectLangQuestionList = new ArrayList<LangQuestion>(LangQuestionDAO.getLangQuestionListByAgeGroupId(conn, langTestAgeGroupId));
@@ -167,6 +168,24 @@ public class GetLangResultAll extends HttpServlet {
 				}
 			});
 			
+			// 결과 분석(현재 연령 결과분석)
+ 			List<LangResultAnalysis> langResultAnalysisList = new ArrayList<LangResultAnalysis>();
+ 			langResultAnalysisList.addAll(LangResultAnalysisDAO.findLangResultAnalysisByAge(conn, langTestAgeGroupId));
+ 			
+ 			int currentAgeGroupId = langResultAnalysisList.get(0).getLangReportAgeGroupId();
+ 			System.out.println("langTestAgeGroupId: " + langTestAgeGroupId);
+ 			System.out.println("currentAgeGroupId: " + currentAgeGroupId);
+ 			
+
+ 			if (currentAgeGroupId != 0) {
+ 				langResultAnalysisList.addAll(0, LangResultAnalysisDAO.findLangResultAnalysisByReportAge(conn, currentAgeGroupId-1));
+ 			}
+ 			
+ 			if (currentAgeGroupId != 7) {
+ 				langResultAnalysisList.addAll(LangResultAnalysisDAO.findLangResultAnalysisByReportAge(conn, currentAgeGroupId+1));
+ 			}
+			
+			
 			request.setAttribute("focusUser", focusUser);
 			
 			request.setAttribute("langTestLogIDList", langTestLogIDList);
@@ -185,6 +204,7 @@ public class GetLangResultAll extends HttpServlet {
 			request.setAttribute("selectLangReplyList",  selectLangReplyList); // lang reply list sorted by question type
 			request.setAttribute("selectLangQuestionList",  selectLangQuestionList); // lang question sorted by question type
 			
+			request.setAttribute("langResultAnalysisList", langResultAnalysisList);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/langTestResult.jsp");
 			rd.forward(request, response);

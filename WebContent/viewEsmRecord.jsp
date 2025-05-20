@@ -86,8 +86,8 @@
 	<div class="w3-row">
 		<div class="w3-col s1 m1 l1">&nbsp;</div>
 		<div class="w3-col s10 m10 l10">
-			<div style="font-size:1.3em;"><b>정서 다이어리 조회하기</b></div>
-			<div style="font-size:0.8em;"><%=focusUser.getUserName()%>님의 다이어리입니다.</div>
+			<div style="font-size:1.5em;margin-bottom:10px"><b>정서 다이어리 조회하기</b></div>
+			<div style="font-size:1.1em;"><%=focusUser.getUserName()%>님의 다이어리입니다.</div>
 			<div>&nbsp;</div>
 		 	<div class="w3-row">
 				<div id='calendar-view' class="w3-hide-small w3-half w3-container ">
@@ -111,18 +111,18 @@
 						for(int i=0;i<currEsmRecordList.size();i++){ %>
 						<div class="record-box w3-panel w3-border w3-round-large">
 							<%if(!currUser.getUserRole().equals("CHILD")){ %>
-								<div class="record-time"style="text-align:right;font-size:0.8em;margin-top:0.5em;">&nbsp;</div>
+								<div class="record-time"style="text-align:right;font-size:1.0em;margin-top:0.5em;">&nbsp;</div>
 							<%
 							}else if(currEsmRecordList.get(i).getEsmRecordTime() == null) {%>
-								<div class="record-time"style="text-align:right;font-size:0.8em;margin-top:0.5em;">
-								<button class="w3-button" style="background-color:white;font-size:0.9em;padding:0px;width:2em;" onclick="location.href='GetUpdateEsmRecord?esmRecordId=<%=currEsmRecordList.get(i).getEsmRecordId()%>';">수정</button>  <span style="font-size:0.5em;font-weight:100;">|</span>
-								<button class="w3-button" style="background-color:white;font-size:0.9em;padding:0px;width:2em;"onclick="deleteEsmRecord(<%=currEsmRecordList.get(i).getEsmRecordId()%>);">삭제</button></div>
+								<div class="record-time"style="text-align:right;font-size:1.0em;margin-top:0.5em;">
+								<button class="w3-button" style="background-color:white;font-size:1.0em;padding:0px;width:2em;" onclick="location.href='GetUpdateEsmRecord?esmRecordId=<%=currEsmRecordList.get(i).getEsmRecordId()%>';">수정</button>  <span style="font-size:0.5em;font-weight:100;">|</span>
+								<button class="w3-button" style="background-color:white;font-size:1.0em;padding:0px;width:2em;"onclick="deleteEsmRecord(<%=currEsmRecordList.get(i).getEsmRecordId()%>);">삭제</button></div>
 							<%}else{ %>
-								<div class="record-time"style="text-align:right;font-size:0.8em;margin-top:0.5em;"><%=currEsmRecordList.get(i).getEsmRecordTime()%>&nbsp;
-								<button class="w3-button" style="background-color:white;font-size:0.9em;padding:0px;width:2em;" onclick="location.href='GetUpdateEsmRecord?esmRecordId=<%=currEsmRecordList.get(i).getEsmRecordId()%>';">수정</button>  <span style="font-size:0.5em;font-weight:100;">|</span>
-								<button class="w3-button" style="background-color:white;font-size:0.9em;padding:0px;width:2em;"onclick="deleteEsmRecord(<%=currEsmRecordList.get(i).getEsmRecordId()%>);">삭제</button></div>
+								<div class="record-time"style="text-align:right;font-size:1.0em;margin-top:0.5em;"><%=currEsmRecordList.get(i).getEsmRecordTime()%>&nbsp;
+								<button class="w3-button" style="background-color:white;font-size:1.0em;padding:0px;width:2em;" onclick="location.href='GetUpdateEsmRecord?esmRecordId=<%=currEsmRecordList.get(i).getEsmRecordId()%>';">수정</button>  <span style="font-size:0.5em;font-weight:100;">|</span>
+								<button class="w3-button" style="background-color:white;font-size:1.0em;padding:0px;width:2em;"onclick="deleteEsmRecord(<%=currEsmRecordList.get(i).getEsmRecordId()%>);">삭제</button></div>
 							<%} %>
-							<div class="record-text"style="font-size:1em;min-height:7vh;width:100%;word-break:break-all;margin-bottom:1em;"><%=currEsmRecordList.get(i).getEsmRecordText()%></div>
+							<div class="record-text"style="font-size:1.2em;min-height:7vh;width:100%;word-break:break-all;margin-bottom:1em;"><%=currEsmRecordList.get(i).getEsmRecordText()%></div>
 						</div>
 						<%}%>
 						</div>
@@ -133,9 +133,9 @@
 				<%} %>
 				<div>&nbsp;</div>
 				<%if(currUser.getUserRole().equals("CHILD")){ %>
-					<button class="w3-button w3-col w3-padding w3-center"style="border:1px solid #1A2A3A;width:90%;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;margin-left:5%;margin-right:5%;height:50px;color:white;font-size:1em;align-items : center;" onclick="location.href='GetEsmRecordMain'">돌아가기</button>
+					<button class="w3-button w3-col w3-padding w3-center"style="border:1px solid #1A2A3A;width:90%;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;margin-left:5%;margin-right:5%;height:50px;color:white;font-size:1.2em;align-items : center;" onclick="location.href='GetEsmRecordMain'">돌아가기</button>
 				<%}else{ %>
-					<button class="w3-button w3-col w3-padding w3-center"style="border:1px solid #1A2A3A;width:90%;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;margin-left:5%;margin-right:5%;height:50px;color:white;font-size:1em;align-items : center;" onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>'">돌아가기</button>
+					<button class="w3-button w3-col w3-padding w3-center"style="border:1px solid #1A2A3A;width:90%;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;margin-left:5%;margin-right:5%;height:50px;color:white;font-size:1.2em;align-items : center;" onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>'">돌아가기</button>
 				<%} %>
 				</div>
 		 	</div>
