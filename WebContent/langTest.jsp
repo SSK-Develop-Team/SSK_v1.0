@@ -47,13 +47,12 @@
 #reply{
 	margin:0.75em;
 }
-.reply-content{
-	font-size: 0.9rem;
-}
 
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
 </head>
 <body>
 	<%@ include file="sidebar.jsp" %>
@@ -62,7 +61,7 @@
 			<div class="w3-col w3-hide-small m1 l1">&nbsp;</div>
 			<div class="w3-col s12 m10 l10">
 				<div class="w3-panel">
-					<div style="font-weight:bold; font-size : 1.8em;">언어 발달 평가</div>
+					<div class="test-main-title">언어 발달 평가</div>
 					<h6>질문에 답하기 어려울 경우, 직접 평가(게임)를 하고 다시 돌아와 결정해주세요.</h6>
 				</div>
 				<form method="post" action="DoLangTest">
@@ -80,13 +79,13 @@
 							<div class="testNum"><b><%=currNumStr%></b></div>
 							<div class="w3-row w3-margin">
 								<div class="w3-col s12 m9 l10" style="background: #F4F4F4;">
-									<div class="w3-margin w3-center question-content"><%=currQuestionList.get(i).getLangQuestionContent() %></div>
+									<div class="w3-margin w3-center question-content lang-test-content"><%=currQuestionList.get(i).getLangQuestionContent() %></div>
 								</div>
 								<div class="w3-col s5 m3 l2 w3-right" style="padding-top:16px;padding-bottom:16px;padding-left:8px;">
 								
 								
 								<% if(currQuestionList.get(i).getIsLangGame()==1){ %>
-								    <div class="w3-button w3-round-large w3-padding" style="background-color:#51459E; color:white; padding:0px;" onclick="selectGame(<%=gameID%>);">
+								    <div class="w3-button w3-round-large w3-padding" style="background-color:#51459E; color:white; padding:0px;font-size:1.2em" onclick="selectGame(<%=gameID%>);">
 								         게임하고 오기
 								    </div>
 								<% } %>					
@@ -98,22 +97,22 @@
 							<div class="w3-col m3 l3">
 								<%if(langProgList.get(i) == 1){ %> <input type="radio" class="reply w3-radio" name="reply<%=i%>" value="1" checked="checked">
 								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="1"> <%} %>
-								<label class="reply-content">전혀 못한다 (0%)</label>
+								<label class="lang-test-reply-content">전혀 못한다 (0%)</label>
 							</div>
 							<div class="w3-col m3 l3">
 								<%if(langProgList.get(i) == 2){ %> <input type="radio" class="reply w3-radio" name="reply<%=i%>" value="2" checked="checked">
 								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="2"> <%} %>
-								<label class="reply-content">조금 할 수 있다 (30%)</label>
+								<label class="lang-test-reply-content">조금 할 수 있다 (30%)</label>
 							</div>
 							<div class="w3-col m2 l2">
 								<%if(langProgList.get(i) == 3){ %> <input type="radio" class="reply w3-radio" class="reply" name="reply<%=i%>" value="3" checked="checked">
 								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="3"> <%} %>
-								<label class="reply-content">잘한다 (60%)</label>
+								<label class="lang-test-reply-content">잘한다 (60%)</label>
 							</div>
 							<div class="w3-col m3 l3">
 								<%if(langProgList.get(i) == 4){ %> <input type="radio" class="reply w3-radio" name="reply<%=i%>" value="4" checked="checked">
 								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="4"> <%} %>
-								<label class="reply-content">매우 잘한다 (100%)</label>
+								<label class="lang-test-reply-content">매우 잘한다 (100%)</label>
 							</div>
 							<div class="w3-col w3-hide-small m2 l2"></div>
 						</div>

@@ -16,6 +16,7 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
 
 <title>언어 발달 평가</title>
 </head>
@@ -23,10 +24,10 @@
 <%@ include file = "sidebar.jsp" %>
 <div style="width:100%;background-color:#D9D9D9;">
 <div>&nbsp;</div><div>&nbsp;</div><div>&nbsp;</div>
-<div class="w3-center" style="font-weight:bold;font-size:1.7em;"> 언어 발달 평가 </div>
+<div class="w3-center test-main-title"> 언어 발달 평가 </div>
 <div class="w3-panel" style="width:100%;height:150px;">
 <div class="w3-hide-small">&nbsp;</div>
-<div class="w3-center" style="text-align:center;font-size:1em;"><%=name%>님, 현재 나이에 적합한 언어 발달 검사가 진행됩니다. <br>
+<div class="w3-center test-main-description"><%=name%>님, 현재 나이에 적합한 언어 발달 검사가 진행됩니다. <br>
 			해당 언어 발달 검사가 아동에게 맞지 않는다면, 다른 나이대의 언어 발달 검사를 선택하여 진행해주세요.<br></div>
 </div>
 <div>&nbsp;</div>
@@ -35,9 +36,9 @@
 <div class="w3-row">
 	<div class="w3-col s1 m3 l4">&nbsp;</div>
 	<div class="w3-padding w3-col s10 m6 l4">
-		<button class="w3-button w3-block w3-round-large w3-padding-16" style="background-color:#51459E;color:white;font-size:1.3em;" onClick="document.getElementById('ageCheck').style.display='block';">검사하기</button>
+		<button class="w3-button w3-block w3-round-large w3-padding-16 lang-button" onClick="document.getElementById('ageCheck').style.display='block';">검사하기</button>
 		<div>&nbsp;</div>
-		<button class="w3-button w3-block w3-round-large w3-padding-16" style="background-color:#51459E;color:white;font-size:1.3em;" onclick="location.href='GetLangResultAll'">결과보기</button>
+		<button class="w3-button w3-block w3-round-large w3-padding-16 lang-button" onclick="location.href='GetLangResultAll'">결과보기</button>
 	</div>
 	<div class="w3-col s1 m3 l4">&nbsp;</div>
 </div>
@@ -72,18 +73,19 @@
 			<div class="w3-container w3-center">
 				<span onclick="ageCheckClose()" class="w3-button w3-display-topright w3-round-xxlarge">&times;</span>
 				<%if(currAgeGroup.getAgeGroupId()<14){%>
-					<p>현재 <%=name%>의 테스트 단계는 <span><%=currAgeGroup.getAgeGroupId()%></span>입니다.</p>
-					<p>(<%=ageStr[currAgeGroup.getAgeGroupId()] %>)</p>
-					<p>해당 단계를 진행하시겠습니까?</p>
-					<button class="w3-button w3-padding-16 w3-margin w3-round-large" style="background-color:#4d4d4d;color:white;font-size:1.3em;"onClick="ageSelect()">다른 단계 진행</button>
-					<button class="w3-button w3-padding-16 w3-margin w3-round-large" style="background-color:#51459E;color:white;font-size:1.3em;"onClick="location.href='GetLangTest'">해당 단계 진행</button>
+					<p class="test-main-description">현재 <%=name%>의 테스트 단계는 <span><%=currAgeGroup.getAgeGroupId()%></span>입니다.</p>
+					<p class="test-main-description">(<%=ageStr[currAgeGroup.getAgeGroupId()] %>)</p>
+					<p class="test-main-description">해당 단계를 진행하시겠습니까?</p>
+					<button class="w3-button w3-padding-16 w3-margin w3-round-large lang-modal-sub-button" onClick="ageSelect()">다른 단계 진행</button>
+					<button class="w3-button w3-padding-16 w3-margin w3-round-large lang-modal-primary-button" onClick="location.href='GetLangTest'">해당 단계 진행</button>
 				<%}else{%>
-					<p>현재 <%=name%>님은 모든 테스트 단계를 진행할 수 있습니다.</p>
-					<p>(<%=ageStr[13] %>)</p>
-					<p>해당 단계를 진행하시겠습니까?</p>
-					<button class="w3-button w3-padding-16 w3-margin w3-round-large" style="background-color:#4d4d4d;color:white;font-size:1.3em;"onClick="ageSelect()">다른 단계 진행</button>
-					<button class="w3-button w3-padding-16 w3-margin w3-round-large" style="background-color:#51459E;color:white;font-size:1.3em;"onClick="location.href='GetLangTest'">해당 단계 진행</button>
+					<p class="test-main-description">현재 <%=name%>님은 모든 테스트 단계를 진행할 수 있습니다.</p>
+					<p class="test-main-description">(<%=ageStr[13] %>)</p>
+					<p class="test-main-description">해당 단계를 진행하시겠습니까?</p>
+					<button class="w3-button w3-padding-16 w3-margin w3-round-large lang-modal-sub-button" onClick="ageSelect()">다른 단계 진행</button>
+					<button class="w3-button w3-padding-16 w3-margin w3-round-large lang-modal-primary-button" onClick="location.href='GetLangTest'">해당 단계 진행</button>
 				<%}%>
+				<div><img src="./image/LangGameGuide.png" style="width:100%"/></div>
 			</div>
 		</div>
 	</div>
@@ -93,7 +95,7 @@
 			<div class="w3-modal-content w3-animate-opacity w3-round-large modal-content">
 				<div class="w3-container w3-center">
 					<span onclick="ageSelectClose()" class="w3-button w3-display-topright w3-round-xxlarge">&times;</span>
-					<p>평가를 진행할 단계를 선택해주세요.</p>
+					<p class="test-main-description">평가를 진행할 단계를 선택해주세요.</p>
 
 					<select id = "ageGroupSelect" name="ageGroup" style="font-size:1.3em;">
 						<%for(AgeGroup a : selectableAgeGroupList){
@@ -106,7 +108,7 @@
 						 }%>
 					</select>
 
-					<button class="w3-button w3-margin w3-round-large" style="background-color:#51459E;color:white;font-size:1.3em;"type="submit">확인</button>
+					<button class="w3-button w3-margin w3-round-large lang-modal-primary-button" type="submit">확인</button>
 				</div>
 			</div>
 		</div>

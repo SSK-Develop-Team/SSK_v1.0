@@ -16,21 +16,21 @@
 <%@ include file="sidebar.jsp"%>
 	<div>&nbsp;</div>
 	<div class="w3-row">
-		<div class="w3-col s1 m3 l4">&nbsp;</div>
-		<div class="w3-col s10 m6 l4">
-			<div style="font-size:1.3em;"><b>정서 다이어리 기록하기</b></div>
-			<div style="font-size:0.8em;">자녀의 정서를 이해하는 데 도움이 되는 메모를 남겨주세요.</div>
+		<div class="w3-col s1 m1 l2">&nbsp;</div>
+		<div class="w3-col s10 m10 l8">
+			<div style="font-size:1.5em;margin-bottom: 10px;"><b>정서 다이어리 기록하기</b></div>
+			<div style="font-size:1.2em;">자녀의 정서를 이해하는 데 도움이 되는 메모를 남겨주세요.</div>
 			<div>&nbsp;</div>
-			<div style="float:right;font-size:0.8em;"><%=selectedDateStr%></div>
+			<div style="float:right;font-size:1.2em;margin-bottom: 10px;"><%=selectedDateStr%></div>
 			<div>&nbsp;</div>
 			<form action="CreateEsmRecord" method="post">
 				<input type="hidden" name="newRecordDateStr" value="<%=selectedDateStr%>">
 				<textarea name="newRecordText" style="border:1px solid #1A2A3A;border-radius:10px;margin-bottom:10px;width:100%;height:30vh;font-size:1em;"></textarea>
-				<button class="w3-button w3-col w3-padding"style="border:1px solid #1A2A3A;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;height:50px;color:white;font-size:1em;align-items : center;">기록하기</button>
+				<button class="w3-button w3-col w3-padding"style="border:1px solid #1A2A3A;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;">기록하기</button>
 			</form>
-			<button class="w3-button w3-col w3-padding"style="border:1px solid #1A2A3A;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;height:50px;color:white;font-size:1em;align-items : center;"onclick="location.href='GetEsmRecordMain'">돌아가기</button>
+			<button class="w3-button w3-col w3-padding"style="border:1px solid #1A2A3A;border-radius:10px;background-color:#1A2A3A;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;"onclick="location.href='GetEsmRecordMain'">돌아가기</button>
 		</div>
-		<div class="w3-col s1 m3 l4">&nbsp;</div>
+		<div class="w3-col s1 m1 l2">&nbsp;</div>
 	</div>
 
 </body>
