@@ -3,6 +3,7 @@ package controller.lang;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -45,7 +46,7 @@ public class GetLangLog extends HttpServlet {
 		int focusUserId = Integer.parseInt(request.getParameter("focusUserId"));
 		
 		
-		ArrayList<Integer> tmpLogIdList = LangReplyDAO.getLangTestLogIdByAgeGroup(conn, selectAgeGroup, focusUserId);
+		List<Integer> tmpLogIdList = LangReplyDAO.getLangTestLogIdByAgeGroup(conn, selectAgeGroup, focusUserId);
 		ArrayList<Integer> langLogIdListByUser = new ArrayList<Integer>();
 		
 		for(int i=0; i<tmpLogIdList.size(); i++) {

@@ -100,7 +100,7 @@ public class ExportChildResultExcelService {
     public static ArrayList<SdqExcelDTO> getSdqDataListOfUser(Connection con, int childId, String childName){
         ArrayList<SdqExcelDTO> sdqDataList = new ArrayList<SdqExcelDTO>();
 
-        ArrayList<SdqTestLog> sdqTestLogList = SdqTestLogDAO.getSdqTestLogAllByUserId(con, childId);//아동의 모든 SDQ 기록 가져오기
+        List<SdqTestLog> sdqTestLogList = SdqTestLogDAO.getSdqTestLogAllByUserId(con, childId);//아동의 모든 SDQ 기록 가져오기
         for(int i=0;i< sdqTestLogList.size();i++){
             SdqTestLog sdqTestLog = sdqTestLogList.get(i);
 

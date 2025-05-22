@@ -8,6 +8,7 @@ import static model.dto.export.column.SdqColumnInfoOfTest.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.dto.LangReply;
 import org.apache.poi.ss.usermodel.Cell;
@@ -135,7 +136,7 @@ public class SskExcelByTest extends SskExcel{
             createCellWithStyleInt(bodyRow, SDQ_ANSWER24.getColumnIndex(), sdqExcelDTO.getReplyList().get(23), bodyCellStyle);
             createCellWithStyleInt(bodyRow, SDQ_ANSWER25.getColumnIndex(), sdqExcelDTO.getReplyList().get(24), bodyCellStyle);
 
-            ArrayList<SdqResultOfType> scoreList = sdqExcelDTO.getScoreList();
+            List<SdqResultOfType> scoreList = sdqExcelDTO.getScoreList();
 
             /*match sdq result and type column*/
             for (SdqResultOfType sdqResultOfType : scoreList) {
