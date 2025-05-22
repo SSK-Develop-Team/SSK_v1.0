@@ -41,22 +41,21 @@ public class GetLangLog extends HttpServlet {
 		
 
 		User currUser = (User)session.getAttribute("currUser");
-		
+				
 		int selectAgeGroup = Integer.parseInt(request.getParameter("ageGroupId"));
 		int focusUserId = Integer.parseInt(request.getParameter("focusUserId"));
 		
 		
 		List<Integer> tmpLogIdList = LangReplyDAO.getLangTestLogIdByAgeGroup(conn, selectAgeGroup, focusUserId);
-		ArrayList<Integer> langLogIdListByUser = new ArrayList<Integer>();
+		List<Integer> langLogIdListByUser = new ArrayList<Integer>();
 		
 		for(int i=0; i<tmpLogIdList.size(); i++) {
 			if(! langLogIdListByUser.contains(tmpLogIdList.get(i))) {
 				langLogIdListByUser.add(tmpLogIdList.get(i));
 			}
 		}
-		
 		session.setAttribute("langLogIdListByUser", langLogIdListByUser);
-		
+		session.setAttribute("langLogUserId", focusUserId); // 이전 사용자와 세션 분리
 		
 		String forwardLocation = "/GetLangResultAll";
 		

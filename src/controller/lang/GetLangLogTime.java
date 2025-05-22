@@ -39,6 +39,7 @@ public class GetLangLogTime extends HttpServlet {
 		
 		int selectNum = Integer.parseInt(request.getParameter("selectNum"));
 		request.setAttribute("selectIndex", selectNum);
+		session.setAttribute("langLogUserId", focusUserId); // 이전 사용자와 세션 분리
 		
 		
 		String forwardLocation = "/GetLangResultAll";
@@ -46,8 +47,7 @@ public class GetLangLogTime extends HttpServlet {
 		if(currUser.getUserId() != focusUserId) {
 			forwardLocation = forwardLocation + "?childId="+focusUserId;
 		}
-		
-		
+				
 		RequestDispatcher rd = request.getRequestDispatcher(forwardLocation);
 		rd.forward(request, response);
 		

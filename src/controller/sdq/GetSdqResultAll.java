@@ -67,6 +67,7 @@ public class GetSdqResultAll extends HttpServlet {
  			out.flush();
  		}else {
  			SdqTestLog selectedSdqTestLog = null;
+ 			String testLogId = request.getParameter("sdqTestLogId");
  			
  			//선택한 테스트 로그 정보 가져오기
  			String param = request.getParameter("sdqTestLogId");
