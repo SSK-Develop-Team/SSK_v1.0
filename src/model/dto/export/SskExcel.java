@@ -16,7 +16,7 @@ public class SskExcel {
     Sheet sheet;
     int rowIndex = 0;
 
-    CellStyle defaultCellStyle, headerCellStyle, bodyCellStyle;
+    CellStyle defaultCellStyle, headerCellStyle, bodyCellStyle, greyCellStyle, typeCellStyle;
     
     /*Get FileName*/
     public String getFileName(){
@@ -71,5 +71,39 @@ public class SskExcel {
         bodyCellStyle.setBorderBottom(BorderStyle.THIN);
         bodyCellStyle.setBorderLeft(BorderStyle.THIN);
         bodyCellStyle.setBorderRight(BorderStyle.THIN);
+    }
+    
+    public void setGreyCellStyle(){
+    	greyCellStyle = wb.createCellStyle();
+
+        // 정렬
+    	greyCellStyle.setAlignment(HorizontalAlignment.CENTER);
+    	greyCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        // 테두리
+    	greyCellStyle.setBorderTop(BorderStyle.THIN);
+    	greyCellStyle.setBorderBottom(BorderStyle.THIN);
+    	greyCellStyle.setBorderLeft(BorderStyle.THIN);
+    	greyCellStyle.setBorderRight(BorderStyle.THIN);
+ 
+        greyCellStyle.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
+        greyCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+    }
+    
+    public void setTypeCellStyle(){
+    	typeCellStyle = wb.createCellStyle();
+
+        // 정렬
+    	typeCellStyle.setAlignment(HorizontalAlignment.CENTER);
+    	typeCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        // 테두리
+    	typeCellStyle.setBorderTop(BorderStyle.THIN);
+    	typeCellStyle.setBorderBottom(BorderStyle.THIN);
+    	typeCellStyle.setBorderLeft(BorderStyle.THIN);
+    	typeCellStyle.setBorderRight(BorderStyle.THIN);
+ 
+    	typeCellStyle.setFillForegroundColor(IndexedColors.LIGHT_TURQUOISE.getIndex());
+    	typeCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
     }
 }

@@ -8,6 +8,7 @@ import static model.dto.export.column.SdqColumnInfoOfTest.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.dto.LangReply;
 import org.apache.poi.ss.usermodel.Cell;
@@ -41,7 +42,7 @@ public class SskExcelByTest extends SskExcel{
     }
 
     /*Lang Data Export*/
-    public void addLangData(ArrayList<LangExcelDTO> langExcelDTOS){
+    public void addLangData(List<LangExcelDTO> langExcelDTOS){
     	this.fileName = "언어_발달_검사_결과_" + new Date(System.currentTimeMillis()) +".xlsx";
 
         Row titleRow = sheet.createRow(rowIndex);
@@ -84,7 +85,7 @@ public class SskExcelByTest extends SskExcel{
     }
 
     /*Sdq Data Export*/
-    public void addSdqData(ArrayList<SdqExcelDTO> sdqExcelDTOS){
+    public void addSdqData(List<SdqExcelDTO> sdqExcelDTOS){
     	this.fileName = "SDQ_정서_행동_발달_검사_결과_" + new Date(System.currentTimeMillis()) +".xlsx";
 
         Row titleRow = sheet.createRow(rowIndex);
@@ -135,7 +136,7 @@ public class SskExcelByTest extends SskExcel{
             createCellWithStyleInt(bodyRow, SDQ_ANSWER24.getColumnIndex(), sdqExcelDTO.getReplyList().get(23), bodyCellStyle);
             createCellWithStyleInt(bodyRow, SDQ_ANSWER25.getColumnIndex(), sdqExcelDTO.getReplyList().get(24), bodyCellStyle);
 
-            ArrayList<SdqResultOfType> scoreList = sdqExcelDTO.getScoreList();
+            List<SdqResultOfType> scoreList = sdqExcelDTO.getScoreList();
 
             /*match sdq result and type column*/
             for (SdqResultOfType sdqResultOfType : scoreList) {
@@ -152,7 +153,7 @@ public class SskExcelByTest extends SskExcel{
     }
 
     /*Esm Data Export*/
-    public void addEsmData(ArrayList<EsmExcelDTO> esmExcelDTOS){
+    public void addEsmData(List<EsmExcelDTO> esmExcelDTOS){
     	this.fileName = "ESM_정서_반복_기록_" + new Date(System.currentTimeMillis()) +".xlsx";
         
         Row titleRow = sheet.createRow(rowIndex);
@@ -187,7 +188,7 @@ public class SskExcelByTest extends SskExcel{
             createCellWithStyleInt(bodyRow, ESM_ANSWER9.getColumnIndex(), esmExcelDTO.getReplyList().get(8), bodyCellStyle);
             createCellWithStyleInt(bodyRow, ESM_ANSWER10.getColumnIndex(), esmExcelDTO.getReplyList().get(9), bodyCellStyle);
 
-            ArrayList<EsmResultOfType> scoreList = esmExcelDTO.getScoreList();
+            List<EsmResultOfType> scoreList = esmExcelDTO.getScoreList();
 
             /*match sdq result and type column*/
             for (EsmResultOfType esmResultOfType : scoreList) {
@@ -201,7 +202,7 @@ public class SskExcelByTest extends SskExcel{
     }
 
     /*ESM Record Data Export*/
-    public void addEsmRecordData(ArrayList<EsmRecordExcelDTO> esmRecordExcelDTOS){
+    public void addEsmRecordData(List<EsmRecordExcelDTO> esmRecordExcelDTOS){
     	this.fileName = "ESM_정서_다이어리_" + new Date(System.currentTimeMillis()) +".xlsx";
         
         Row titleRow = sheet.createRow(rowIndex);
