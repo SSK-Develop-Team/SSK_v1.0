@@ -4,6 +4,7 @@ import model.dto.AgeGroup;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LangExcelDTO {
     private int userId;
@@ -13,7 +14,7 @@ public class LangExcelDTO {
     private String dateStr;
 
     private String ageGroupStr;
-    private ArrayList<String> replyList;
+    private List<String> replyList;
 
     public int getUserId() {
         return userId;
@@ -56,11 +57,11 @@ public class LangExcelDTO {
     }
 
 
-    public ArrayList<String> getReplyList() {
+    public List<String> getReplyList() {
         return replyList;
     }
 
-    public void setReplyList(ArrayList<String> replyList) {
+    public void setReplyList(List<String> replyList) {
         this.replyList = replyList;
     }
 

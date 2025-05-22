@@ -25,6 +25,7 @@ import static model.dto.export.column.UserColumnInfo.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SskExcelByUser extends SskExcel{
 
@@ -36,6 +37,8 @@ public class SskExcelByUser extends SskExcel{
         setDefaultCellStyle();
         setHeaderCellStyle();
         setBodyCellStyle();
+        setGreyCellStyle();
+        setTypeCellStyle();
     }
 
     /*User data export*/
@@ -94,19 +97,13 @@ public class SskExcelByUser extends SskExcel{
             createCellWithStyle(bodyRow, LANG_AGE_GROUP.getColumnIndex(), langExcelDTO.getAgeGroupStr(), bodyCellStyle);
             sheet.autoSizeColumn(LANG_DATE.getColumnIndex());
             sheet.autoSizeColumn(LANG_AGE_GROUP.getColumnIndex());
-            System.out.println("langExcelDTO.getReplyList() size : " + langExcelDTO.getReplyList().size());
-            createCellWithStyle(bodyRow, LANG_ANSWER1.getColumnIndex(), langExcelDTO.getReplyList().get(0), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER2.getColumnIndex(), langExcelDTO.getReplyList().get(1), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER3.getColumnIndex(), langExcelDTO.getReplyList().get(2), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER4.getColumnIndex(), langExcelDTO.getReplyList().get(3), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER5.getColumnIndex(), langExcelDTO.getReplyList().get(4), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER6.getColumnIndex(), langExcelDTO.getReplyList().get(5), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER7.getColumnIndex(), langExcelDTO.getReplyList().get(6), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER8.getColumnIndex(), langExcelDTO.getReplyList().get(7), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER9.getColumnIndex(), langExcelDTO.getReplyList().get(8), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER10.getColumnIndex(), langExcelDTO.getReplyList().get(9), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER11.getColumnIndex(), langExcelDTO.getReplyList().get(10), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER12.getColumnIndex(), langExcelDTO.getReplyList().get(11), bodyCellStyle);
+            System.out.println("langExcelDTO.getReplyList() size : " + langExcelDTO.getReplyList().size());            
+            // 답변 12개 루프 처리
+            for (int i = 0; i < 12; i++) {
+                String reply = langExcelDTO.getReplyList().get(i);
+                CellStyle style = reply.equals("-") ? greyCellStyle : bodyCellStyle;
+                createCellWithStyle(bodyRow, LANG_ANSWER1.getColumnIndex() + i, reply, style);
+            }
         }
     }
 
@@ -162,14 +159,14 @@ public class SskExcelByUser extends SskExcel{
             createCellWithStyleInt(bodyRow, SDQ_ANSWER24.getColumnIndex(), sdqExcelDTO.getReplyList().get(23), bodyCellStyle);
             createCellWithStyleInt(bodyRow, SDQ_ANSWER25.getColumnIndex(), sdqExcelDTO.getReplyList().get(24), bodyCellStyle);
 
-            ArrayList<SdqResultOfType> scoreList = sdqExcelDTO.getScoreList();
+            List<SdqResultOfType> scoreList = sdqExcelDTO.getScoreList();
 
             /*match sdq result and type column*/
             for (SdqResultOfType sdqResultOfType : scoreList) {
                 String typeName = sdqResultOfType.getSdqType();
                 int columnIndex = SdqColumnInfoOfUser.findByColumnText(typeName).getColumnIndex();
 
-                createCellWithStyleInt(bodyRow, columnIndex, sdqResultOfType.getResult(), bodyCellStyle);
+                createCellWithStyleInt(bodyRow, columnIndex, sdqResultOfType.getResult(), typeCellStyle);
                 sheet.autoSizeColumn(columnIndex);
 
             }
@@ -214,14 +211,14 @@ public class SskExcelByUser extends SskExcel{
             createCellWithStyleInt(bodyRow, ESM_ANSWER9.getColumnIndex(), esmExcelDTO.getReplyList().get(8), bodyCellStyle);
             createCellWithStyleInt(bodyRow, ESM_ANSWER10.getColumnIndex(), esmExcelDTO.getReplyList().get(9), bodyCellStyle);
 
-            ArrayList<EsmResultOfType> scoreList = esmExcelDTO.getScoreList();
+            List<EsmResultOfType> scoreList = esmExcelDTO.getScoreList();
 
             /*match sdq result and type column*/
             for (EsmResultOfType esmResultOfType : scoreList) {
                 String typeName = esmResultOfType.getEsmType();
                 int columnIndex = EsmColumnInfoOfUser.findColumnByEsmType(typeName).getColumnIndex();
 
-                createCellWithStyleInt(bodyRow, columnIndex, esmResultOfType.getResult(), bodyCellStyle);
+                createCellWithStyleInt(bodyRow, columnIndex, esmResultOfType.getResult(), typeCellStyle);
             }
 
         }
