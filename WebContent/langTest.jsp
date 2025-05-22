@@ -38,6 +38,7 @@
       color : white;
       height : 50px;
       width : 150px;
+      font-size:1.2em;
    }
    
 .textBox{

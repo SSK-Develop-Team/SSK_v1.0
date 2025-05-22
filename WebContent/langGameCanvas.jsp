@@ -29,7 +29,7 @@
 
     .canvas {
       width: 100%;
-      height: 400px;
+      height: 600px;
       background-color: white;
       border-radius: 15px;
       box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -40,10 +40,10 @@
 <%@ include file="sidebar.jsp" %>
 
 <div class="w3-row">
-  <div class="w3-col w3-hide-small m1 l3">&nbsp;</div>
-  <div class="w3-col w3-container s12 m10 l6" >
-    <div style="font-size:1em;font-weight:bold;">직접평가 #<%= gameID %></div>
-    <div class="w3-container">
+  <div class="w3-col w3-hide-small m1 l2">&nbsp;</div>
+  <div class="w3-col w3-container s12 m10 l8" >
+    <div style="font-size:1.3em;font-weight:bold;">직접평가 #<%= gameID %></div>
+    <div class="w3-container" style="font-size:1.3em;">
       <div class="w3-right">
         <button class="w3-button w3-circle" style="background-color:#D9D9D9;transform:translateY(-0.5em);width:2.3em;height:2.3em;padding:0;margin-top:0.5em;" onclick="removePainting();">
           <img src="./image/reload.png" style="width:1.5em;height:1.5em;">
@@ -69,15 +69,15 @@
 		<div class="w3-left">'아이 옆으로 자동차가 지나가요.'를 써보세요.</div>
 	  <%} %>
     </div>
-    <div id="canvas-container" style="width:100%;height:400px;">
+    <div id="canvas-container" style="width:100%;height:600px;">
       <canvas id="jsCanvas" class="canvas"></canvas>
     </div>
     <div class="w3-container w3-right">
-      <button class="w3-button w3-round-large" onclick="history.go(-1);" style="border:none; background-color:#12192C; color:white; ">이전</button>
-      <%if(i<=langGameList.size()-1){ %><button class="w3-button w3-round-large" onclick="getNextContent(<%=i%>, <%= gameID %>,<%=langGameList.size()%>);" style="border:none; background-color:#12192C; color:white; ">완료 </button><%}%>
+      <button class="w3-button w3-round-large" onclick="history.go(-1);" style="border:none; font-size:1.1em;background-color:#12192C; color:white; ">이전</button>
+      <%if(i<=langGameList.size()-1){ %><button class="w3-button w3-round-large" onclick="getNextContent(<%=i%>, <%= gameID %>,<%=langGameList.size()%>);" style="border:none; font-size:1.1em;background-color:#12192C; color:white; ">완료 </button><%}%>
     </div>
   </div>
-  <div class="w3-col w3-hide-small m1 l3">&nbsp;</div>
+  <div class="w3-col w3-hide-small m1 l2">&nbsp;</div>
 </div>
 <script type="text/javascript" src="js/langGame.js" charset="UTF-8"></script>
 <script type="text/javascript" src="js/canvas.js" charset="UTF-8"></script>

@@ -70,11 +70,13 @@ public class GetSdqResultAll extends HttpServlet {
  			String testLogId = request.getParameter("sdqTestLogId");
  			
  			//선택한 테스트 로그 정보 가져오기
- 			if(testLogId ==null||testLogId.equals("0")) {//사용자가 가장 최근에 수행한 검사 기록 가져오기
- 				Comparator<SdqTestLog> comparatorById = Comparator.comparingInt(SdqTestLog::getSdqTestLogId);
- 				selectedSdqTestLog = sdqTestLogList.stream().max(comparatorById).orElseThrow(NoSuchElementException::new);
- 			}else {
- 				selectedSdqTestLog = SdqTestLogDAO.getSdqTestLogById(conn, Integer.parseInt(request.getParameter("sdqTestLogId")));
+ 			String param = request.getParameter("sdqTestLogId");
+ 			if (param == null || param.equals("0")) {
+ 			    selectedSdqTestLog = sdqTestLogList.stream()
+ 			        .max(Comparator.comparingInt(SdqTestLog::getSdqTestLogId))
+ 			        .orElseThrow(NoSuchElementException::new);
+ 			} else {
+ 			    selectedSdqTestLog = SdqTestLogDAO.getSdqTestLogById(conn, Integer.parseInt(param));
  			}
  			
  			//선택한 테스트 로그에 대한 응답값을 기준으로 결과 값 가져오기
