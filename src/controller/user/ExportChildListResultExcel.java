@@ -42,7 +42,7 @@ public class ExportChildListResultExcel extends HttpServlet {
 		Connection conn= (Connection) sc.getAttribute("DBconnection");
 
 		
-		String exportType = request.getParameter("exportType"); // child, test
+		String exportType = request.getParameter("exportType"); // 아동별, 검사별
 		String[] childIdStrList = request.getParameterValues("childId");
 		String[] categoryList = request.getParameterValues("category");
 		
@@ -59,7 +59,6 @@ public class ExportChildListResultExcel extends HttpServlet {
 				out.println("<script>alert('결과 파일 추출에 실패했습니다. 관리자에게 문의하세요.'); hitory.go(-1);</script>");
 				out.flush();
 			}
-			
 			String[] files = directory.list();
 			
 			if(files != null && files.length > 0) {
