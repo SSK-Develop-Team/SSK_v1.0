@@ -37,8 +37,11 @@
 	ArrayList<LangReply> selectLangReplyList = (ArrayList<LangReply>)request.getAttribute("selectLangReplyList");
 	ArrayList<LangQuestion> selectLangQuestionList = (ArrayList<LangQuestion>)request.getAttribute("selectLangQuestionList");
 
+	
 	ArrayList<LangTestLog> langLogListByUser = (ArrayList<LangTestLog>)request.getAttribute("langLogListByUser");
-	ArrayList<LangResultAnalysis> langResultAnalysisList = (ArrayList<LangResultAnalysis>)request.getAttribute("langResultAnalysisList");
+	List<LangResultAnalysis> langResultAnalysisList = (List<LangResultAnalysis>)request.getAttribute("langResultAnalysisList");
+	
+	System.out.println("langResultAnalysisList size: " + (langResultAnalysisList == null ? "null" : langResultAnalysisList.size()));
 	// 분석결과 연령 그룹별로 분리
 	Map<Integer, List<LangResultAnalysis>> resultByReportAgeGroupId = new HashMap<>();
 	for (LangResultAnalysis analysis : langResultAnalysisList){
@@ -351,7 +354,11 @@ function printResult() {
                 datasets: [{
                     backgroundColor: '#6d6db0',
                     borderColor: '#6d6db0',
-                    data: [<%= selectLangReplyList.get(0).getLangReplyContent()%>, <%= selectLangReplyList.get(1).getLangReplyContent()%>, <%= selectLangReplyList.get(2).getLangReplyContent()%>, <%= selectLangReplyList.get(3).getLangReplyContent()%>, <%= selectLangReplyList.get(4).getLangReplyContent()%>]
+                    data: [<%= selectLangReplyList.get(0).getLangReplyContent()%>, 
+                    <%= selectLangReplyList.get(1).getLangReplyContent()%>, 
+                    <%= selectLangReplyList.get(2).getLangReplyContent()%>, 
+                    <%= selectLangReplyList.get(3).getLangReplyContent()%>, 
+                    <%= selectLangReplyList.get(4).getLangReplyContent()%>]
                 }]
             },
             

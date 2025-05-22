@@ -57,7 +57,7 @@ public class ExportChildResultExcelService {
             langData.setDateStr(langTestLog.getLangTestDate());
             langData.setAgeGroupStr(LangReplyDAO.getLangAgeGroupIdByLogId(con,langTestLog.getLangTestLogId()));
 
-            List<String> langTypeList = Arrays.asList("구문", "문해", "문해1", "문해2", "문해3", "의미", "의미1", "의미2", "조음", "화용", "화용1", "화용2");
+            List<String> langTypeList = new ArrayList<>(Arrays.asList("구문", "문해", "문해1", "문해2", "문해3", "의미", "의미1", "의미2", "조음", "화용", "화용1", "화용2"));
             ArrayList<String> langReplyStrList = new ArrayList<String>();
             
             List<LangReply> langReplyList = LangReplyDAO.getLangReplyListByLangTestLogId(con,langTestLog.getLangTestLogId());
@@ -75,6 +75,7 @@ public class ExportChildResultExcelService {
                 }
             });
             int e = 0;
+            
             for(int j=0;j < 12 ;j++){
             	if (e < langReplyList.size()) {
 	                LangQuestion q1 = LangQuestionDAO.getLangQuestionById(con, langReplyList.get(e).getLangQuestionId());
@@ -89,9 +90,9 @@ public class ExportChildResultExcelService {
             	}
 	            langTypeList.remove(0);
             }
-            
             langData.setReplyList(langReplyStrList);
             langDataList.add(langData);
+            
         }
         return langDataList;
     }
@@ -100,7 +101,7 @@ public class ExportChildResultExcelService {
     public static ArrayList<SdqExcelDTO> getSdqDataListOfUser(Connection con, int childId, String childName){
         ArrayList<SdqExcelDTO> sdqDataList = new ArrayList<SdqExcelDTO>();
 
-        ArrayList<SdqTestLog> sdqTestLogList = SdqTestLogDAO.getSdqTestLogAllByUserId(con, childId);//아동의 모든 SDQ 기록 가져오기
+        List<SdqTestLog> sdqTestLogList = SdqTestLogDAO.getSdqTestLogAllByUserId(con, childId);//아동의 모든 SDQ 기록 가져오기
         for(int i=0;i< sdqTestLogList.size();i++){
             SdqTestLog sdqTestLog = sdqTestLogList.get(i);
 
@@ -173,10 +174,10 @@ public class ExportChildResultExcelService {
 	 *  - getSskExcelByTest : 검사별 검사 결과 excel을 만들어서 반환
 	 */
     /*해당하는 아동 리스트의 모든 언어 검사 결과 */
-    public static ArrayList<LangExcelDTO> getLangDataList(Connection con, String[] childIdStrList){
-    	ArrayList<LangExcelDTO> langDataList = new ArrayList<LangExcelDTO>();
+    public static List<LangExcelDTO> getLangDataList(Connection con, String[] childIdStrList){
+    	List<LangExcelDTO> langDataList = new ArrayList<LangExcelDTO>();
 
-        ArrayList<LangTestLog> langTestLogList = LangTestLogDAO.getLangTestLogListOfChildList(con, childIdStrList);
+        List<LangTestLog> langTestLogList = LangTestLogDAO.getLangTestLogListOfChildList(con, childIdStrList);
         for(int i=0;i<langTestLogList.size();i++){
             LangTestLog langTestLog = langTestLogList.get(i);
             User user = UserDAO.getUserById(con, langTestLog.getUserId());
@@ -189,8 +190,8 @@ public class ExportChildResultExcelService {
             langData.setDateStr(langTestLog.getLangTestDate());
             langData.setAgeGroupStr(LangReplyDAO.getLangAgeGroupIdByLogId(con,langTestLog.getLangTestLogId()));
            
-            ArrayList<LangReply> langReplyList = LangReplyDAO.getLangReplyListByLangTestLogId(con,langTestLog.getLangTestLogId());
-            ArrayList<String> langReplyStrList = new ArrayList<String>();
+            List<LangReply> langReplyList = LangReplyDAO.getLangReplyListByLangTestLogId(con,langTestLog.getLangTestLogId());
+            List<String> langReplyStrList = new ArrayList<String>();
             List<String> langTypeList = Arrays.asList("구문", "문해", "문해1", "문해2", "문해3", "의미", "의미1", "의미2", "조음", "화용", "화용1", "화용2");
 
 
@@ -254,10 +255,10 @@ public class ExportChildResultExcelService {
     }
     
     /*해당하는 아동 리스트의 모든 정서 반복 기록*/
-    public static ArrayList<EsmExcelDTO> getEsmDataList(Connection con, String[] childIdStrList){
-    	ArrayList<EsmExcelDTO> esmDataList = new ArrayList<EsmExcelDTO>();
+    public static List<EsmExcelDTO> getEsmDataList(Connection con, String[] childIdStrList){
+    	List<EsmExcelDTO> esmDataList = new ArrayList<EsmExcelDTO>();
 
-        ArrayList<EsmTestLog> esmTestLogList = EsmTestLogDAO.getEsmTestLogListOfChildList(con, childIdStrList);
+        List<EsmTestLog> esmTestLogList = EsmTestLogDAO.getEsmTestLogListOfChildList(con, childIdStrList);
         for(int i=0;i< esmTestLogList.size();i++){
             EsmTestLog esmTestLog = esmTestLogList.get(i);
             User user = UserDAO.getUserById(con, esmTestLog.getUserId());
@@ -281,7 +282,7 @@ public class ExportChildResultExcelService {
     public static ArrayList<EsmRecordExcelDTO> getEsmRecordDataList(Connection con, String[] childIdStrList){
     	ArrayList<EsmRecordExcelDTO> esmRecordDataList = new ArrayList<EsmRecordExcelDTO>();
 
-        ArrayList<EsmRecord> esmRecordList = EsmRecordDAO.getEsmRecordListOfChildList(con, childIdStrList);
+        List<EsmRecord> esmRecordList = EsmRecordDAO.getEsmRecordListOfChildList(con, childIdStrList);
         for(int i=0;i<esmRecordList.size();i++){
             EsmRecordExcelDTO esmRecordData = new EsmRecordExcelDTO();
             EsmRecord esmRecord = esmRecordList.get(i);
@@ -305,7 +306,7 @@ public class ExportChildResultExcelService {
     public static SskExcelByUser getSskExcelByChild(Connection con, int childId, boolean lang, boolean sdq, boolean esm, boolean esmRecord){
         SskExcelByUser sskExcelByUser = new SskExcelByUser();
 
-        UserExcelDTO userExcelDTO = getChildData(con, childId);
+        UserExcelDTO userExcelDTO = getChildData(con, childId); // 아동 기본 정보 (id, name, logInid, email, Birth, Gender)
         sskExcelByUser.addUserData(userExcelDTO);
 
         if(lang==true){
@@ -333,19 +334,19 @@ public class ExportChildResultExcelService {
     	SskExcelByTest sskExcelByTest = new SskExcelByTest();
     	switch(category) {
 			case "lang":
-				ArrayList<LangExcelDTO> langExcelDTOS = getLangDataList(con, childIdStrList);
+				List<LangExcelDTO> langExcelDTOS = getLangDataList(con, childIdStrList);
 	            sskExcelByTest.addLangData(langExcelDTOS);
 				break;
 			case "sdq":
-				ArrayList<SdqExcelDTO> sdqExcelDTOS = getSdqDataList(con, childIdStrList);
+				List<SdqExcelDTO> sdqExcelDTOS = getSdqDataList(con, childIdStrList);
 				sskExcelByTest.addSdqData(sdqExcelDTOS);
 				break;
 			case "esm":
-				ArrayList<EsmExcelDTO> esmExcelDTOS = getEsmDataList(con, childIdStrList);
+				List<EsmExcelDTO> esmExcelDTOS = getEsmDataList(con, childIdStrList);
 				sskExcelByTest.addEsmData(esmExcelDTOS);
 				break;
 			case "esmRecord":
-				ArrayList<EsmRecordExcelDTO> esmRecordExcelDTOS = getEsmRecordDataList(con, childIdStrList);
+				List<EsmRecordExcelDTO> esmRecordExcelDTOS = getEsmRecordDataList(con, childIdStrList);
 				sskExcelByTest.addEsmRecordData(esmRecordExcelDTOS);
 				break;
 		}

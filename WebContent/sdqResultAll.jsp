@@ -306,8 +306,8 @@ function showTarget(targetType) {
     const allBlocks = document.querySelectorAll('.result-block');
 
     // 안내문 토글
-    document.querySelectorAll(".report-intro").forEach(el => {
-        el.style.display = (el.getAttribute("data-target") === targetType) ? "block" : "none";
+    document.querySelectorAll(".report-intro").forEach(function(el) => {
+    	function(el).style.display = (el.getAttribute("data-target") === targetType) ? "block" : "none";
     });
 
     // 결과 블록 토글
