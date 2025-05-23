@@ -139,6 +139,7 @@ ul.tabs li.current{
         margin-bottom: 25px;
     }
 
+
     .w3-button, .non-print, nav, footer, button {
         display: none !important;
     }
@@ -250,7 +251,7 @@ td {
 	   <div class="w3-modal-content">
 	     <div class="w3-container">
 	       <span onclick="document.getElementById('modal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-	       <p class="dsc">
+	       <div class="dsc">
 			<div id="langAnalysis" style="text-align:center;">
 				
 				<div id="printArea">
@@ -294,7 +295,7 @@ td {
 				    </button>
 				</div>
 			</div>
-		</p>
+		</div>
 	     </div>
 	   </div>
 	</div>
@@ -309,10 +310,10 @@ function printResult() {
 
     printWindow.document.write('<html><head><title>[<%=ageGroupStr[selectAgeGroupId].toString()%>&nbsp;<%=langLogListByUser.get(selectIndex).getLangTestTime().toString()%>]&nbsp;<%=focusUser.getUserName()%>의 언어발달 검사 결과 설명</title>');
     if (!isMobileDevice()){
-        printWindow.document.write('<style>@media print {body {zoom: 1.0;margin: 0; padding: 0;}}#printArea {width: 100%;padding: 20px;}</style>'); // 필요 시 스타일 추가
+        printWindow.document.write('<style>table, th, td { border:1px solid #000; border-collapse:collapse; padding:8px; }@media print {body {zoom: 1.0;margin: 0; padding: 0;text-align:center;}}#printArea {width: 100%;padding: 20px;}</style>'); // 필요 시 스타일 추가
     }
     else {
-    	printWindow.document.write('<style>@media print {body {margin: 0; padding: 0;}}#printArea {width: 100%;padding: 20px;}</style>'); // 필요 시 스타일 추가
+    	printWindow.document.write('<style>table, th, td { border:1px solid #000; border-collapse:collapse; padding:8px; }@media print {body {margin: 0; padding: 0;text-align:center;}}#printArea {width: 100%;padding: 20px;}</style>'); // 필요 시 스타일 추가
     }
     printWindow.document.write('</head><body >');
     printWindow.document.write(modalContent);
