@@ -48,7 +48,7 @@ public class GetLangLog extends HttpServlet {
 		
 		List<Integer> tmpLogIdList = LangReplyDAO.getLangTestLogIdByAgeGroup(conn, selectAgeGroup, focusUserId);
 		List<Integer> langLogIdListByUser = new ArrayList<Integer>();
-				
+
 		for(int i=0; i<tmpLogIdList.size(); i++) {
 			if(! langLogIdListByUser.contains(tmpLogIdList.get(i))) {
 				langLogIdListByUser.add(tmpLogIdList.get(i));

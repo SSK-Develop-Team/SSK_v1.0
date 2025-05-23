@@ -52,18 +52,27 @@
    
     var options = {
 		annotations : {
-       		alwaysOutside : true
+       		alwaysOutside : true,
+    	    textStyle: {
+    	        fontSize: 20
+    	      }
        	},
         vAxis : {
             viewWindow : {
             	max : 25,
                 min : 0
             },
+      	    textStyle: {
+        	      fontSize: 20 // y축 눈금 글씨 크기
+        	}
         },
         hAxis: {
         	format: 'H시', 
         	ticks: [[7, 0, 0],[9, 0, 0],[12, 0, 0],  [15, 0, 0], [18, 0, 0], [21, 0, 0], [23, 0, 0]],
-        	gridlines: {count: 6}
+        	gridlines: {count: 6},
+            textStyle: {
+                fontSize: 20 // x축 항목 이름 글씨 크기
+             }
         },
         'legend' : 'none',
          series : {
@@ -84,12 +93,12 @@
 	<%@ include file="sidebar.jsp"%>
    <!-- page title -->
    <div style="text-align:center;font-weight:bold;font-size:1.5em;margin-top:0.5em">정서 반복 기록 - 시간 별 그래프</div>
-   <div style="text-align:center;font-size:1em;margin-top:0.5em"><%= focusUser.getUserName()%>님의 결과입니다.</div>
+   <div style="text-align:center;font-size:1.2em;margin-top:0.5em"><%= focusUser.getUserName()%>님의 결과입니다.</div>
    <div>&nbsp;</div>
    
    <!-- 날짜 선택 -->
    <div class="w3-row">
-		<div class="w3-col s1 m2 l4">&nbsp;</div>
+		<div class="w3-col s1 m2 l3">&nbsp;</div>
 		<c:set var="selectedIndex" scope="page" value="${requestScope.selectedIndexOfEsmTestDateList}" />
 		<c:choose>
 		<c:when test="${selectedIndex eq 0}">
@@ -99,10 +108,10 @@
 			<div class="w3-col s1 m1 l1 w3-center" onclick="location.href='GetEsmTestProfileByTime?date=<%=esmTestDateList.get(selectedIndexOfEsmTestDateList-1).toString()%>&childId=<%=focusUser.getUserId()%>'"><img src="./image/left-arrow.png" style="width:2.5em;"/></div>
 		</c:otherwise>
 		</c:choose>
-		<div class="w3-col s8 m6 l2" >
+		<div class="w3-col s8 m6 l4" >
 			<div class="w3-dropdown-hover"style="width:100%;">
-			    <button class="w3-button"style="width:100%;background-color:#D9D9D9;"><%=selectedDateEsmTestLogList.get(0).getEsmTestDate().toString()%></button>
-			    <div class="w3-dropdown-content w3-bar-block w3-border"style="width:100%;">
+			    <button class="w3-button"style="width:100%;background-color:#D9D9D9;font-size:1.2em;"><%=selectedDateEsmTestLogList.get(0).getEsmTestDate().toString()%></button>
+			    <div class="w3-dropdown-content w3-bar-block w3-border"style="width:100%;font-size:1.2em;">
 			      <%for(int i=0;i<esmTestDateList.size();i++){ %>
 			      <a href="GetEsmTestProfileByTime?date=<%=esmTestDateList.get(i).toString()%>&childId=<%=focusUser.getUserId()%>" class="w3-bar-item w3-button"style="width:100%;"><%=esmTestDateList.get(i).toString()%></a>
 			      <%} %>
@@ -118,7 +127,7 @@
 		</c:otherwise>
 		</c:choose>
 		<c:remove var="selectedIndex" scope="page"/>
-		<div class="w3-col s1 m2 l4">&nbsp;</div>
+		<div class="w3-col s1 m2 l3">&nbsp;</div>
    </div>
 	
 	<!-- 시간별 그래프 뷰 -->
@@ -134,14 +143,14 @@
 	<div class="w3-row">
 		<div class="w3-col s2 m3 l3">&nbsp;</div>
 		<div class="w3-col w3-row s4 m2 l2">
-			<button class="w3-button w3-col w3-padding" style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:0.8em;align-items : center;padding:0px;"onclick="location.href='GetEsmTestProfileByDay?date=<%=selectedDateEsmTestLogList.get(0).getEsmTestDate().toString()%>&childId=<%=focusUser.getUserId()%>';">일별 그래프 보기</button>
+			<button class="w3-button w3-col w3-padding" style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='GetEsmTestProfileByDay?date=<%=selectedDateEsmTestLogList.get(0).getEsmTestDate().toString()%>&childId=<%=focusUser.getUserId()%>';">일별 그래프 보기</button>
 		</div>
 		<div class="w3-col s1 m3 l3">&nbsp;</div>
 		<div class="w3-col w3-row s3 m1 l1">
 		<%if(currUser.getUserRole().equals("CHILD")){ %>
-			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:0.9em;align-items : center;padding:0px;"onclick="location.href='esmTestMain.jsp';">메인으로</button>
+			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='esmTestMain.jsp';">메인으로</button>
 		<%}else{ %>
-			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:0.9em;align-items : center;padding:0px;"onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">메인으로</button>
+			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">메인으로</button>
 		<%} %>
 		</div>
 		<div class="w3-col s2 m3 l3">&nbsp;</div>

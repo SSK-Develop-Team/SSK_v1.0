@@ -106,13 +106,13 @@ ul.tabs li.current{
 	margin-bottom:10px;
 	height:50px;
 	color:white;
-	font-size:0.9em;
+	font-size:1.2em;
 	align-items : center;
 	padding:0px;
 }
 @media (max-width: 390px) {
   .fullBtn {
-    font-size:0.8em;
+    font-size:1.2em;
   }
 }
 @media print {
@@ -168,135 +168,136 @@ td {
 
 </head>
 <body>
-<%@ include file="sidebar.jsp" %>
-<div>
-	<h4 style="text-align:center;font-weight:bold;"><%=name%>님의 언어 발달 평가 결과</h4>
-</div>
-
-  <div class="w3-row">
-	<div class="w3-col s1 m2 l4">&nbsp;</div>
-	<c:set var="isTesting" scope="page"><%=isTesting%></c:set>
-	<c:choose>
-	<c:when test="${isTesting ne true}">
-		<div class="w3-col s10 m8 l4">
-			<div class="w3-dropdown-hover"style="width:100%;">
-			    <button class="w3-button"style="width:100%;background-color:#D9D9D9;"><%=ageGroupStr[selectAgeGroupId]%></button>
-			    <div class="w3-dropdown-content w3-bar-block w3-border"style="width:100%;">
-			      <%for(int i = 0; i < ageGroupSet.size() ; i++){ %>
-			      <a href="GetLangLog?ageGroupId=<%=ageGroupSet.get(i)%>&focusUserId=<%=focusUser.getUserId()%>" class="w3-bar-item w3-button"style="width:100%;"><%=ageGroupStr[ageGroupSet.get(i)]%></a>
-			      <%} %>
-			    </div>
-		    </div>
-		    <div class="w3-row">&nbsp;</div>
-		    <div class="w3-dropdown-hover"style="width:100%;">
-			 <%if(langLogListByUser.size() > 0){ %>
-			    <button class="w3-button"style="width:100%;background-color:#D9D9D9;"><%=langLogListByUser.get(selectIndex).getLangTestDate().toString()%>&nbsp;<%=langLogListByUser.get(selectIndex).getLangTestTime().toString()%></button>
-			    <div class="w3-dropdown-content w3-bar-block w3-border"style="width:100%;">
-			      <%for(int i = 0; i < langLogListByUser.size() ; i++){ %>
-			      <a href="GetLangLogTime?selectNum=<%=i %>&focusUserId=<%=focusUser.getUserId()%>" class="w3-bar-item w3-button"style="width:100%;"><%=langLogListByUser.get(i).getLangTestDate().toString()%>&nbsp;<%=langLogListByUser.get(i).getLangTestTime().toString()%></a>
-			      <%} 
-			   } else{ %>
-			      <button class="w3-button"style="width:100%;background-color:#D9D9D9;">X</button>
-			      <%} %>
-			    </div>
-		    </div>
-		</div>
-	</c:when>
-	<c:otherwise>
-	</c:otherwise>
-	</c:choose>
-
-	<c:remove var="selectedIndex" scope="page"/>
-
-  </div>
-<div class="w3-row">
-	<div class="w3-col w3-hide-small m1 l3">&nbsp;</div>
-	<div class="w3-col s12 m10 l6">
-		<div class="w3-panel container">
-			<ul class="tabs">
-				<li class="tab-link current" data-tab="tab-1">막대그래프로 확인하기</li>
-				<li class="tab-link" data-tab="tab-2">오각그래프로 확인하기</li>
-			</ul>
-
-			<div id="tab-1" class="tab-content current">
-				<canvas id="myChart"></canvas>
-			</div>
-			<div id="tab-2" class="tab-content">
-				<canvas id="myChart2"></canvas>
-			</div>
-			
-			<div class="w3-row w3-margin-top">				
-				<div class="w3-col w3-row s4 m3 l2">
-					<button class="w3-button w3-col fullBtn" onclick="document.getElementById('modal').style.display='block';">검사 결과 보고서</button>
-				</div>
-				<div class="w3-col s5 m7 l8">&nbsp;</div>
-				<div class="w3-col w3-row s3 m2 l2 btnbox">
-				<%if(currUser.getUserRole().equals("CHILD")){ %>
-					<input type="button" class="w3-button w3-right w3-round-large w3-margin-top" style="background-color: #1a2a3a;color:white;"id="mainBack" value="돌아가기" onClick="javascript:location.href='childHome.jsp'">
-				<%}else{ %>
-					<input type="button" class="w3-button w3-right w3-round-large w3-margin-top" style="background-color: #1a2a3a;color:white;"id="mainBack" value="돌아가기" onClick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">
-				<%} %>
-				</div>
-			</div>
-			
-		</div>
+	<%@ include file="sidebar.jsp" %>
+	<div>
+		<h4 style="text-align:center;font-weight:bold;font-size:1.5em;"><%=name%>님의 언어 발달 평가 결과</h4>
 	</div>
-	<div class="w3-col w3-hide-small m1 l3">&nbsp;</div>
-</div>
 
-<!-- 검사 결과 보기 모달 -->
-<div id="modal" class="w3-modal">
-   <div class="w3-modal-content">
-     <div class="w3-container">
-       <span onclick="document.getElementById('modal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-       <p class="dsc">
-		<div id="langAnalysis" style="text-align:center;">
-			
-			<div id="printArea">
-				<div class="report-title" style="font-size:1.5em;font-weight:bold;">< PSLE 언어발달평가 결과 보고서 ></div>
-				<div>&nbsp;</div>
-				
-				<!-- 안내문 -->
-				<div class="report-intro" style="display: block;text-align: left;">
-				 안녕하세요 이화여자대학교 SSK(아동 언어 및 정서 · 행동 발달평가) 연구팀입니다. 
-				본 검사는 언어발달 영역을 의미영역, 구문영역, 조음영역, 화용영역, 문해영역 5가지로 나누고 각 영역 당 아동의 생활연령에 따른 언어발달 수준을 평가하고 어려움을 선별하기 위해 제작되었습니다. 아래의 결과를 통해 자녀의 현재 언어발달을 확인하고 필요시 적절한 지원방안을 고려하는데 도움이 되시길 바랍니다. 
+	<div class="w3-row">
+		<div class="w3-col s1 m2 l4">&nbsp;</div>
+		<c:set var="isTesting" scope="page"><%=isTesting%></c:set>
+		<c:choose>
+		<c:when test="${isTesting ne true}">
+			<div class="w3-col s10 m8 l4">
+				<div class="w3-dropdown-hover"style="width:100%;">
+				    <button class="w3-button"style="width:100%;background-color:#D9D9D9;font-size:1.3em;"><%=ageGroupStr[selectAgeGroupId]%></button>
+				    <div class="w3-dropdown-content w3-bar-block w3-border"style="width:100%;">
+				      <%for(int i = 0; i < ageGroupSet.size() ; i++){ %>
+				      <a href="GetLangLog?ageGroupId=<%=ageGroupSet.get(i)%>&focusUserId=<%=focusUser.getUserId()%>" class="w3-bar-item w3-button"style="width:100%;font-size:1.3em;"><%=ageGroupStr[ageGroupSet.get(i)]%></a>
+				      <%} %>
+				    </div>
+			    </div>
+			    <div class="w3-row">&nbsp;</div>
+			    <div class="w3-dropdown-hover"style="width:100%;">
+				 <%if(langLogListByUser.size() > 0){ %>
+				    <button class="w3-button"style="width:100%;background-color:#D9D9D9;font-size:1.3em;"><%=langLogListByUser.get(selectIndex).getLangTestDate().toString()%>&nbsp;<%=langLogListByUser.get(selectIndex).getLangTestTime().toString()%></button>
+				    <div class="w3-dropdown-content w3-bar-block w3-border"style="width:100%;">
+				      <%for(int i = 0; i < langLogListByUser.size() ; i++){ %>
+				      <a href="GetLangLogTime?selectNum=<%=i %>&focusUserId=<%=focusUser.getUserId()%>" class="w3-bar-item w3-button"style="width:100%;font-size:1.3em;"><%=langLogListByUser.get(i).getLangTestDate().toString()%>&nbsp;<%=langLogListByUser.get(i).getLangTestTime().toString()%></a>
+				      <%} 
+				   } else{ %>
+				      <button class="w3-button"style="width:100%;background-color:#D9D9D9;">X</button>
+				      <%} %>
+				    </div>
+			    </div>
+			</div>
+		</c:when>
+		<c:otherwise>
+		</c:otherwise>
+		</c:choose>
+	
+		<c:remove var="selectedIndex" scope="page"/>
+		<div class="w3-col s1 m2 l4">&nbsp;</div>
+	</div>
+	
+	<div class="w3-row  w3-margin-top">
+		<div class="w3-col w3-hide-small m1 l2">&nbsp;</div>
+		<div class="w3-col s12 m10 l8">
+			<div class="w3-panel container">
+				<ul class="tabs" style="font-size:1.3em;">
+					<li class="tab-link current" data-tab="tab-1">막대그래프로 확인하기</li>
+					<li class="tab-link" data-tab="tab-2">오각그래프로 확인하기</li>
+				</ul>
+	
+				<div id="tab-1" class="tab-content current">
+					<canvas id="myChart"></canvas>
+				</div>
+				<div id="tab-2" class="tab-content">
+					<canvas id="myChart2"></canvas>
 				</div>
 				
-				<!-- 결과 출력 -->
-				<%
-				for (Map.Entry<Integer, List<LangResultAnalysis>> entry : resultByReportAgeGroupId.entrySet()) {
-					int reportAgeGroupId = entry.getKey();
-					List<LangResultAnalysis> analysisList = entry.getValue();
-				%>
-				
-					<div class="report-result">
-						<p style="font-weight: bold; text-align: left;"> &#9679;  <%= reportAgeGroupStr[reportAgeGroupId] %></p>
-						<table class="report-table" style="width:100%;">
-						<%
-						for (LangResultAnalysis analysis : analysisList){
-						%>
-							<tr>
-								<th style="width:15%; background-color: #f8f8f8;font-weight: bold;"><%= analysis.getLangType() %></th>
-								<td><%= analysis.getDescription() %></td>
-							</tr>
-						<% } %>
-						</table>
+				<div class="w3-row w3-margin-top">				
+					<div class="w3-col w3-row s4 m3 l4">
+						<button class="w3-button w3-col fullBtn w3-margin-top" onclick="document.getElementById('modal').style.display='block';">검사 결과 보고서</button>
 					</div>
+					<div class="w3-col s5 m7 l6">&nbsp;</div>
+					<div class="w3-col w3-row s3 m2 l2 btnbox">
+					<%if(currUser.getUserRole().equals("CHILD")){ %>
+						<input type="button" class="w3-button w3-right w3-round-large w3-margin-top" style="background-color: #1a2a3a;color:white;font-size:1.2em;margin-bottom:10px;height:50px;"id="mainBack" value="돌아가기" onClick="javascript:location.href='childHome.jsp'">
+					<%}else{ %>
+						<input type="button" class="w3-button w3-right w3-round-large w3-margin-top" style="background-color: #1a2a3a;color:white;font-size:1.2em;margin-bottom:10px;height:50px;"id="mainBack" value="돌아가기" onClick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">
+					<%} %>
+					</div>
+				</div>
 				
-				<% } %>
-				 
-			</div>
-			
-			<div style="text-align: right; margin: 20px;">
-			    <button onclick="printResult()" class="w3-button w3-round-large w3-dark-grey">
-			        	인쇄
-			    </button>
 			</div>
 		</div>
-	</p>
-     </div>
-   </div>
-</div>
+		<div class="w3-col w3-hide-small m1 l2">&nbsp;</div>
+	</div>
+
+	<!-- 검사 결과 보기 모달 -->
+	<div id="modal" class="w3-modal">
+	   <div class="w3-modal-content">
+	     <div class="w3-container">
+	       <span onclick="document.getElementById('modal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+	       <p class="dsc">
+			<div id="langAnalysis" style="text-align:center;">
+				
+				<div id="printArea">
+					<div class="report-title" style="font-size:1.5em;font-weight:bold;">< PSLE 언어발달평가 결과 보고서 ></div>
+					<div>&nbsp;</div>
+					
+					<!-- 안내문 -->
+					<div class="report-intro" style="display: block;text-align: left;">
+					 안녕하세요 이화여자대학교 SSK(아동 언어 및 정서 · 행동 발달평가) 연구팀입니다. 
+					본 검사는 언어발달 영역을 의미영역, 구문영역, 조음영역, 화용영역, 문해영역 5가지로 나누고 각 영역 당 아동의 생활연령에 따른 언어발달 수준을 평가하고 어려움을 선별하기 위해 제작되었습니다. 아래의 결과를 통해 자녀의 현재 언어발달을 확인하고 필요시 적절한 지원방안을 고려하는데 도움이 되시길 바랍니다. 
+					</div>
+					
+					<!-- 결과 출력 -->
+					<%
+					for (Map.Entry<Integer, List<LangResultAnalysis>> entry : resultByReportAgeGroupId.entrySet()) {
+						int reportAgeGroupId = entry.getKey();
+						List<LangResultAnalysis> analysisList = entry.getValue();
+					%>
+					
+						<div class="report-result">
+							<p style="font-weight: bold; text-align: left;"> &#9679;  <%= reportAgeGroupStr[reportAgeGroupId] %></p>
+							<table class="report-table" style="width:100%;">
+							<%
+							for (LangResultAnalysis analysis : analysisList){
+							%>
+								<tr>
+									<th style="width:15%; background-color: #f8f8f8;font-weight: bold;"><%= analysis.getLangType() %></th>
+									<td><%= analysis.getDescription() %></td>
+								</tr>
+							<% } %>
+							</table>
+						</div>
+					
+					<% } %>
+					 
+				</div>
+				
+				<div style="text-align: right; margin: 20px;">
+				    <button onclick="printResult()" class="w3-button w3-round-large w3-dark-grey">
+				        	인쇄
+				    </button>
+				</div>
+			</div>
+		</p>
+	     </div>
+	   </div>
+	</div>
 
 <script type="text/javascript">
 function isMobileDevice() {
@@ -362,35 +363,36 @@ function printResult() {
                 }]
             },
             
-            options: {
-                indexAxis: 'y',
-                
-    			scales: {
-    				yAxes: [{
-    					ticks: {
-    						beginAtZero: true,
-    						min : 0,
-    						max : 4,
-    						stepSize : 1,
-    					}
-    				}]
-    			},
-    			annotations : {
-    				'legend':'none'
-    			},
-    			legend: {
-    		        display: false
-    		    },
-    		    tooltips: {
-    		        callbacks: {
-    		           label: function(tooltipItem) {
-    		                  return tooltipItem.yLabel;
-    		           }
-    		        }
-    		    }
-            }
+			options: {
+				  indexAxis: 'y',
+				  scales: {
+				    yAxes: [{
+				      ticks: {
+				        beginAtZero: true,
+				        min: 0,
+				        max: 4,
+				        stepSize: 1,
+				        fontSize: 16 
+				      }
+				    }],
+				    xAxes: [{
+				      ticks: {
+				        fontSize: 16
+				      }
+				    }]
+				  },
+				  legend: {
+				    display: false
+				  },
+				  tooltips: {
+				    callbacks: {
+				      label: function(tooltipItem) {
+				        return tooltipItem.yLabel;
+				      }
+				    }
+				 }
+			}
 
-            
         });
         
         var options = {
@@ -401,7 +403,11 @@ function printResult() {
         	            beginAtZero: true,
         	            min: 0,
         	            stepSize : 1,
-        	            max: 4
+        	            max: 4,
+        	            fontSize: 16
+        	        },
+        	        pointLabels: {
+        	            fontSize: 16
         	        }
         	    },
    				legend: {

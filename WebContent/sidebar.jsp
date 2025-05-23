@@ -15,7 +15,7 @@
 <body>
 <c:set var="user" scope="page" value="${sessionScope.currUser }" />
 <!-- Sidebar -->
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none;z-index:5;width:300px;background-color:#D9D9D9;font-size:1em;" id="mySidebar">
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none;z-index:5;width:300px;background-color:#D9D9D9;font-size:1.2em;" id="mySidebar">
 	<button class="w3-bar-item w3-button" onclick="w3_close()" style="display: flex;justify-content: right; ">&times;</button>
 	<c:choose>
 		<c:when test="${user.userRole eq 'ADMIN'}">

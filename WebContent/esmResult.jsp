@@ -37,21 +37,32 @@ $(window).resize(function(){
                      2,3]);
 
     var options = {
-      chart: {
-        title: '정서 반복 기록 결과',
-      },
-      annotations : {
-  		alwaysOutside : true
-  		},
-    	vAxis : {
-    		viewWindow : {
-    			max : 25,
-    			min : 0
-    		}
-    	},
-		tooltip: {isHtml: true},
-    	legend: 'none'
-    };
+    		  chart: {
+    		    title: '정서 반복 기록 결과',
+    		  },
+    		  annotations: {
+    		    alwaysOutside: true,
+    		    textStyle: {
+    		      fontSize: 20
+    		    }
+    		  },
+    		  vAxis: {
+    		    viewWindow: {
+    		      max: 25,
+    		      min: 0
+    		    },
+    		    textStyle: {
+    		      fontSize: 20 // y축 눈금 글씨 크기
+    		    }
+    		  },
+    		  hAxis: {
+    		    textStyle: {
+    		      fontSize: 20 // x축 항목 이름 글씨 크기
+    		    }
+    		  },
+    		  tooltip: { isHtml: true },
+    		  legend: 'none'
+    		};
     
     var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
     chart.draw(view, options);
@@ -71,7 +82,7 @@ $(window).resize(function(){
 	<div class="w3-row">
 		<div class="w3-col s1 m3 l4">&nbsp;</div>
 		<div class="w3-col s10 m6 l4">
-			<button class="w3-button w3-col w3-padding"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1em;align-items : center;"onclick="location.href='esmTestMain.jsp';">메인으로</button>
+			<button class="w3-button w3-col w3-padding"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1.3em;align-items : center;"onclick="location.href='esmTestMain.jsp';">메인으로</button>
 		</div>
 		<div class="w3-col s1 m3 l4">&nbsp;</div>
 	</div>

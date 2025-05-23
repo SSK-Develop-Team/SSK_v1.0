@@ -3,6 +3,7 @@ package model.dto.export;
 import static model.dto.export.column.EsmColumnInfoOfTest.*;
 import static model.dto.export.column.EsmRecordColumnInfoOfTest.*;
 import static model.dto.export.column.LangColumnInfoOfTest.*;
+import static model.dto.export.column.LangColumnInfoOfUser.LANG_ANSWER1;
 import static model.dto.export.column.SdqColumnInfoOfTest.*;
 
 
@@ -39,6 +40,8 @@ public class SskExcelByTest extends SskExcel{
         setDefaultCellStyle();
         setHeaderCellStyle();
         setBodyCellStyle();
+        setGreyCellStyle();
+        setTypeCellStyle();
     }
 
     /*Lang Data Export*/
@@ -68,19 +71,14 @@ public class SskExcelByTest extends SskExcel{
             createCellWithStyle(bodyRow, LANG_AGE_GROUP.getColumnIndex(), langExcelDTO.getAgeGroupStr(), bodyCellStyle);
             sheet.autoSizeColumn(LANG_DATE.getColumnIndex());
             sheet.autoSizeColumn(LANG_AGE_GROUP.getColumnIndex());
+            
             System.out.println("langExcelDTO.getReplyList() size : " + langExcelDTO.getReplyList().size());
-            createCellWithStyle(bodyRow, LANG_ANSWER1.getColumnIndex(), langExcelDTO.getReplyList().get(0), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER2.getColumnIndex(), langExcelDTO.getReplyList().get(1), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER3.getColumnIndex(), langExcelDTO.getReplyList().get(2), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER4.getColumnIndex(), langExcelDTO.getReplyList().get(3), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER5.getColumnIndex(), langExcelDTO.getReplyList().get(4), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER6.getColumnIndex(), langExcelDTO.getReplyList().get(5), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER7.getColumnIndex(), langExcelDTO.getReplyList().get(6), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER8.getColumnIndex(), langExcelDTO.getReplyList().get(7), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER9.getColumnIndex(), langExcelDTO.getReplyList().get(8), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER10.getColumnIndex(), langExcelDTO.getReplyList().get(9), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER11.getColumnIndex(), langExcelDTO.getReplyList().get(10), bodyCellStyle);
-            createCellWithStyle(bodyRow, LANG_ANSWER12.getColumnIndex(), langExcelDTO.getReplyList().get(11), bodyCellStyle);
+            // 답변 12개 루프 처리
+            for (int i = 0; i < 12; i++) {
+                String reply = langExcelDTO.getReplyList().get(i);
+                CellStyle style = reply.equals("-") ? greyCellStyle : bodyCellStyle;
+                createCellWithStyle(bodyRow, LANG_ANSWER1.getColumnIndex() + i, reply, style);
+            }
         }
     }
 
@@ -143,7 +141,7 @@ public class SskExcelByTest extends SskExcel{
                 String typeName = sdqResultOfType.getSdqType();
                 int columnIndex = SdqColumnInfoOfTest.findByColumnText(typeName).getColumnIndex();
 
-                createCellWithStyleInt(bodyRow, columnIndex, sdqResultOfType.getResult(), bodyCellStyle);
+                createCellWithStyleInt(bodyRow, columnIndex, sdqResultOfType.getResult(), typeCellStyle);
                 sheet.autoSizeColumn(columnIndex);
 
             }
@@ -195,7 +193,7 @@ public class SskExcelByTest extends SskExcel{
                 String typeName = esmResultOfType.getEsmType();
                 int columnIndex = EsmColumnInfoOfTest.findColumnByEsmType(typeName).getColumnIndex();
 
-                createCellWithStyleInt(bodyRow, columnIndex, esmResultOfType.getResult(), bodyCellStyle);
+                createCellWithStyleInt(bodyRow, columnIndex, esmResultOfType.getResult(), typeCellStyle);
             }
 
         }
