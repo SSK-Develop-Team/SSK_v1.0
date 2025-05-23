@@ -192,8 +192,8 @@ public class ExportChildResultExcelService {
            
             List<LangReply> langReplyList = LangReplyDAO.getLangReplyListByLangTestLogId(con,langTestLog.getLangTestLogId());
             List<String> langReplyStrList = new ArrayList<String>();
-            List<String> langTypeList = new ArrayList<>(Arrays.asList("구문", "문해", "문해1", "문해2", "문해3", "의미", "의미1", "의미2", "조음", "화용", "화용1", "화용2"));
 
+            List<String> langTypeList = new ArrayList<>(Arrays.asList("구문", "문해", "문해1", "문해2", "문해3", "의미", "의미1", "의미2", "조음", "화용", "화용1", "화용2"));
 
 		    /**
 		     * sort reply list by lang type
