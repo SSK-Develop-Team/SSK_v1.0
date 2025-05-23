@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <title>정서 행동 발달 검사</title>
 <style>
-.sdqAnswerBtn{
+.sdqAnswerBtn{ 
 	width:24%;
 	margin-right:1.0em;
 	border:1px solid #ff6666;
@@ -18,7 +18,7 @@
 	background-color:white;
 	color : #ff6666;
 	height:50px;
-	font-size:0.8em;
+	font-size:1.2em;
 	align-items:center;
 	text-align:center;
 }
@@ -31,7 +31,7 @@
 	background-color:#ff6666;
 	color : white;
 	height:50px;
-	font-size:0.8em;
+	font-size:1.2em;
 	align-items:center;
 	text-align:center;
 }
@@ -41,7 +41,7 @@
 	background-color:#ff6666;
 	color : white;
 	height:50px;
-	font-size:1em;
+	font-size:1.3em;
 	align-items:center;
 	text-align:center;
 	display:none;
@@ -58,10 +58,10 @@
 }
 @media (max-width: 390px) {
   .sdqAnswerBtn {
-    font-size:0.7em;
+    font-size:1.2em;
   }
   .sdqPreviousBtn {
-    font-size:0.7em;
+    font-size:1.2em;
   }
 }
 
@@ -136,7 +136,7 @@ function ableBtn(){
 	ArrayList<SdqQuestion> sdqQuestionList = (ArrayList<SdqQuestion>)session.getAttribute("sdqQuestionList");
 	String sdqTarget = sdqQuestionList.get(0).getSdqTarget();
 %>
-	<div class="w3-container w3-center"><h4><b>정서/행동 발달 검사</b></h4></div>
+	<div class="w3-container w3-center"><h4  style="font-size:2.0em;"><b>정서/행동 발달 검사</b></h4></div>
 	
 	<div class="w3-row" >
 		<div class="w3-col w3-hide-small m2 l2">&nbsp;</div>
@@ -144,18 +144,18 @@ function ableBtn(){
 			<c:set var="target" scope="page" value="<%=sdqTarget%>" />
 			<c:choose>
 			<c:when test="${target eq 'CHILD'}">
-				<div style="color:#555555;margin: 0.3em;">자신을 가장 잘 설명하는 것을 선택하세요.</div>
+				<div style="color:#555555;margin: 0.3em; font-size:1.2em;">자신을 가장 잘 설명하는 것을 선택하세요.</div>
 			</c:when>
 			<c:when test="${target eq 'PARENT'}">
-				<div style="color:#555555;margin: 0.3em;">당신의 자녀를 가장 잘 설명하는 것을 선택하세요.</div>
+				<div style="color:#555555;margin: 0.3em; font-size:1.2em;">당신의 자녀를 가장 잘 설명하는 것을 선택하세요.</div>
 			</c:when>
 			</c:choose>
 			<c:remove var="target" scope="page" />
 			<div id="sdqChat" style="overflow:auto; height:55vh; background-color:#ededed;padding-bottom:6px;padding-top:6px;">
 				<form id="sdqForm" method="post" action="DoSdqTest">
 					<%for(int i=0;i<sdqQuestionList.size();i++){ %>
-						<div class="w3-margin w3-padding " id="sdqQuestion<%=i%>" style="border:1px solid #ff6666;border-radius : 0px 10px 10px 10px;clear:both;float:left;background-color:#ff6666;color : white;height:50px;font-size:0.9rem;display:none;align-items : center;"><%=sdqQuestionList.get(i).getSdqQuestionContent() %></div>
-						<div class="w3-margin w3-padding" id="sdqAnswer<%=i%>" style="border:1px solid #ff6666;border-radius : 10px 10px 0px 10px;clear:both;float:right;background-color:white;color : #ff6666;height:50px;font-size:0.9rem;display:none;align-items:center;">아니다</div>
+						<div class="w3-margin w3-padding " id="sdqQuestion<%=i%>" style="border:1px solid #ff6666;border-radius : 0px 10px 10px 10px;clear:both;float:left;background-color:#ff6666;color : white;height:50px;font-size:1.2em;display:none;align-items : center;"><%=sdqQuestionList.get(i).getSdqQuestionContent() %></div>
+						<div class="w3-margin w3-padding" id="sdqAnswer<%=i%>" style="border:1px solid #ff6666;border-radius : 10px 10px 0px 10px;clear:both;float:right;background-color:white;color : #ff6666;height:50px;font-size:1.2em;display:none;align-items:center;">아니다</div>
 						<input type="hidden" id="sdqInput<%=i%>" name="sdqInput<%=i%>" value="0"/>
 					<%} %>
 				</form>

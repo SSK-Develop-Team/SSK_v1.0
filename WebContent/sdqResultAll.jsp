@@ -32,13 +32,13 @@
 	margin-bottom:10px;
 	height:50px;
 	color:white;
-	font-size:0.9em;
+	font-size:1.2em;
 	align-items : center;
 	padding:0px;
 }
 @media (max-width: 390px) {
   .fullBtn {
-    font-size:0.8em;
+    font-size:1.2em;
   }
 }
 
@@ -123,14 +123,25 @@
 
         var options = {
         	annotations : {
-        		alwaysOutside : true
+        		alwaysOutside : true,
+        	    textStyle: {
+        	        fontSize: 20
+        	      }
         	},
           	vAxis : {
           		viewWindow : {
           			max : 10,
           			min : 0
-          		}
+          		},
+          	    textStyle: {
+          	      fontSize: 20 // y축 눈금 글씨 크기
+          	    }
           	},
+            hAxis: {
+                textStyle: {
+                  fontSize: 20 // x축 항목 이름 글씨 크기
+                }
+              },
           	tooltip: {isHtml: true},
         	'legend' : 'none'
           	
@@ -151,7 +162,7 @@
    
    <!-- 날짜 선택 -->
    <div class="w3-row">
-		<div class="w3-col s1 m2 l4">&nbsp;</div>
+		<div class="w3-col s1 m2 l3">&nbsp;</div>
 		<c:set var="selectedIndex" scope="page"><%=selectedIndex%></c:set>
 		
 		<c:choose>
@@ -163,9 +174,9 @@
 		</c:otherwise>
 		</c:choose>
 		
-		<div class="w3-col s8 m6 l2" >
+		<div class="w3-col s8 m6 l4" >
 			<div class="w3-dropdown-hover"style="width:100%;">
-			    <button class="w3-button"style="width:100%;background-color:#D9D9D9;"><%=selectedSdqTestLog.getSdqTestDate().toString()%>&nbsp;<%=selectedSdqTestLog.getSdqTestTime().toString()%></button>
+			    <button class="w3-button"style="width:100%;background-color:#D9D9D9;font-size:1.2em;"><%=selectedSdqTestLog.getSdqTestDate().toString()%>&nbsp;<%=selectedSdqTestLog.getSdqTestTime().toString()%></button>
 			    <div class="w3-dropdown-content w3-bar-block w3-border"style="width:100%;">
 			      <%for(int i = sdqTestLogList.size()-1 ; i >= 0 ;i--){ %>
 			      <a href="GetSdqResultAll?sdqTestLogId=<%=sdqTestLogList.get(i).getSdqTestLogId()%>&childId=<%=focusUser.getUserId()%>" class="w3-bar-item w3-button"style="width:100%;"><%=sdqTestLogList.get(i).getSdqTestDate().toString()%>&nbsp;<%=sdqTestLogList.get(i).getSdqTestTime().toString()%></a>
@@ -185,7 +196,7 @@
 		
 		<c:remove var="selectedIndex" scope="page"/>
 		
-		<div class="w3-col s1 m2 l4">&nbsp;</div>
+		<div class="w3-col s1 m2 l3">&nbsp;</div>
    </div>
    
 	<!-- 시간별 그래프 뷰 -->
@@ -205,9 +216,9 @@
 		<div class="w3-col s2 m1 l2">&nbsp;</div>
 		<div class="w3-col w3-row s3 m2 l1">
 			<%if(currUser.getUserRole().equals("CHILD")){ %>
-			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;margin-left:10px;height:50px;color:white;font-size:1em;align-items : center;padding:0px;"onclick="location.href='sdqTestMain.jsp';">메인으로</button>
+			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;margin-left:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='sdqTestMain.jsp';">메인으로</button>
 			<%}else{ %>
-				<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;margin-left:10px;height:50px;color:white;font-size:1em;align-items : center;padding:0px;"onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">메인으로</button>
+				<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;margin-left:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">메인으로</button>
 			<%} %>
 		</div>
 		<div class="w3-col s2 m2 l3">&nbsp;</div>
@@ -223,8 +234,8 @@
 			
 				<!-- 토글 버튼 -->
 				<div style="text-align: center; margin: 20px;">
-				    <button onclick="showTarget('CHILD')" class="w3-button w3-round-large w3-light-grey">자녀용 보고서</button>
-				    <button onclick="showTarget('PARENT')" class="w3-button w3-round-large w3-light-grey">부모용 보고서</button>
+				    <button onclick="showTarget('CHILD')" class="w3-button w3-round-large w3-light-grey" style="font-size : 1.2em;">자녀용 보고서</button>
+				    <button onclick="showTarget('PARENT')" class="w3-button w3-round-large w3-light-grey" style="font-size : 1.2em;">부모용 보고서</button>
 				</div>
 				
 				<div id="printArea">
@@ -306,8 +317,8 @@ function showTarget(targetType) {
     const allBlocks = document.querySelectorAll('.result-block');
 
     // 안내문 토글
-    document.querySelectorAll(".report-intro").forEach(function(el) => {
-    	function(el).style.display = (el.getAttribute("data-target") === targetType) ? "block" : "none";
+    document.querySelectorAll(".report-intro").forEach(el => {
+    	el.style.display = (el.getAttribute("data-target") === targetType) ? "block" : "none";
     });
 
     // 결과 블록 토글

@@ -192,7 +192,7 @@ public class ExportChildResultExcelService {
            
             List<LangReply> langReplyList = LangReplyDAO.getLangReplyListByLangTestLogId(con,langTestLog.getLangTestLogId());
             List<String> langReplyStrList = new ArrayList<String>();
-            List<String> langTypeList = Arrays.asList("구문", "문해", "문해1", "문해2", "문해3", "의미", "의미1", "의미2", "조음", "화용", "화용1", "화용2");
+            List<String> langTypeList = new ArrayList<>(Arrays.asList("구문", "문해", "문해1", "문해2", "문해3", "의미", "의미1", "의미2", "조음", "화용", "화용1", "화용2"));
 
 
 		    /**
@@ -233,7 +233,7 @@ public class ExportChildResultExcelService {
     public static ArrayList<SdqExcelDTO> getSdqDataList(Connection con, String[] childIdStrList){
     	ArrayList<SdqExcelDTO> sdqDataList = new ArrayList<SdqExcelDTO>();
 
-        ArrayList<SdqTestLog> sdqTestLogList = SdqTestLogDAO.getSdqTestLogListOfChildList(con, childIdStrList);//아동의 모든 SDQ 기록 가져오기
+        List<SdqTestLog> sdqTestLogList = SdqTestLogDAO.getSdqTestLogListOfChildList(con, childIdStrList);//아동의 모든 SDQ 기록 가져오기
         for(int i=0;i< sdqTestLogList.size();i++){
             SdqTestLog sdqTestLog = sdqTestLogList.get(i);
             User user = UserDAO.getUserById(con, sdqTestLog.getUserId());

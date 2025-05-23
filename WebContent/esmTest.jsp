@@ -42,7 +42,7 @@
 	background-color:#ff6666;
 	color : white;
 	height:50px;
-	font-size:1em;
+	font-size:1.3em;
 	align-items:center;
 	text-align:center;
 }
@@ -51,15 +51,15 @@
 </head>
 <body>
 	<%@ include file="sidebar.jsp" %>
-	<div class="w3-container w3-center"><h4><b>정서 반복 기록</b></h4></div>
+	<div class="w3-container w3-center"><h4 style="font-size:2.0em;"><b>정서 반복 기록</b></h4></div>
 	<div class="w3-container w3-center">
 		<c:set var="target" scope="page" value="<%=esmEmotionList.get(0).getEsmTarget()%>" />
 		<c:choose>
 		<c:when test="${target eq 'CHILD'}">
-			<div style="color:#555555;margin: 0.3em;">현재 자신의 마음 상태를 표시하세요.</div>
+			<div style="color:#555555;margin: 0.3em; font-size:1.2em;">현재 자신의 마음 상태를 표시하세요.</div>
 		</c:when>
 		<c:when test="${target eq 'PARENT'}">
-			<div style="color:#555555;margin: 0.3em;">당신 자녀의 현재 정서 상태를 표시하세요.</div>
+			<div style="color:#555555;margin: 0.3em; font-size:1.2em;">당신 자녀의 현재 정서 상태를 표시하세요.</div>
 		</c:when>
 		</c:choose>
 		<c:remove var="target" scope="page" />
@@ -74,7 +74,7 @@
 			<input type="hidden" id="target" name="target" value="<%=esmEmotionList.get(0).getEsmTarget()%>"/>
 			
 			<%for(int i=0;i<esmEmotionList.size();i++){ %>
-				<div class="w3-center">
+				<div class="w3-center" style="font-size:1.3em;">
 					<div class=""><%=esmEmotionList.get(i).getEsmEmotionKr() %></div>
 					<div class=""><%=esmEmotionList.get(i).getEsmEmotion() %></div>
 					<div class="w3-col s2 m2 l2">
@@ -82,11 +82,11 @@
 						전혀 아니다. 
 					</div>
 					<div class="w3-col s8 m8 l8 radio">
-						<input type="radio" class="w3-radio" style="width:1.25em; height:1.25em; margin-right:0.25em; margin-left:0.25em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="1" checked>
-						<input type="radio" class="w3-radio" style="width:1.75em; height:1.75em; margin-right:0.25em; margin-left:0.25em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="2">
-						<input type="radio" class="w3-radio" style="width:2.25em; height:2.25em; margin-right:0.25em; margin-left:0.25em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="3">
-						<input type="radio" class="w3-radio" style="width:2.75em; height:2.75em; margin-right:0.25em; margin-left:0.25em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="4">
-						<input type="radio" class="w3-radio" style="width:3.25em; height:3.25em; margin-right:0.25em; margin-left:0.25em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="5">
+						<input type="radio" class="w3-radio" style="width:1.50em; height:1.50em; margin-right:0.35em; margin-left:0.35em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="1" checked>
+						<input type="radio" class="w3-radio" style="width:2.00em; height:2.00em; margin-right:0.35em; margin-left:0.35em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="2">
+						<input type="radio" class="w3-radio" style="width:2.50em; height:2.50em; margin-right:0.35em; margin-left:0.35em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="3">
+						<input type="radio" class="w3-radio" style="width:3.00em; height:3.00em; margin-right:0.35em; margin-left:0.35em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="4">
+						<input type="radio" class="w3-radio" style="width:3.50em; height:3.50em; margin-right:0.35em; margin-left:0.35em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="5">
 					</div>
 					<div class="w3-col s2 m2 l2">
 						<div>&nbsp;</div>
@@ -97,7 +97,7 @@
 				<div>&nbsp;</div>
 			<%} %>
 			</form>
-			<div class="w3-row">
+			<div class="w3-row w3-margin-top">
 				<div class="w3-col s1 m1 l3">&nbsp;</div>
 				<%if(esmEmotionList.get(0).getEsmType().equals("positive")){ %>
 				<button class="w3-col s5 m5 l3 esmBtn" onclick="location.href='esmTestMain.jsp';">메인으로</button>

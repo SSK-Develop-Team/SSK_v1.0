@@ -24,7 +24,7 @@
 %>
 <div class="w3-row">
 	<div class="w3-col w3-hide-small w3-hide-middle l1">&nbsp;</div>
-	<div class="w3-col s12 m12 l10" style="font-weight:bold;font-size:1.2em;padding-left:1em;"><img src="./image/profile.png" style="width:20px;">     아동 계정 관리</div>
+	<div class="w3-col s12 m12 l10" style="font-weight:bold;font-size:2.0em;padding-left:1em;"><img src="./image/profile.png" style="width:20px;">     아동 계정 관리</div>
 	<div class="w3-col w3-hide-small w3-hide-middle l1">&nbsp;</div>
 </div>
 <div class="w3-row">
@@ -33,16 +33,16 @@
 		<div class="w3-row" style="width:100%;margin-bottom:20px;">
 			<div class="search w3-right" style="width: 300px;">
 				<%if(keyword!=null){ %>
-					<input class="w3-border" type="text" id="keyword" value="<%=keyword%>"placeholder="아동 이름 검색" style="width: 85%;border: 1px solid #bbb;border-radius: 8px;padding: 10px 12px;font-size:0.7em;">
+					<input class="w3-border" type="text" id="keyword" value="<%=keyword%>"placeholder="아동 이름 검색" style="width: 85%;border: 1px solid #bbb;border-radius: 8px;padding: 10px 12px;font-size:1.0em;">
 				<%}else{ %>
-					<input class="w3-border" type="text" id="keyword" placeholder="아동 이름 검색" style="width: 85%;border: 1px solid #bbb;border-radius: 8px;padding: 10px 12px;font-size:0.7em;">
+					<input class="w3-border" type="text" id="keyword" placeholder="아동 이름 검색" style="width: 85%;border: 1px solid #bbb;border-radius: 8px;padding: 10px 12px;font-size:1.0em;">
 				<%} %>
 				<button style="height:42px;background-color:white;border:none;"onclick="searchKeyword();"><img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" style="width:17px;"></button>
 			</div>
 			<div class="buttons" style="width:100%;transform:translateY(0.3em);">
-				<button class="w3-button w3-right" style="background-color:#51459E; color:white; font-size:0.7em;margin-right:0.7em;" onclick="deleteChild()">선택 계정 삭제</button>
-				<button class="w3-button w3-right" style="background-color:#51459E; color:white; font-size:0.7em;margin-right:0.7em;" onclick="updateChild()">선택 계정 수정</button>
-				<button class="w3-button w3-right" style="background-color:#51459E; color:white; font-size:0.7em;margin-right:0.7em;" onclick="location.href='register.jsp?role=child';">아동 계정 생성</button>
+				<button class="w3-button w3-right" style="background-color:#51459E; color:white; font-size:1.0em;margin-right:0.7em;" onclick="deleteChild()">선택 계정 삭제</button>
+				<button class="w3-button w3-right" style="background-color:#51459E; color:white; font-size:1.0em;margin-right:0.7em;" onclick="updateChild()">선택 계정 수정</button>
+				<button class="w3-button w3-right" style="background-color:#51459E; color:white; font-size:1.0em;margin-right:0.7em;" onclick="location.href='register.jsp?role=child';">아동 계정 생성</button>
 			</div>
 		</div>
 
@@ -50,9 +50,9 @@
 			<%if(currUserList.size()!=0){%>
 				<input type="hidden" id="latestChildId" name="latestChildId" value="<%=currUserList.get(0).getUserId()%>"/>
 			<%} %>
-			<div class="w3-container" style="font-size:0.5em;">* 정렬 기준 : 등록일 순</div>
+			<div class="w3-container" style="font-size:0.9em;">* 정렬 기준 : 등록일 순</div>
 			<div class="w3-container">
-				<table class="w3-table-all w3-hoverable" style="font-size:0.8em;">
+				<table class="w3-table-all w3-hoverable" style="font-size:1.0em;">
 					<thead>
 					<tr class="w3-light-grey">
 						<th><input type="checkbox" id="checkChildIdAll" value="0" onclick="selectChildAll(this)"/></th>
@@ -69,7 +69,7 @@
 						for (int i =0;i<currUserList.size();i++){
 					%>
 						<tr>
-							<td><input type="checkbox" name="childId" value="<%= currUserList.get(i).getUserId() %>" id="check<%= i %>"/></td>
+							<td><input type="checkbox" name="childId" value="<%= currUserList.get(i).getUserId() %>" id="check<%= i %>" /></td>
 							<td onclick="getChild(<%=currUserList.get(i).getUserId()%>)"><%=(currPageNum-1)*UserPaging.getListRange()+i+1%></td>
 							<td onclick="getChild(<%=currUserList.get(i).getUserId()%>)"><%=currUserList.get(i).getUserName() %></td>
 							<td onclick="getChild(<%=currUserList.get(i).getUserId()%>)"><%=currUserList.get(i).getUserLoginId() %></td>
@@ -86,7 +86,7 @@
 				<div class="w3-center w3-panel" style="font-size:1em;">해당하는 아동이 존재하지 않습니다. </div>
 				<%} %>
 			</div>
-			<div class="w3-center">
+			<div class="w3-center w3-margin-top">
 				<div class="w3-bar">
 					<c:set var="uPaging" scope="page" value="${requestScope.userPaging}" />
 					<c:set var="curPageNum" scope="page" value="${requestScope.currPageNum}" />

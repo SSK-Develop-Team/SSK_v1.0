@@ -24,33 +24,33 @@
 %>
 <div class="w3-row">
 	<div class="w3-col w3-hide-small w3-hide-middle l1">&nbsp;</div>
-	<div class="w3-col s12 m12 l10" style="font-weight:bold;font-size:1.2em;padding-left:1em;"><img src="./image/research.png" style="width:35px;">     아동 결과 조회</div>
+	<div class="w3-col s12 m12 l10" style="font-weight:bold;font-size:2.0em;padding-left:1em;"><img src="./image/research.png" style="width:35px;">     아동 결과 조회</div>
 	<div class="w3-col w3-hide-small w3-hide-middle l1">&nbsp;</div>
 </div>
 <form method="post" action="ExportChildListResultExcel" id="exportFrm">
 <div class="w3-row">
 	<div class="w3-col w3-hide-small m1 l4">&nbsp;</div>
 	<div class="select-box w3-col s12 m11 l7 w3-padding"style="margin-bottom:0.5em;">
-		<div class="w3-row"><span class="w3-right" style="font-weight:100;font-size:0.5em;">아동, 파일 추출 단위, 검사 유형을 설정하고 excel export 버튼을 누르세요. 설정에 따라 엑셀 파일(.xlsx)이 생성됩니다.</span></div>
+		<div class="w3-row"><span class="w3-right" style="font-weight:100;font-size:0.9em;">아동, 파일 추출 단위, 검사 유형을 설정하고 excel export 버튼을 누르세요. 설정에 따라 엑셀 파일(.xlsx)이 생성됩니다.</span></div>
 		<div class="w3-padding"style="background-color:#D9D9D9;">
-			<div class="w3-row w3-margin-top" style="font-weight:bold;font-size:0.8em;margin-left:0.3em; margin-bottom:0.3em;">파일 단위 선택</div>
-			<div class="w3-row" style="font-size:0.8em;">
+			<div class="w3-row w3-margin-top" style="font-weight:bold;font-size:1.0em;margin-left:0.3em; margin-bottom:0.3em;">파일 단위 선택</div>
+			<div class="w3-row" style="font-size:1.0em;">
 				<div class="w3-row">
-					<div class="w3-quarter w3-padding"><input type="radio" name="exportType" value="child" style="transform:translateY(0.1em);" checked>&nbsp;<label>아동별 파일</label></div>
-					<div class="w3-quarter w3-padding"><input type="radio" name="exportType" value="test" style="transform:translateY(0.1em);">&nbsp;<label>검사별 파일</label></div>
+					<div class="w3-quarter w3-padding"><input type="radio" name="exportType" value="child" style="transform:translateY(0.1em);transform: scale(1.5);" checked>&nbsp;&nbsp;<label>아동별 파일</label></div>
+					<div class="w3-quarter w3-padding"><input type="radio" name="exportType" value="test" style="transform:translateY(0.1em);transform: scale(1.5);">&nbsp;&nbsp;<label>검사별 파일</label></div>
 				</div>
 			</div>
 			<br>
-			<div class="w3-row" style="font-weight:bold;font-size:0.8em;margin-left:0.3em; margin-bottom:0.3em;">검사&기록 선택</div>
-			<div class="w3-row" style="font-size:0.8em;">
+			<div class="w3-row" style="font-weight:bold;font-size:1.0em;margin-left:0.3em; margin-bottom:0.3em;">검사&기록 선택</div>
+			<div class="w3-row" style="font-size:1.0em;">
 				<div class="w3-col w3-row">
-					<div class="w3-quarter w3-padding"><input type="checkbox" name="category" value="lang" style="transform:translateY(0.1em);">&nbsp;<label>언어 발달 검사</label></div>
-					<div class="w3-quarter w3-padding"><input type="checkbox" name="category" value="sdq" style="transform:translateY(0.1em);">&nbsp;<label>정서 행동 발달 검사</label></div>
-					<div class="w3-quarter w3-padding"><input type="checkbox" name="category" value="esm" style="transform:translateY(0.1em);">&nbsp;<label>정서 반복 기록</label></div>
-					<div class="w3-quarter w3-padding"><input type="checkbox" name="category" value="esmRecord" style="transform:translateY(0.1em);">&nbsp;<label>정서 다이어리</label></div>
+					<div class="w3-quarter w3-padding"><input type="checkbox" name="category" value="lang" style="transform:translateY(0.1em);transform: scale(1.5);">&nbsp;&nbsp;<label>언어 발달 검사</label></div>
+					<div class="w3-quarter w3-padding"><input type="checkbox" name="category" value="sdq" style="transform:translateY(0.1em);transform: scale(1.5);">&nbsp;&nbsp;<label>정서 행동 발달 검사</label></div>
+					<div class="w3-quarter w3-padding"><input type="checkbox" name="category" value="esm" style="transform:translateY(0.1em);transform: scale(1.5);">&nbsp;&nbsp;<label>정서 반복 기록</label></div>
+					<div class="w3-quarter w3-padding"><input type="checkbox" name="category" value="esmRecord" style="transform:translateY(0.1em);transform: scale(1.5);">&nbsp;&nbsp;<label>정서 다이어리</label></div>
 				</div>
 			</div>
-			<div class="w3-row" style="font-size:0.8em;"><div class="w3-right w3-button w3-padding" style="background-color:#51459E; color:white;" onclick="exportData();"> excel export </div></div>
+			<div class="w3-row w3-margin-top" style="font-size:1.0em;"><div class="w3-right w3-button w3-padding" style="background-color:#51459E; color:white;" onclick="exportData();"> excel export </div></div>
 		</div>
 		
 	</div>
@@ -63,16 +63,16 @@
 		<div style="width:100%;margin-bottom:50px;">
 		<div class="search w3-right" style="width: 300px;">
 		 <%if(keyword!=null){ %>
-					<input class="w3-border" type="text" id="keyword" value="<%=keyword%>"placeholder="아동 이름 검색" style="width: 85%;border: 1px solid #bbb;border-radius: 8px;padding: 10px 12px;font-size:0.7em;">
+					<input class="w3-border" type="text" id="keyword" value="<%=keyword%>"placeholder="아동 이름 검색" style="width: 85%;border: 1px solid #bbb;border-radius: 8px;padding: 10px 12px;font-size:1.0em;">
 				<%}else{ %>
-					<input class="w3-border" type="text" id="keyword" placeholder="아동 이름 검색" style="width: 85%;border: 1px solid #bbb;border-radius: 8px;padding: 10px 12px;font-size:0.7em;">
+					<input class="w3-border" type="text" id="keyword" placeholder="아동 이름 검색" style="width: 85%;border: 1px solid #bbb;border-radius: 8px;padding: 10px 12px;font-size:1.0em;">
 				<%} %>
 				<div class="w3-button" style="display:inline-block;width:20px;padding-left:0;height:42px;background-color:white;border:none;"onclick="searchKeyword();"><img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" style="width:20px;"></div>
 		</div>
 		</div>
-		<div class="w3-container" style="font-size:0.5em;">* 정렬 기준 : 등록일 순</div>
+		<div class="w3-container" style="font-size:0.9em;">* 정렬 기준 : 등록일 순</div>
 		<div class="w3-container">
-		  <table class="w3-table-all w3-hoverable" style="font-size:0.8em;">
+		  <table class="w3-table-all w3-hoverable" style="font-size:1.0em;">
 		    <thead>
 		      <tr class="w3-light-grey">
 				  <th><input type="checkbox" id="checkChildIdAll" value="0" onclick="selectChildAll(this)"/></th>
@@ -100,7 +100,7 @@
 			<% }%>
 		  </table>
 		</div>
-		<div class="w3-center">
+		<div class="w3-center w3-margin-top">
 		<div class="w3-bar">
 			<c:set var="uPaging" scope="page" value="${requestScope.userPaging}" />
 					<c:set var="curPageNum" scope="page" value="${requestScope.currPageNum}" />

@@ -72,6 +72,8 @@ public class GetLangResultAll extends HttpServlet {
 			out.println("<script>location.href='langTestMain.jsp';alert('언어 평가 기록이 없습니다.');history.go(-1);</script>");
  			out.flush();
 		}else {
+			System.out.println("focusUser : " + focusUser.getUserId());			
+			
 			// 사용자의 모든 로그 리스트 가져오기 -> langTestLogList
 			// 모든 로그의 로그 아이디 리스트
 			ArrayList<Integer> langTestLogIDList = new ArrayList<Integer>();
@@ -192,7 +194,7 @@ public class GetLangResultAll extends HttpServlet {
 			Collections.sort(selectLangQuestionList, new Comparator<LangQuestion>() {/*sorting question list by lang type*/
 				@Override
 				public int compare(LangQuestion o1, LangQuestion o2) {
-					return o1.getLangType().compareTo(o2.getLangType());
+					return ((java.lang.String) o1.getLangType()).compareTo((java.lang.String) o2.getLangType());
 				}
 			});
 

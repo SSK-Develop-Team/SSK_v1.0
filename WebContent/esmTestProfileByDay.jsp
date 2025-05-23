@@ -62,18 +62,27 @@
    
     var options = {
 		annotations : {
-       		alwaysOutside : true
+       		alwaysOutside : true,
+    	    textStyle: {
+    	        fontSize: 20
+    	      }
        	},
         vAxis : {
             viewWindow : {
             	max : 25,
                 min : 0
             },
+      	    textStyle: {
+        	      fontSize: 20 // y축 눈금 글씨 크기
+        	}
         },
         hAxis: {
         	viewWindow: {
                min: minDate,
                max: maxDate
+            },
+            textStyle: {
+                fontSize: 20 // x축 항목 이름 글씨 크기
             },
         	format: 'MM/dd',
         	ticks: [
@@ -103,12 +112,12 @@
 	<%@ include file="sidebar.jsp"%>
    <!-- page title -->
    <div style="text-align:center;font-weight:bold;font-size:1.5em;margin-top:0.5em">정서 반복 기록 - 일 별 그래프</div>
-   <div style="text-align:center;font-size:1em;margin-top:0.5em"><%= focusUser.getUserName()%>님의 결과입니다.</div>
+   <div style="text-align:center;font-size:1.2em;margin-top:0.5em"><%= focusUser.getUserName()%>님의 결과입니다.</div>
    <div>&nbsp;</div>
    
    <!-- 날짜 선택 -->
    <div class="w3-row">
-		<div class="w3-col s1 m2 l4">&nbsp;</div>
+		<div class="w3-col s1 m2 l3">&nbsp;</div>
 		<c:set var="selectedIndex" scope="page"><%=indexOfDate%></c:set>
 		<c:choose>
 		<c:when test="${selectedIndex eq 0}">
@@ -118,10 +127,10 @@
 			<div class="w3-col s1 m1 l1 w3-center" onclick="location.href='GetEsmTestProfileByDay?date=<%=dateWeekList.get(indexOfDate-1).getDate().toString()%>&childId=<%=focusUser.getUserId()%>&startDayOfWeek=<%=startDayOfWeek%>'"><img src="./image/left-arrow.png" style="width:2.5em;"/></div>
 		</c:otherwise>
 		</c:choose>
-		<div class="w3-col s8 m6 l2" >
+		<div class="w3-col s8 m6 l4" >
 			<div class="w3-dropdown-hover"style="width:100%;">
-			    <button class="w3-button"style="width:100%;background-color:#D9D9D9;"><%=selectedDateWeek.getWeekStr()%></button>
-			    <div class="w3-dropdown-content w3-bar-block w3-border"style="width:100%;">
+			    <button class="w3-button"style="width:100%;background-color:#D9D9D9;font-size:1.2em;"><%=selectedDateWeek.getWeekStr()%></button>
+			    <div class="w3-dropdown-content w3-bar-block w3-border"style="width:100%;font-size:1.2em;">
 			      <%for(EsmDateWeekType x : dateWeekList){ %>
 			      <a href="GetEsmTestProfileByDay?date=<%=x.getDate().toString()%>&childId=<%=focusUser.getUserId()%>&startDayOfWeek=<%=startDayOfWeek%>" class="w3-bar-item w3-button"style="width:100%;"><%=x.getWeekStr()%></a>
 			      <%} %>
@@ -137,15 +146,15 @@
 		</c:otherwise>
 		</c:choose>
 		<c:remove var="selectedIndex" scope="page"/>
-		<div class="w3-col s1 m2 l4">&nbsp;</div>
+		<div class="w3-col s1 m2 l3">&nbsp;</div>
    </div>
 	<div class="w3-row">&nbsp;</div>
 	<div class="w3-row">
 		<div class="w3-col s1 m2 l2">&nbsp;</div>
 		<div class="w3-col s10 m8 l8">
 			<div class="w3-dropdown-hover w3-right" style="border:1px solid #C4C4C4;border-radius:10px;background-color:#EBEBEB;">
-				<button class="w3-button w3-hover-white" style="border:1px solid #C4C4C4;border-radius:10px;background-color:#EBEBEB;font-size:0.9em;"><%=startDayOfWeekOptionList[startDayOfWeek-1]%></button>
-				<div class="w3-dropdown-content w3-bar-block w3-border" style="right:0;font-size:0.9em;">
+				<button class="w3-button w3-hover-white" style="border:1px solid #C4C4C4;border-radius:10px;background-color:#EBEBEB;font-size:1.1em;"><%=startDayOfWeekOptionList[startDayOfWeek-1]%></button>
+				<div class="w3-dropdown-content w3-bar-block w3-border" style="right:0;font-size:1.1em;">
 					<%for(int i=0;i<startDayOfWeekOptionList.length;i++){%>
 					<a href="GetEsmTestProfileByDay?date=<%=dateWeekList.get(indexOfDate).getDate().toString()%>&childId=<%=focusUser.getUserId()%>&startDayOfWeek=<%=i+1%>" class="w3-bar-item w3-button"><%=startDayOfWeekOptionList[i]%></a>
 					<%}%>
@@ -168,14 +177,14 @@
 	<div class="w3-row">
 		<div class="w3-col s2 m3 l3">&nbsp;</div>
 		<div class="w3-col w3-row s4 m3 l2">
-			<button class="w3-button w3-col" style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:0.8em;align-items : center;padding:0px;"onclick="location.href='GetEsmTestProfileByTime?date=<%= selectedDateWeek.getDate().toString()%>&childId=<%=focusUser.getUserId()%>';">시간 별 그래프 보기</button>
+			<button class="w3-button w3-col" style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='GetEsmTestProfileByTime?date=<%= selectedDateWeek.getDate().toString()%>&childId=<%=focusUser.getUserId()%>';">시간 별 그래프 보기</button>
 		</div>
 		<div class="w3-col s1 m1 l3">&nbsp;</div>
 		<div class="w3-col w3-row s3 m2 l1">
 			<%if(currUser.getUserRole().equals("CHILD")){ %>
-			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:0.9em;align-items : center;padding:0px;"onclick="location.href='esmTestMain.jsp';">메인으로</button>
+			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='esmTestMain.jsp';">메인으로</button>
 		<%}else{ %>
-			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:0.9em;align-items : center;padding:0px;"onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">메인으로</button>
+			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">메인으로</button>
 		<%} %>
 		</div>
 		<div class="w3-col s2 m2 l3">&nbsp;</div>
