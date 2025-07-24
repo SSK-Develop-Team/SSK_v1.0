@@ -82,10 +82,15 @@ public class GetSdqResultAll extends HttpServlet {
  			//선택한 테스트 로그에 대한 응답값을 기준으로 결과 값 가져오기
  			List<SdqResultOfType> sdqResult = (List<SdqResultOfType>)SdqReplyDAO.getSdqResultOfTypesBySdqTestLogId(conn, selectedSdqTestLog.getSdqTestLogId());
  			
+ 			
+ 			System.out.println(sdqResult);
+ 			
  			//결과 분석
  			List<SdqResultAnalysis> sdqResultAnalysisList = new ArrayList<SdqResultAnalysis>();
 
  			for(int i=0;i<sdqResult.size();i++) {
+ 				System.out.println(sdqResult.get(i).getSdqType());
+ 				System.out.println(sdqResult.get(i).getResult());
  				sdqResultAnalysisList.addAll(SdqResultAnalysisDAO.findSdqResultAnalysisByTypeAndValue(conn, sdqResult.get(i).getSdqType(),sdqResult.get(i).getResult()));
  			}
  			

@@ -27,26 +27,29 @@
 		    padding: 1em;
 		    flex: 0 0 30%;
 		    text-align: right;
-		    margin-right: 1em;
 		}
 		 .value {
 		    padding: 1em;
 		    overflow: hidden; /* 내용이 넘칠 경우 숨김 */
 		  }
+		 .disabled {
+		    background-color: #f1f1f1;
+		    color: #555555;
+		}
 	</style>
 </head>
 <%
 	String childId = request.getParameter("childId");
 %>
-<body onLoad="regFrm.userId.focus()">
+<body>
  	<div class="header w3-padding-16 w3-center w3-container w3-margin">
 		<h2><b>아동 계정 정보</b></h2>
  	</div>
  	<hr>
  	<br>
 	<div class="w3-row" style="height:100%;, width:100%;">
-		<div class="w3-col s1 m2 l4">&nbsp;</div>
-		<div class="w3-col s10 m8 l4 w3-padding-large">
+		<div class="w3-col s1 m1 l3">&nbsp;</div>
+		<div class="w3-col s10 m10 l6 w3-padding-large">
 			<div class="info-row">
 			    <label class="label">아이디</label>
 			    <span class="value">${child.userLoginId}</span>
@@ -77,52 +80,45 @@
 					</div>
 				</c:when>
 			</c:choose>
+			
+			<c:choose>
+				<c:when test="${child.isAlarmActive == 0}">
+					<div class="info-row" style="align-items: center;">
+						<label class="label">정서 반복 <span style="white-space: nowrap;">기록</span><br>활성화 여부</label>
+			    		<span class="value">X</span>
+					</div>	
+				</c:when>
+				<c:when test="${child.isAlarmActive == 1}">
+					<div class="info-row" style="align-items: center;">
+						<label class="label">정서 반복 <span style="white-space: nowrap;">기록</span><br>활성화 여부</label>
+			    		<span class="value">O</span>
+					</div>
+				</c:when>
+			</c:choose>
 
 			<div style="margin-bottom:2.5em;">
 			<div class="info-row">
 				<label class="label">정서 반복 <span style="white-space: nowrap;">기록</span><br>설정 시간</label>
+				<span class="value ${child.isAlarmActive == 0 ? 'disabled' : ''}" style="width: 100%;">
+				
 				 <!-- esmTime이라는 이름으로 전달된 ArrayList를 받음 -->
-
 				 <% ArrayList<EsmAlarm> esmTime = (ArrayList<EsmAlarm>) request.getAttribute("esmTime"); %>
 				<c:choose>
-				    <c:when test="${empty esmTime}">
+				    <c:when test="${esmTime == null or esmTime.size() == 0}">
 				        <!-- esmTime이 비어있을 때의 처리 -->
-				        <span class="value">
-				        <table class="w3-table" style="font-size:0.8em;">
-									<tbody id="table_body">
-									<tr>
-						        		<th style="padding-left:0">NO.</th>
-								        <th>시작</th>
-										<th>종료</th>
-										<th>간격</th>
-						        	</tr>
-										<tr>
-										<!-- Add a hidden input field for alarmId --> 
-				            				<input type="hidden" name="alarmId" value="0"/>
-				            				<td style="padding-left:0">[1]</td>	
-											<td>9시</td>
-											<td>21시</td>
-											<td>3시간</td>
-										</tr>
-									</tbody>
-				        	
-									</table>
-								</span> 
-				        
+							설정된 알람이 없습니다.
 				    </c:when>
 				     <c:otherwise>
 				     <!-- esmTime이 값이 있을 때의 처리 -->
-				      
-
-				        <span class="value">         
 				        <table class="w3-table" style="font-size:0.8em;">
 					        <tbody id="table_body">
 					        <%if(esmTime.size()!=0){%>
 					        	<tr>
 					        		<th style="padding-left:0">NO.</th>
-							        <th>시작</th>
-									<th>종료</th>
+							        <th>시작시간</th>
+									<th>종료시간</th>
 									<th>간격</th>
+									<th>기간</th>
 					        	</tr>
 									<%for (int i =0;i<esmTime.size();i++){
 									%>
@@ -131,18 +127,19 @@
 										<!-- Add a hidden input field for alarmId -->
 										<input type="hidden" name="alarmId" value="<%=esmTime.get(i).getAlarmId() %>" />
 										 <td style="padding-left:0">[<%=(i+1)%>]</td>
-											<td><%=esmTime.get(i).getAlarmStart().getHours()%>시</td>
-											<td><%=esmTime.get(i).getAlarmEnd().getHours() %>시</td>
+											<td><%=esmTime.get(i).getAlarmStartTime().getHours()%>시</td>
+											<td><%=esmTime.get(i).getAlarmEndTime().getHours() %>시</td>
 											<td><%=esmTime.get(i).getAlarmInterval() %>시간</td>
+											<td><%=esmTime.get(i).getAlarmStartDate() %> ~ <%=esmTime.get(i).getAlarmEndDate() %></td>
 										</tr>
 											
-										<% }
-										}%>
-					        	</tbody>
-							</table>
-						</span>      
+									<% }
+									}%>
+				        	</tbody>
+						</table>
 				 </c:otherwise>
 				</c:choose>
+			</span>
 			</div>
 			</div>
 			
@@ -156,7 +153,7 @@
 				<button class="w3-button w3-right" style="background-color:#51459E; color:white;margin-right:1.5em;" onclick="updateChild(<%=childId%>)">수정하기</button>
 			</div>
 	</div>
-	<div class="w3-col s1 m2 l4">&nbsp;</div>
+	<div class="w3-col s1 m1 l3">&nbsp;</div>
 </div>
 <script>
 	function deleteChild(childId){

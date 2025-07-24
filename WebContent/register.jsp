@@ -28,6 +28,37 @@
 			position: relative;
 			z-index: 2;
 		}
+		
+		/* 알람 활성화 토글 */
+		.toggle-label {
+		    position: relative;
+		    display: inline-block;
+		    width: 40px;
+		    height: 24px;
+		    background-color: #ccc;
+		    border-radius: 12px;
+		    cursor: pointer;
+		    transition: background-color 0.3s ease;
+		}
+		.toggle-label::before {
+		    content: "";
+		    position: absolute;
+		    top: 2px;
+		    left: 2px;
+		    width: 20px;
+		    height: 20px;
+		    background-color: white;
+		    border-radius: 50%;
+		    transition: transform 0.3s ease;
+		}
+		/* 토글 ON 스타일 지정*/
+		.toggle-input:checked + .toggle-label {
+		    background-color: green;
+		}
+		/* 토글 ON인 경우에 버튼 위치 지정 */
+		.toggle-input:checked + .toggle-label::before {
+		    transform: translateX(16px);
+		}
 	</style>
 </head>
 
@@ -52,8 +83,8 @@
  	<hr>
  	<br>
 	<div class="w3-row" style="height:100%;, width:100%;">
-		<div class="w3-col s1 m2 l4">&nbsp;</div>
-		<div class="w3-col s10 m8 l4 w3-padding-large w3-light-gray ">
+		<div class="w3-col s1 m1 l2">&nbsp;</div>
+		<div class="w3-col s10 m10 l8 w3-padding-large w3-light-gray ">
 			<c:choose>
 				<c:when test="${role eq 'expert'&& user eq null}">
 					<form name="regFrm" method="post" id="frm" action="DoRegister" class="w3-container" onsubmit="return checkValueforExpert();">
@@ -164,49 +195,71 @@
 						</c:choose>
 					</div>
 					<div class="w3-margin-top">
-						<div><span style="color:red; margin-left:-5px;">*</span>정서 반복 기록 설정</div>
+						<div style="display: flex; align-items: center; gap: 3px;">
+							<span style="color:red; margin-left:-5px;">*</span>
+							<span> 정서 반복 기록 설정 </span>
+							
+							<!-- 알람 활성화 토글 버튼 -->
+							<span class="toggle-switch" style="margin-left: 5px;">
+							
+							<!--<c:choose>
+								<c:when test="${user.isAlarmActive eq null}">
+									<input type="checkbox" class="toggle-input" id="toggle" name="isAlarmActive" value='0' style="display: none;" required/><label class="toggle-label" for="toggle"> </label>
+								</c:when>
+								<c:when test="${user.isAlarmActive == 0}">
+									<input type="checkbox" class="toggle-input" id="toggle" name="isAlarmActive" value='0' style="display: none;" required/><label class="toggle-label" for="toggle"> </label>
+								</c:when>
+								<c:when test="${user.isAlarmActive == 1}">
+									<input type="checkbox" class="toggle-input" id="toggle" name="isAlarmActive" value='1' style="display: none;" checked required/><label class="toggle-label" for="toggle"> </label>
+								</c:when>
+							</c:choose>-->
+							
+							<input type="checkbox" class="toggle-input" id="toggle" name="isAlarmActive"
+							       value='1' style="display: none;" ${user.isAlarmActive == 1 ? 'checked' : ''}
+							       onchange="toggleAlarmInputs(this.checked)" />
+							<label class="toggle-label" for="toggle"> </label>
+							
+							</span>
+							
+						</div>
 				 		<!-- esmTime이라는 이름으로 전달된 ArrayList를 받음 -->
 						 <% ArrayList<EsmAlarm> esmTime = (ArrayList<EsmAlarm>) request.getAttribute("esmTime"); %>
 						<c:choose>
-					    	<c:when test="${empty esmTime}">
+					    	<c:when test="${esmTime == null or esmTime.size() == 0}">
 					        	<!-- esmTime이 비어있을 때의 처리 -->
-					        	<div class="w3-container" style="padding:0;">
-					        		<table class="w3-table" style="font-size:0.8em;">
-										<tbody class="table_body">
-											<tr>
-										        <th style="padding-left:0;">시작</th>
-												<th>종료</th>
-												<th>간격</th>
-								        	</tr>
-											<tr><td style="padding-left:0;padding-top:0;"><input type="time" class="w3-input alarmStart" name="alarmStart" value="09:00" placeholder="Start Time"></td>
-												<td style="padding-top:0;"><input type="time" class="w3-input alarmEnd" name="alarmEnd" value="21:00" placeholder="End Time"></td>
-												<td style="padding-top:0;"><input type="text" class="w3-input alarmInterval" style="min-width: 25px;" name="alarmInterval" value="3" placeholder="Interval"></td>
-												<td style="padding-top:0; width: 12%; padding-right:0;"><input type='button' class="w3-bar w3-gray" style="height: 34px;" value='-' onclick='deleteRow(this)' /></td>
-											</tr>
-										</tbody>
-					        	
+						        <div class="w3-container" style="padding:0; text-align: center;">
+							  		<div class="w3-responsive">
+								        <table class="w3-table" style="font-size:0.8em; max-width: 100%;">
+									        <tbody class="table_body" id="table_body">
+
+									        </tbody>
 										</table>
 									</div>
+						       </div>
 					        
 					    	</c:when>
 					     	<c:otherwise>
 						     	<!-- esmTime이 값이 있을 때의 처리 -->
-						        <div class="w3-container" style="padding:0;">
+						        <div class="w3-container" style="padding:0; text-align: center;">
 							  		<div class="w3-responsive">
 								        <table class="w3-table" style="font-size:0.8em; max-width: 100%;">
-									        <tbody id="table_body">
+									        <tbody class="table_body" id="table_body">
 										        <tr>
-											        <th style="padding-left:0;">시작</th>
-													<th>종료</th>
+											        <th style="padding-left:0;">시작시간</th>
+													<th>종료시간</th>
 													<th>간격</th>
+													<th>시작일</th>
+													<th>종료일</th>
 									        	</tr>
 										        <%if(esmTime.size()!=0){
 													for (int i =0;i<esmTime.size();i++){%>
 													<tr>
-														<td style="padding-left:0;padding-top:0;"><input type="time" class="w3-input alarmStart" name="alarmStart" value="<%=esmTime.get(i).getAlarmStart() %>" placeholder="Start Time"></td>
-														<td style="padding-top:0;"><input type="time" class="w3-input alarmEnd" name="alarmEnd" value="<%=esmTime.get(i).getAlarmEnd() %>" placeholder="End Time"></td>
-														<td style="padding-top:0;"><input type="text" class="w3-input alarmInterval" style="min-width: 25px;" name="alarmInterval" value="<%=esmTime.get(i).getAlarmInterval() %>" placeholder="Interval"></td>
-														<td style="padding-top:0; width: 12%; padding-right:0;"><input type='button' class="w3-bar w3-gray" style="height: 34px;" value='-' onclick='deleteRow(this)' /></td>
+														<td style="padding-left:0; width: 15%; padding-top:0;"><input type="time" class="w3-input alarmStartTime" name="alarmStartTime" value="<%=esmTime.get(i).getAlarmStartTime() %>" placeholder="Start Time"></td>
+														<td style="padding-top:0; width: 15%; "><input type="time" class="w3-input alarmEndTime" name="alarmEndTime" value="<%=esmTime.get(i).getAlarmEndTime() %>" placeholder="End Time"></td>
+														<td style="padding-top:0; width: 10%; "><input type="text" class="w3-input alarmInterval" name="alarmInterval" value="<%=esmTime.get(i).getAlarmInterval() %>" placeholder="Interval"></td>
+														<td style="padding-top:0; width: 25%; "><input type="date" class="w3-input alarmStartDate" name="alarmStartDate" value="<%=esmTime.get(i).getAlarmStartDate() %>" placeholder="Start Date"></td>
+														<td style="padding-top:0; width: 25%; "><input type="date" class="w3-input alarmEndDate" name="alarmEndDate" value="<%=esmTime.get(i).getAlarmEndDate() %>" placeholder="End Date"></td>
+														<td style="padding-top:0; width: 10%; padding-right:0;"><input type='button' class="w3-bar w3-gray" style="height: 34px;" value='-' onclick='deleteRow(this)' /></td>
 													</tr>
 												<% }
 												}%>
@@ -216,9 +269,9 @@
 						       </div>
 					 		</c:otherwise>
 						</c:choose>
-						<div class="check_alarm_m""></div>
-						<div class="w3-margin-top">
-							<input type='button' class="w3-bar w3-gray" style="height:40px;" value='행추가' onclick="add_tr('table_body')" />
+						<div class="check_alarm_m"></div>
+						<div id="addRowButton" class="w3-margin-top">
+							<input type='button' class="w3-bar w3-gray" style="height:40px;" value='알람 추가' onclick="add_tr('table_body')" />
 						</div>	
 					</div>
 			    </c:when>
@@ -249,9 +302,43 @@
 			</div>
 			</form>
 		</div>
-		<div class="w3-col s1 m2 l4">&nbsp;</div>
+		<div class="w3-col s1 m1 l2">&nbsp;</div>
 	</div>
+	
 	<script type="text/javascript" src="./js/checkregister.js"></script>
+	
+	<script>
+	window.addEventListener('DOMContentLoaded', () => {
+	    const toggle = document.getElementById('toggle');
+	    toggleAlarmInputs(toggle.checked);
+	});
+	
+	function toggleAlarmInputs(isActive) {
+	    const inputs = document.querySelectorAll('#table_body input');
+	    const button = document.getElementById('addRowButton');
+
+	    inputs.forEach(input => {
+	        if (input.type === 'time' || input.type === 'text' || input.type ==='date') {
+	            if (isActive) {
+	                input.readOnly = false;
+	                input.style.backgroundColor = 'white';
+	                input.style.color = 'black';
+	            } else {
+	                input.readOnly = true;
+	                input.style.backgroundColor = '#C0C0C0';
+	                input.style.color = 'gray';
+	                
+	            }
+	        }
+	    });
+	    
+	    // 행추가 버튼 표시/숨김
+	    addRowButton.style.display = isActive ? 'block' : 'none';
+	    
+	}
+	
+	</script>
+	
 
 </body>
 </html>

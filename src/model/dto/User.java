@@ -14,6 +14,7 @@ public class User {
 	private String userGender;
 	private Date userBirth;
 	private String userIcon;
+	private int isAlarmActive; //0:deactive / 1:active
 
 	public int getUserId() {
 		return userId;
@@ -77,6 +78,12 @@ public class User {
 	}
 	public void setUserIcon(String userIcon) {
 		this.userIcon = userIcon;
+	}
+	public int getIsAlarmActive() {
+		return isAlarmActive;
+	}
+	public void setIsAlarmActive(int isAlarmActive) {
+		this.isAlarmActive = isAlarmActive;
 	}
 	
 }

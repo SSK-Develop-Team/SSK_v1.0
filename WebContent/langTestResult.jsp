@@ -308,7 +308,7 @@ function printResult() {
     const modalContent = document.getElementById("printArea").innerHTML; // 모달 안쪽만
     const printWindow = window.open('', '', 'height=600,width=800');
 
-    printWindow.document.write('<html><head><title>[<%=ageGroupStr[selectAgeGroupId].toString()%>&nbsp;<%=langLogListByUser.get(selectIndex).getLangTestTime().toString()%>]&nbsp;<%=focusUser.getUserName()%>의 언어발달 검사 결과 설명</title>');
+    printWindow.document.write('<html><head><title>[<%=ageGroupStr[selectAgeGroupId].toString()%>&nbsp;<%=langLogListByUser.get(selectIndex).getLangTestDate().toString()%>&nbsp;<%=langLogListByUser.get(selectIndex).getLangTestTime().toString()%>]&nbsp;"<%=focusUser.getUserName()%>"의 언어발달 검사 결과 설명</title>');
     if (!isMobileDevice()){
         printWindow.document.write('<style>table, th, td { border:1px solid #000; border-collapse:collapse; padding:8px; }@media print {body {zoom: 1.0;margin: 0; padding: 0;text-align:center;}}#printArea {width: 100%;padding: 20px;}</style>'); // 필요 시 스타일 추가
     }

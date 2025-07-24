@@ -43,6 +43,8 @@ public class GetUserInfo extends HttpServlet {
             location="/childInformation.jsp?role=expert";
         }
         */
+        
+        request.setAttribute("childId",childId);
 
         User child = UserDAO.getUserById(conn,childId);
         request.setAttribute("child",child);
