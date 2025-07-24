@@ -30,25 +30,25 @@ input:-webkit-autofill {
 		<p class="w3-container" style="margin-top: 10px; font-size:28px;color:#FFFFF;"><span style="font-weight:bold;">P</span>arent <span style="font-weight:bold;">S</span>creening of <span style="font-weight:bold;">L</span>anguage and <span style="font-weight:bold;">E</span>motion</p>
 		<p class="w3-container" style="font-size:22px;color:#AEAEB2;">아동의 연령에 맞는 언어 및 정서 행동 발달 수준을 검사하고 평가합니다.</p>
 		<div class="w3-row w3-center"  style="margin-top:7vh;">
-			<div class="w3-col l2 m2">&nbsp;</div>
-			<div class="w3-col l8 m8 w3-light-gray w3-round-large w3-padding">
+			<div class="w3-col l3 m1">&nbsp;</div>
+			<div class="w3-col l6 m10 w3-light-gray w3-round-large w3-padding">
 				<form method="post" action="doLogin" class="w3-container">
-					<div class="w3-margin-top w3-row">
+					<div class="w3-row" style="margin-top:4vh;">
 						<label class="w3-quarter" style="font-size:22px;" >아이디</label>
 						<input type="text" class="w3-input w3-threequarter" name="userid" placeholder="ID" > 
 					</div>
-					<div class="w3-margin-top w3-row">
+					<div class="w3-row" style="margin-top:2vh;">
 						<label class="w3-quarter" style="font-size:22px;">비밀번호</label>
 						<input type="password" class="w3-input w3-threequarter" name="userpw" placeholder="Password" ><br/>
 					</div>
-					<div class="w3-margin-top w3-row">
+					<div class="w3-row" style="margin-top:2vh;">
 						<div class="w3-third w3-hide-small">&nbsp;</div>
 						<div class="w3-third w3-hide-small">&nbsp;</div>
-						<input class="w3-button w3-panel w3-third w3-round-large" type="submit" value="LOGIN"style="min-height:40px;color:white;background-color:#1A2A3A;" />
+						<input class="w3-button w3-panel w3-third w3-round-large" type="submit" value="LOGIN"style="min-height:50px;color:white;background-color:#1A2A3A;" />
 					</div>
 				</form>
 			</div>
-			<div class="w3-col l2 m2">&nbsp;</div>
+			<div class="w3-col l3 m1">&nbsp;</div>
 		</div>
 	</div>
   </div>

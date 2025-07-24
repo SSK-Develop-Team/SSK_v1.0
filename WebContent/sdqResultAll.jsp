@@ -207,6 +207,7 @@
 		</div>
 		<div class="w3-col w3-hide-small m1 l2">&nbsp;</div>
 	</div>
+	
 	<div class="w3-row w3-margin-top">
 		<div class="w3-col s2 m2 l3">&nbsp;</div>
 		

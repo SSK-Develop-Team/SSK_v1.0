@@ -18,9 +18,11 @@ const pwInput = document.getElementById("userPw");
 const pwChkInput = document.getElementById("userPwChk");
 const emailInput = document.getElementById("userEmail");
 const nameInput = document.getElementById("userName");
-const alarmSt = document.getElementsByClassName("alarmStart");
-const alarmEd = document.getElementsByClassName("alarmEnd");
+const alarmStT = document.getElementsByClassName("alarmStartTime");
+const alarmEdT = document.getElementsByClassName("alarmEndTime");
 const alarmInv = document.getElementsByClassName("alarmInterval");
+const alarmStD = document.getElementsByClassName("alarmStartDate");
+const alarmEdD = document.getElementsByClassName("alarmEndDate");
 
 
 checkIdBtn.addEventListener('click', checkId);
@@ -28,10 +30,10 @@ pwInput.addEventListener('change', checkPW);
 pwChkInput.addEventListener('change', checkPW);
 emailInput.addEventListener('change', checkEmail);
 nameInput.addEventListener('change', checkName);
-Array.from(alarmSt).forEach(element => {
+Array.from(alarmStT).forEach(element => {
     element.addEventListener('change', checkEsmTimes);
 });
-Array.from(alarmEd).forEach(element => {
+Array.from(alarmEdT).forEach(element => {
     element.addEventListener('change', checkEsmTimes);
 });
 Array.from(alarmInv).forEach(element => {
@@ -179,54 +181,73 @@ function checkName(){
 
 /*알람시간 검사*/
 function checkEsmTimes() {
-	const starts = document.querySelectorAll('input[name="alarmStart"]');
-	const ends = document.querySelectorAll('input[name="alarmEnd"]');
+	const startTimes = document.querySelectorAll('input[name="alarmStartTime"]');
+	const endTimes = document.querySelectorAll('input[name="alarmEndTime"]');
 	const intervals = document.querySelectorAll('input[name="alarmInterval"]');
+	const startDates = document.querySelectorAll('input[name="alarmStartDate"]');
+	const endDates = document.querySelectorAll('input[name="alarmEndDate"]');
 	  
 	const alarmMsg = document.getElementsByClassName('check_alarm_m')[0];
 	alarmMsg.style.color = 'red';
 	var arr=[];
 	
-	//유효성 검사
-	for (let i = 0; i < starts.length; i++) {
-        var startHours = parseInt(starts[i].value.split(':')[0], 10);
-        var endHours = parseInt(ends[i].value.split(':')[0], 10);
-		  
-	    if (starts[i].value.trim() === "" || ends[i].value.trim() === "" || intervals[i].value.trim()=== "") {
-			alarmMsg.innerHTML = "알람 설정 시간을 모두 입력하세요."; 
-			checkedEsmTimes=false;
-			return false;
-	    }else if(endHours-startHours < intervals[i].value){
-			//데이터마다  종료 시간 - 시작 시간 > 간격 -> false일 경우 notify 
-			alarmMsg.innerHTML = "알람 간격이 설정 시간을 넘어가지 않도록 입력하세요."; 
-			checkedEsmTimes=false;
-	      	return false;
-		}else{
-			checkedEsmTimes=true;
-			alarmMsg.innerHTML = '';
-		}
-		//1.배열 시작시간,종료시간 넣기
-		arr.push([startHours,endHours]); 
-	  } 
-	// 알람 설정 시간 겹치지 않게 
-	//1.[시작시간, 종료 시간][시작 시간, ...]] -> 2.시작 시간 기준으로 정렬 -> 3.이전 종료 시간이 curr 시작 시간 이전인가? false라면 notify    
-	
-	
-
-	//2.시작 시간을 기준으로 정렬
-	arr.sort(function(a, b) {
-		return a[0] - b[0];
-	});
-	//3.이전 종료 시간이 curr 시작 시간 이전인가? false라면 notify    
-	for (let i = 0; i < starts.length; i++) {
-		if(i>0){
-			if(arr[i-1][1]>arr[i][0]){
-				alarmMsg.innerHTML = "알람 설정 시간이 겹치치 않도록 입력하세요."; 
+		
+	if (startTimes.length == 0 || startTimes == null){
+		checkedEsmTimes=true;
+		alarmMsg.style.color = 'black';
+		alarmMsg.innerHTML = '<b>설정된 알람이 없습니다.</b>';
+		return true;
+	}
+	else {
+		//유효성 검사
+		for (let i = 0; i < startTimes.length; i++) {
+	        var startHours = parseInt(startTimes[i].value.split(':')[0], 10);
+	        var endHours = parseInt(endTimes[i].value.split(':')[0], 10);
+	        var startDate = new Date(startDates[i].value);
+	        var endDate = new Date(endDates[i].value);
+			  
+		    if (startTimes[i].value.trim() === "" || endTimes[i].value.trim() === "" || intervals[i].value.trim()=== "" ||
+		    		startDates[i].value.trim() === "" || endDates[i].value.trim() === "") {
+				alarmMsg.innerHTML = "알람 설정 시간을 모두 입력하세요."; 
 				checkedEsmTimes=false;
-	      		return false;
-			}	
+				return false;
+		    } else if (endDate < startDate) {
+		        alarmMsg.innerHTML = "종료 날짜는 시작 날짜보다 같거나 이후여야 합니다."; 
+		        checkedEsmTimes = false;
+		        return false;
+		    }else if(endHours-startHours < intervals[i].value){
+				//데이터마다  종료 시간 - 시작 시간 > 간격 -> false일 경우 notify 
+				alarmMsg.innerHTML = "알람 간격이 설정 시간을 넘어가지 않도록 입력하세요."; 
+				checkedEsmTimes=false;
+		      	return false;
+			}else{
+				checkedEsmTimes=true;
+				alarmMsg.innerHTML = '';
+			}
+			//1.배열 시작시간,종료시간 넣기
+			arr.push([startHours,endHours]); 
+		  } 
+		// 알람 설정 시간 겹치지 않게 
+		//1.[시작시간, 종료 시간][시작 시간, ...]] -> 2.시작 시간 기준으로 정렬 -> 3.이전 종료 시간이 curr 시작 시간 이전인가? false라면 notify    
+		
+		
+
+		//2.시작 시간을 기준으로 정렬
+		arr.sort(function(a, b) {
+			return a[0] - b[0];
+		});
+		//3.이전 종료 시간이 curr 시작 시간 이전인가? false라면 notify    
+		for (let i = 0; i < startTimes.length; i++) {
+			if(i>0){
+				if(arr[i-1][1]>arr[i][0]){
+					alarmMsg.innerHTML = "알람 설정 시간이 겹치치 않도록 입력하세요."; 
+					checkedEsmTimes=false;
+		      		return false;
+				}	
+			}
 		}
 	}
+
 	checkedEsmTimes=true;
 	return true;
 }
@@ -306,19 +327,42 @@ function togglePasswordType(){
  function add_tr(tbodyId) {
     var tbody = document.getElementById(tbodyId); // tbody 요소 가져오기
     var newRow = document.createElement("tr"); // 새로운 행 생성
+    
+    const startTimes = document.querySelectorAll('input[name="alarmStartTime"]');
+    
+    console.log(startTimes.length);
+    
+	if (startTimes.length == 0 || startTimes == null){
+	    // 제목행 추가
+		var headerRow = document.createElement("tr");
+		headerRow.innerHTML = `
+	        <th style="padding-left:0;">시작시간</th>
+			<th>종료시간</th>
+			<th>간격</th>
+			<th>시작일</th>
+			<th>종료일</th>
+	    `;
+	    tbody.appendChild(headerRow); // tbody에 새로운 행 추가
+	}
+	
+    
     // 새로운 행의 HTML 내용
     newRow.innerHTML = `
-        <td style="padding-left:0;padding-top:0;"><input type="time" class="w3-input alarmStart" name="alarmStart" placeholder="Start Time"></td>
-							<td style="padding-top:0;"><input type="time" class="w3-input alarmEnd" name="alarmEnd" placeholder="End Time"></td>
-							<td style="padding-top:0;"><input type="text" class="w3-input alarmInterval" style="min-width: 25px;" name="alarmInterval" placeholder="Interval"></td>
-							<td style="padding-top:0; width: 12%; padding-right:0;"><input type='button' class="w3-bar w3-gray" style="height: 34px;" value='-' onclick='deleteRow(this)' /></td>
+        <td style="padding-left:0; width: 15%; padding-top:0;"><input type="time" class="w3-input alarmStartTime" name="alarmStartTime" placeholder="Start Time"></td>
+							<td style="padding-top:0; width: 15%;"><input type="time" class="w3-input alarmEndTime" name="alarmEndTime" placeholder="End Time"></td>
+							<td style="padding-top:0; width: 10%;"><input type="text" class="w3-input alarmInterval" style="min-width: 25px;" name="alarmInterval" placeholder="Interval"></td>
+							<td style="padding-top:0; width: 25%;"><input type="date" class="w3-input alarmStartDate" name="alarmStartDate" placeholder="Start Date"></td>
+							<td style="padding-top:0; width: 25%;"><input type="date" class="w3-input alarmEndDate" name="alarmEndDate" placeholder="End Date"></td>
+							<td style="padding-top:0; width: 10%; padding-right:0;"><input type='button' class="w3-bar w3-gray" style="height: 34px;" value='-' onclick='deleteRow(this)' /></td>
     `;
 
     tbody.appendChild(newRow); // tbody에 새로운 행 추가
     
-    newRow.querySelector('.alarmStart').addEventListener('change', checkEsmTimes);
-    newRow.querySelector('.alarmEnd').addEventListener('change', checkEsmTimes);
+    newRow.querySelector('.alarmStartTime').addEventListener('change', checkEsmTimes);
+    newRow.querySelector('.alarmEndTime').addEventListener('change', checkEsmTimes);
     newRow.querySelector('.alarmInterval').addEventListener('change', checkEsmTimes);
+    newRow.querySelector('.alarmStartDate').addEventListener('change', checkEsmTimes);
+    newRow.querySelector('.alarmEndDate').addEventListener('change', checkEsmTimes);
     checkEsmTimes();
     }
     
@@ -326,12 +370,6 @@ function togglePasswordType(){
   
 function deleteRow(This){
 	var tbody = This.closest('tbody'); // 현재 행이 속한 tbody 찾기
-
-    if (tbody.childElementCount == 2) {
-        alert("삭제할 수 없습니다.");
-    } else {
         This.closest('tr').remove(); // 삭제
         checkEsmTimes();
-    }
-   
-	}
+}

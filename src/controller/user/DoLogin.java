@@ -57,18 +57,29 @@ public class DoLogin extends HttpServlet {
 		}
 		else { //login success
 			System.out.println(currUser.getUserRole());
+			
+			// 앱인 경우, 정서반복기록으로 바로 이동
+			String isApp = request.getParameter("isApp");
+			System.out.println("isApp : " + isApp);
 			String redirectLocation = "";
-			switch(currUser.getUserRole()) {
-			case "CHILD":
-				redirectLocation = "/childHome.jsp"; // 아동 페이지
-				break;
-			case "EXPERT":
-				redirectLocation = "/GetExpertHome"; // 전문가 페이지
-				break;
-			case "ADMIN":
-				redirectLocation = "/GetAdminHome"; // 슈퍼 전문가 페이지
-				break;
+			
+			if ("true".equals(isApp)) {
+				System.out.println("Redirection!!!!!!");
+				redirectLocation = "/esmTestMain.jsp";
+			} else {
+				switch(currUser.getUserRole()) {
+				case "CHILD":
+					redirectLocation = "/childHome.jsp"; // 아동 페이지
+					break;
+				case "EXPERT":
+					redirectLocation = "/GetExpertHome"; // 전문가 페이지
+					break;
+				case "ADMIN":
+					redirectLocation = "/GetAdminHome"; // 슈퍼 전문가 페이지
+					break;
+				}
 			}
+
 			session.setAttribute("currUser", currUser);
 			response.sendRedirect(request.getContextPath() +redirectLocation);
 		}

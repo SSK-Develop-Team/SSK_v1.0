@@ -49,7 +49,6 @@ public class GetUpdateUser extends HttpServlet {
 		
 	        	//사용자의 ESM 알람 정보 불러오기
 	    ArrayList<EsmAlarm> esmTime = EsmAlarmDAO.getEsmAlarmListByUser(conn, userId);
-	        	
 	        	//사용자의 ESM 알람 정보를 request attribute로 넘겨주기 
 	    request.setAttribute("esmTime", esmTime);
 

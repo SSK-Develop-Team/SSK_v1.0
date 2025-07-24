@@ -59,7 +59,7 @@
 			<div style="color:#555555;margin: 0.3em; font-size:1.2em;">현재 자신의 마음 상태를 표시하세요.</div>
 		</c:when>
 		<c:when test="${target eq 'PARENT'}">
-			<div style="color:#555555;margin: 0.3em; font-size:1.2em;">당신 자녀의 현재 정서 상태를 표시하세요.</div>
+			<div style="color:#555555;margin: 0.3em; font-size:1.2em;">자녀의 현재 정서 상태를 표시하세요.</div>
 		</c:when>
 		</c:choose>
 		<c:remove var="target" scope="page" />

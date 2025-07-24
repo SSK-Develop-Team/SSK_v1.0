@@ -70,6 +70,7 @@ public class UserDAO {
 					user.setUserGender(rs.getString(8));
 					user.setUserBirth(rs.getDate(9));
 					user.setUserIcon(rs.getString(10));
+					user.setIsAlarmActive(rs.getInt(11));
 					return user;
 				}
 				else { //login failed
@@ -139,6 +140,7 @@ public class UserDAO {
 				user.setUserGender(rs.getString(8));
 				user.setUserBirth(rs.getDate(9));
 				user.setUserIcon(rs.getString(10));
+				user.setIsAlarmActive(rs.getInt(11));
 				userList.add(user);
 			}
 			return userList;
@@ -170,6 +172,7 @@ public class UserDAO {
 				user.setUserGender(rs.getString(8));
 				user.setUserBirth(rs.getDate(9));
 				user.setUserIcon(rs.getString(10));
+				user.setIsAlarmActive(rs.getInt(11));
 				userList.add(user);
 			}
 			return userList;
@@ -199,6 +202,7 @@ public class UserDAO {
 				user.setUserGender(rs.getString(8));
 				user.setUserBirth(rs.getDate(9));
 				user.setUserIcon(rs.getString(10));
+				user.setIsAlarmActive(rs.getInt(11));
 				userList.add(user);
 			}
 			return userList;
@@ -261,6 +265,7 @@ public class UserDAO {
 				child.setUserGender(rs.getString(8));
 				child.setUserBirth(rs.getDate(9));
 				child.setUserIcon(rs.getString(10));
+				child.setIsAlarmActive(rs.getInt(11));
 				
 				return child;
 			}
@@ -275,7 +280,7 @@ public class UserDAO {
       boolean flag = false;
       try {
          PreparedStatement pstmt = con.prepareStatement("update user_profile set user_login_id=?, user_password=?, user_name=?, user_email=?,"
-                 + "user_role=?, registration_date=?, user_gender=?, user_birth=?, user_icon=? where user_id = ?");
+                 + "user_role=?, registration_date=?, user_gender=?, user_birth=?, user_icon=?, esm_alarm_isActive=? where user_id = ?");
          pstmt.setString(1, user.getUserLoginId());
          pstmt.setString(2, user.getUserPassword());
          pstmt.setString(3, user.getUserName());
@@ -285,7 +290,8 @@ public class UserDAO {
          pstmt.setString(7, user.getUserGender());
          pstmt.setDate(8, user.getUserBirth());
          pstmt.setString(9, user.getUserIcon());
-         pstmt.setInt(10, user.getUserId());
+         pstmt.setInt(10,  user.getIsAlarmActive());
+         pstmt.setInt(11, user.getUserId());
          
          int count = pstmt.executeUpdate();
          if (count > 0)

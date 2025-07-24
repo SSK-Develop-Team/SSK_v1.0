@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,35 +64,41 @@ public class EsmProcessor {
 		ArrayList<LocalTime> childEsmAlarmList = new ArrayList<>();
 		ArrayList<String> childEsmAlarmStrList = new ArrayList<>();
 
-		//사용자에게 설정된 알람 값이 없는 경우 -> 디폴트 알람 시간 값 설정
-		if(esmAlarms == null || esmAlarms.size()==0){
-			/*
+		//사용자에게 설정된 알람 값이 없는 경우 -> 반환값 없음 null
+		/*if(esmAlarms == null || esmAlarms.size()==0){
+			
 			childEsmAlarmList.add(LocalTime.of(9,0));
 			childEsmAlarmList.add(LocalTime.of(12,0));
 			childEsmAlarmList.add(LocalTime.of(15,0));
 			childEsmAlarmList.add(LocalTime.of(18,0));
 			childEsmAlarmList.add(LocalTime.of(21,0));
 			return childEsmAlarmList;
-			 */
+
 			childEsmAlarmStrList.add("09:00:00");
 			childEsmAlarmStrList.add("12:00:00");
 			childEsmAlarmStrList.add("15:00:00");
 			childEsmAlarmStrList.add("18:00:00");
-			childEsmAlarmStrList.add("21:00:00");
+			childEsmAlarmStrList.add("21:00:00");			 
+			
 
 			return childEsmAlarmStrList;
 
-		}
+		}*/
 
 		//알람 리스트를 순회하면서 알람 시간을 변환하여 하나의 리스트로 add
-		esmAlarms.stream().forEach(e ->{
-			LocalTime startTime = e.getAlarmStart().toLocalTime();
-			LocalTime endTime = e.getAlarmEnd().toLocalTime();
+		esmAlarms.stream()
+			// 현재 날짜가 startDate ~ endDate 범위 안에 있는지 확인
+			.filter(e -> !LocalDate.now().isBefore(e.getAlarmStartDate().toLocalDate()) &&
+						 !LocalDate.now().isAfter(e.getAlarmEndDate().toLocalDate()))
+			.forEach(e ->{
+			LocalTime startTime = e.getAlarmStartTime().toLocalTime();
+			LocalTime endTime = e.getAlarmEndTime().toLocalTime();
 			Duration interval = Duration.ofHours(e.getAlarmInterval());
+						
 			childEsmAlarmList.addAll(convertTimeIntervalToTimeList(startTime, endTime, interval));
 		});
 
-		//String 리스트로 변환
+		//알람 목록을 String 리스트로 변환
 		childEsmAlarmList.stream().forEach(e ->{
 			childEsmAlarmStrList.add(e.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 		});
@@ -108,7 +115,7 @@ public class EsmProcessor {
 	 * @return
 	 */
 	private static ArrayList<LocalTime> convertTimeIntervalToTimeList(LocalTime startTime, LocalTime endTime, Duration interval){
-		ArrayList<LocalTime> timeListOfEsmTime = new ArrayList<>();
+		/*ArrayList<LocalTime> timeListOfEsmTime = new ArrayList<>();
 
 		LocalTime current = startTime;
 
@@ -117,7 +124,20 @@ public class EsmProcessor {
 			current = current.plus(interval);
 		}
 
-		return timeListOfEsmTime;
+		return timeListOfEsmTime;*/
+		ArrayList<LocalTime> timeListOfEsmTime = new ArrayList<>();
+	    
+		int maxLoops = (int) (Duration.between(startTime, endTime).toHours() / interval.toHours()) + 1;
+		int count = 0;
+
+		LocalTime current = startTime;
+		while (!current.isAfter(endTime) && count < maxLoops) {
+			timeListOfEsmTime.add(current);
+		    current = current.plus(interval);
+		    count++;
+		}
+
+	    return timeListOfEsmTime;
 	}
 /**
  * Example Code for getting day of week

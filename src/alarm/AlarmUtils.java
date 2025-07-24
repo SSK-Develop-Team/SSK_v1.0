@@ -12,8 +12,8 @@ public class AlarmUtils {
         Set<String> alarmTimes = new HashSet<>(); // 중복 제거를 위해 Set 사용
 
         for (EsmAlarm alarm : alarms) { // 알람 데이터 순회
-            Time currentTime = alarm.getAlarmStart(); // 시작 시간
-            Time endTime = alarm.getAlarmEnd(); // 종료 시간
+            Time currentTime = alarm.getAlarmStartTime(); // 시작 시간
+            Time endTime = alarm.getAlarmEndTime(); // 종료 시간
             int interval = alarm.getAlarmInterval(); // 간격 (시간 단위)
 
             if (interval <= 0) {

@@ -69,7 +69,7 @@
 						for (int i =0;i<currUserList.size();i++){
 					%>
 						<tr>
-							<td><input type="checkbox" name="childId" value="<%= currUserList.get(i).getUserId() %>" id="check<%= i %>" /></td>
+							<td><input type="checkbox" name="childId" value="<%= currUserList.get(i).getUserId() %>" onclick="setLatestChildId(this.value)" id="check<%= i %>" /></td>
 							<td onclick="getChild(<%=currUserList.get(i).getUserId()%>)"><%=(currPageNum-1)*UserPaging.getListRange()+i+1%></td>
 							<td onclick="getChild(<%=currUserList.get(i).getUserId()%>)"><%=currUserList.get(i).getUserName() %></td>
 							<td onclick="getChild(<%=currUserList.get(i).getUserId()%>)"><%=currUserList.get(i).getUserLoginId() %></td>
@@ -144,18 +144,21 @@
 		}
 	}
 	function updateChild(){
-		const childCnt = document.querySelectorAll('input[name="childId"]:checked').length;
+		const checkedBoxes = document.querySelectorAll('input[name="childId"]:checked');
+	    const childCnt = checkedBoxes.length;
+	    
 		if(childCnt==0){
 			alert("아동을 선택해주세요.");
-		}else if(childCnt==1){
+		}else {
 			const updateFrm = document.getElementById('manageFrm');
 			updateFrm.setAttribute("action", "GetUpdateUser")
-			updateFrm.submit();
-		}else{
-			if(confirm("마지막으로 선택한 아동의 계정을 수정합니다.")){
-				const updateFrm = document.getElementById('manageFrm');
-				updateFrm.setAttribute("action", "GetUpdateUser")
+			
+			if(childCnt==1){
 				updateFrm.submit();
+			}else{
+				if(confirm("마지막으로 선택한 아동의 계정을 수정합니다.")){
+					updateFrm.submit();
+				}
 			}
 		}
 	}
