@@ -17,6 +17,35 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <title>정서 반복 기록</title>
 <style>
+.esmBtn{
+	margin-right:0.2em;
+	border:1px solid #ff6666;
+	border-radius : 10px;
+	background-color:#ff6666;
+	color : white;
+	height:50px;
+	font-size:1.3em;
+	align-items:center;
+	text-align:center;
+}
+
+/* 공통 텍스트 스타일 */
+.emotion-text {
+  font-size: 1.3em;
+  margin-bottom: 0.5em;
+}
+
+.emotion-ko {
+  font-weight: bold;
+  margin-bottom: 0.2em;
+}
+
+.emotion-en {
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* radio 버튼 효과 */
 [type="radio"]:checked {
 	border: 0.4em solid #ff6666;
 }
@@ -31,21 +60,38 @@
 	appearance: none;
 	border: max(2px, 0.1em) solid gray;
 	border-radius: 50%;
-	width: 1.25em;
-	height: 1.25em;
+	width: 1.8em;
+	height: 1.8em;
+	margin: 0.3em;
 	transition: border 0.5s ease-in-out;
 }
-.esmBtn{
-	margin-right:0.2em;
-	border:1px solid #ff6666;
-	border-radius : 10px;
-	background-color:#ff6666;
-	color : white;
-	height:50px;
-	font-size:1.3em;
-	align-items:center;
-	text-align:center;
+
+/* 라벨 줄바꿈 방지 */
+.label-left, .label-right {
+  font-size: 1.2em;
+  text-align: center;
+  padding-top: 0.5em;
 }
+
+/* 작은 화면에서 줄바꿈 허용 */
+@media screen and (max-width: 600px) {
+  .label-left, .label-right {
+    font-size: 0.9em;
+    /*word-break: keep-all;*/
+  }
+
+  .radio-options input[type="radio"] {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  .emotion-text {
+    font-size: 1.1em;
+  }
+}
+
+
+
 </style>
 
 </head>
@@ -74,9 +120,34 @@
 			<input type="hidden" id="target" name="target" value="<%=esmEmotionList.get(0).getEsmTarget()%>"/>
 			
 			<%for(int i=0;i<esmEmotionList.size();i++){ %>
-				<div class="w3-center" style="font-size:1.3em;">
+			
+				<div class="question-block w3-padding w3-center">
+				  <div class="emotion-text">
+				    <div class="emotion-ko"><%=esmEmotionList.get(i).getEsmEmotionKr() %></div>
+				    <div class="emotion-en"><%=esmEmotionList.get(i).getEsmEmotion() %></div>
+				  </div>
+				
+				  <div class="w3-row radio-group">
+				    <div class="label-left w3-col s2 m2 l2">전혀 아니다.</div>
+				
+				    <div class="w3-col s8 m8 l8 radio-options">
+				      <input type="radio" class="w3-radio" style="width:1.50em; height:1.50em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="1" checked>
+				      <input type="radio" class="w3-radio" style="width:2.00em; height:2.00em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="2">
+				      <input type="radio" class="w3-radio" style="width:2.50em; height:2.50em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="3">
+				      <input type="radio" class="w3-radio" style="width:3.00em; height:3.00em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="4">
+				      <input type="radio" class="w3-radio" style="width:3.50em; height:3.50em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="5">
+				    </div>
+				
+				    <div class="label-right w3-col s2 m2 l2">매우 그렇다.</div>
+				  </div>
+				</div>
+			
+				<!-- 
+				<div class="w3-center" style="font-size:1.2em;">
 					<div class=""><%=esmEmotionList.get(i).getEsmEmotionKr() %></div>
 					<div class=""><%=esmEmotionList.get(i).getEsmEmotion() %></div>
+					
+					
 					<div class="w3-col s2 m2 l2">
 						<div>&nbsp;</div>
 						전혀 아니다. 
@@ -88,14 +159,18 @@
 						<input type="radio" class="w3-radio" style="width:3.00em; height:3.00em; margin-right:0.35em; margin-left:0.35em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="4">
 						<input type="radio" class="w3-radio" style="width:3.50em; height:3.50em; margin-right:0.35em; margin-left:0.35em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="5">
 					</div>
+					
 					<div class="w3-col s2 m2 l2">
 						<div>&nbsp;</div>
 						매우 그렇다.
 					</div>
-				</div>
+					
+				</div> -->
+				
 				<div>&nbsp;</div>
 				<div>&nbsp;</div>
 			<%} %>
+			
 			</form>
 			<div class="w3-row w3-margin-top">
 				<div class="w3-col s1 m1 l3">&nbsp;</div>
