@@ -11,6 +11,7 @@ import alarm.firebase.FCMUtil;
 import model.dao.EsmAlarmDAO;
 import model.dao.EsmTestLogDAO;
 import model.dao.UserTokenDAO;
+import model.dto.EsmAlarm;
 import model.dto.EsmTestLog;
 import util.DBConnection;
 
@@ -37,11 +38,15 @@ public class AlarmJob implements Job {
             System.out.println("예약된 알람 시간과 일치하는 사용자 ID: " + userIds);
 
             // 2. 각 사용자에 대해 알람 조건 확인 및 알림 전송
-            // EsmTestLogDAO testLogDAO = new EsmTestLogDAO();
-            // UserTokenDAO tokenDAO = new UserTokenDAO();
 
             for (int userId : userIds) {
-                // 2.1 최근 검사 기록 조회
+                // 2.1 오늘 날짜에 해당하는 알람인지 확인
+                List<EsmAlarm> todayAlarms = EsmAlarmDAO.getEsmAlarmListByCurDate(con, userId);
+                if (todayAlarms == null || todayAlarms.isEmpty()) {
+                    System.out.println("유효한 알람 없음 - User Id: " + userId);
+                    continue;
+                }
+                // 2.2 최근 검사 기록 조회
                 EsmTestLog recentLog = EsmTestLogDAO.getRecentEsmTestLogListByUserId(con, userId);
 
                 // 디버깅 로그
@@ -53,7 +58,7 @@ public class AlarmJob implements Job {
                             ", TestTime: " + recentLog.getEsmTestTime());
                 }
 
-                // 2.2 알람 조건 확인
+                // 2.3 알람 조건 확인
                 if (shouldSendAlarm(recentLog, alarmTime)) {
                     // 2.3 FCM 알림 전송
                     List<String> fcmTokens = UserTokenDAO.getUserTokens(con, userId);
