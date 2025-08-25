@@ -4,6 +4,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="model.dto.User" %>
 <%@ page import="model.dto.LangTestLog" %>
 <%@ page import="model.dto.LangReply" %>
@@ -18,7 +19,7 @@
 <title>언어 발달 평가 결과</title>
 <script src= "https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.slim.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1"></script>
 <%
 /*
 * 전문가가 아동의 결과를 조회하는 경우 currUser == expert , focusUser == child
@@ -212,13 +213,52 @@ td {
 	</div>
 	
 	<div class="w3-row  w3-margin-top">
-		<div class="w3-col w3-hide-small m1 l2">&nbsp;</div>
-		<div class="w3-col s12 m10 l8">
+		<div class="w3-col w3-hide-small m2 l3">&nbsp;</div>
+		<div class="w3-col s12 m8 l6">
 			<div class="w3-panel container">
 				<ul class="tabs" style="font-size:1.3em;">
 					<li class="tab-link current" data-tab="tab-1">막대그래프로 확인하기</li>
 					<li class="tab-link" data-tab="tab-2">오각그래프로 확인하기</li>
 				</ul>
+				
+				<%
+				    // 고정된 5개 유형
+				    String[] categories = {"의미", "구문", "화용", "문해", "조음"};
+					// 유형별 점수리스트
+				    Map<String, List<Integer>> categoryScores = new LinkedHashMap<>();
+				    // 유형별 평균 점수
+					Map<String, Double> categoryAverages = new LinkedHashMap<>();
+				    // 유형 null 여부
+				    Map<String, Boolean> categoryIsEmpty = new LinkedHashMap<>();
+				
+				    // 초기화
+				    for(String category : categories) {
+				        categoryScores.put(category, new ArrayList<>());
+				    }
+				
+				    // 그룹별로 점수 모으기
+				    for(int i = 0; i < selectLangQuestionList.size(); i++) {
+				        String langType = selectLangQuestionList.get(i).getLangType();
+				        String key = langType.substring(0, 2); // 앞 2글자
+				        if(categoryScores.containsKey(key)) {
+				            categoryScores.get(key).add(selectLangReplyList.get(i).getLangReplyContent());
+				        }
+				    }
+				
+				    // 평균 계산
+				    for(String key : categories) {
+				        List<Integer> scores = categoryScores.get(key);
+				        double avg = 0.0;
+				        boolean isEmpty = scores.isEmpty();
+				        categoryIsEmpty.put(key, isEmpty);
+				        if(!isEmpty) {
+				            int sum = 0;
+				            for(int val : scores) sum += val;
+				            avg = sum / (double)scores.size();
+				        }
+				        categoryAverages.put(key, avg);
+				    }
+				%>
 	
 				<div id="tab-1" class="tab-content current">
 					<canvas id="myChart"></canvas>
@@ -243,7 +283,7 @@ td {
 				
 			</div>
 		</div>
-		<div class="w3-col w3-hide-small m1 l2">&nbsp;</div>
+		<div class="w3-col w3-hide-small m2 l3">&nbsp;</div>
 	</div>
 
 	<!-- 검사 결과 보기 모달 -->
@@ -260,8 +300,11 @@ td {
 					
 					<!-- 안내문 -->
 					<div class="report-intro" style="display: block;text-align: left;">
-					 안녕하세요 이화여자대학교 SSK(아동 언어 및 정서 · 행동 발달평가) 연구팀입니다. 
-					본 검사는 언어발달 영역을 의미영역, 구문영역, 조음영역, 화용영역, 문해영역 5가지로 나누고 각 영역 당 아동의 생활연령에 따른 언어발달 수준을 평가하고 어려움을 선별하기 위해 제작되었습니다. 아래의 결과를 통해 자녀의 현재 언어발달을 확인하고 필요시 적절한 지원방안을 고려하는데 도움이 되시길 바랍니다. 
+						 안녕하세요 이화여자대학교 SSK(아동 언어 및 정서 · 행동 발달평가) 연구팀입니다. <br>
+						본 검사는 언어발달 영역을 의미영역, 구문영역, 조음영역, 화용영역, 문해영역 5가지로 나누고 각 영역 당 아동의 생활연령에 따른 언어발달 수준을 평가하고 어려움을 선별하기 위해 제작되었습니다. 아래의 결과를 통해 자녀의 현재 언어발달을 확인하고 필요시 적절한 지원방안을 고려하는데 도움이 되시길 바랍니다.
+					</div>
+					<div class="report-intro" style="display: block;color:red;text-align: left;">
+						(※ 만 4세 미만 아동의 경우, 발달 단계상 문해 영역은 해당되지 않아 평가에서 제외하였습니다. 또한, 만 7세 이상 아동의 경우, 구문 및 조음 영역의 발달이 완료되는 시기로 해당 영역은 평가에서 제외하였습니다.)
 					</div>
 					
 					<!-- 결과 출력 -->
@@ -346,96 +389,133 @@ function printResult() {
 	
 	})
 	
-	var ctx = document.getElementById('myChart').getContext('2d');
-	var ctx2 = document.getElementById('myChart2').getContext('2d');
+	const labels = ['의미', '구문', '화용', '문해', '조음'];
+	const labelColors = [
+		<%= categoryIsEmpty.get("의미") ? "'#cccccc'" : "'#000000'" %>,	    
+	    <%= categoryIsEmpty.get("구문") ? "'#cccccc'" : "'#000000'" %>,
+	    <%= categoryIsEmpty.get("화용") ? "'#cccccc'" : "'#000000'" %>,
+	    <%= categoryIsEmpty.get("문해") ? "'#cccccc'" : "'#000000'" %>,
+	    <%= categoryIsEmpty.get("조음") ? "'#cccccc'" : "'#000000'" %>
+	];
+
+	const barData  = {
+		    labels: labels,
+		    datasets: [{
+		        data: [
+		        	<%= categoryIsEmpty.get("의미") ? null : categoryAverages.get("의미") %>,
+		            <%= categoryIsEmpty.get("구문") ? null : categoryAverages.get("구문") %>,
+					<%= categoryIsEmpty.get("화용") ? null : categoryAverages.get("화용") %>,
+					<%= categoryIsEmpty.get("문해") ? null : categoryAverages.get("문해") %>,
+					<%= categoryIsEmpty.get("조음") ? null : categoryAverages.get("조음") %>
+		        ],
+		        backgroundColor: '#6d6db0',
+		        borderColor: '#6d6db0'
+		    }]
+		};
 	
-        var chart = new Chart(ctx, {
-            type: 'bar', 
-            data: {
-                labels: ['<%= selectLangQuestionList.get(0).getLangType()%>', '<%= selectLangQuestionList.get(1).getLangType()%>', '<%= selectLangQuestionList.get(2).getLangType()%>', '<%= selectLangQuestionList.get(3).getLangType()%>', '<%= selectLangQuestionList.get(4).getLangType()%>'],
-                datasets: [{
-                    backgroundColor: '#6d6db0',
-                    borderColor: '#6d6db0',
-                    data: [<%= selectLangReplyList.get(0).getLangReplyContent()%>, 
-                    <%= selectLangReplyList.get(1).getLangReplyContent()%>, 
-                    <%= selectLangReplyList.get(2).getLangReplyContent()%>, 
-                    <%= selectLangReplyList.get(3).getLangReplyContent()%>, 
-                    <%= selectLangReplyList.get(4).getLangReplyContent()%>]
-                }]
+	// Radar chart 데이터
+	const radarData = {
+		labels: labels,
+		datasets: [{
+			backgroundColor: "transparent",
+			fill: false,
+			borderColor: "rgb(109, 109, 176)",
+			pointBackgroundColor: "rgb(109, 109, 176)",
+			pointBorderColor: "#fff",
+			pointHoverBackgroundColor: "#fff",
+			pointHoverBorderColor: "rgb(109, 109, 176)",
+			data: [
+				<%= categoryIsEmpty.get("의미") ? null : categoryAverages.get("의미") %>,
+				<%= categoryIsEmpty.get("구문") ? null : categoryAverages.get("구문") %>,
+				<%= categoryIsEmpty.get("화용") ? null : categoryAverages.get("화용") %>,
+				<%= categoryIsEmpty.get("문해") ? null : categoryAverages.get("문해") %>,
+				<%= categoryIsEmpty.get("조음") ? null : categoryAverages.get("조음") %>
+			]
+		}]
+	};
+	
+	var ctx = document.getElementById('myChart').getContext('2d');	
+    var chart = new Chart(ctx, {
+        type: 'bar', 
+        data: barData ,
+        options: {
+            indexAxis: 'x',
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    min: 0,
+                    max: 3,
+                    ticks: {
+                        stepSize: 1,
+                        font: {
+                            size: 16
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 16
+                        },
+                        color: function(context) {
+                            return labelColors[context.index];
+                        }
+                    }
+                }
             },
-            
-			options: {
-				  indexAxis: 'y',
-				  scales: {
-				    yAxes: [{
-				      ticks: {
-				        beginAtZero: true,
-				        min: 0,
-				        max: 4,
-				        stepSize: 1,
-				        fontSize: 16 
-				      }
-				    }],
-				    xAxes: [{
-				      ticks: {
-				        fontSize: 16
-				      }
-				    }]
-				  },
-				  legend: {
-				    display: false
-				  },
-				  tooltips: {
-				    callbacks: {
-				      label: function(tooltipItem) {
-				        return tooltipItem.yLabel;
-				      }
-				    }
-				 }
+            spanGaps: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.formattedValue;
+                        }
+                    }
+                }
+            }
+        }
+    });
+     
+	var ctx2 = document.getElementById('myChart2').getContext('2d');
+	var myRadarChart = new Chart(ctx2, {
+	    type: 'radar',
+	    data: radarData,
+		options: {
+			maintainAspectRatio: true,
+			scales: {
+				r: {
+					beginAtZero: true,
+					min: 0,
+					max: 3,
+					ticks: {
+						stepSize: 1,
+						font: {
+							size: 16
+						}
+					},
+					pointLabels: {
+						font: {
+							size: 16
+						},
+						color: function(context) {
+							return labelColors[context.index];
+						}
+					}
+				}
+			},
+            spanGaps: true,
+			plugins: {
+				legend: {
+					display: false
+				}
 			}
+		}
+	});
 
-        });
-        
-        var options = {
-        	    //responsive: false,
-        	    maintainAspectRatio: true,
-        	    scale: {
-        	        ticks: {
-        	            beginAtZero: true,
-        	            min: 0,
-        	            stepSize : 1,
-        	            max: 4,
-        	            fontSize: 16
-        	        },
-        	        pointLabels: {
-        	            fontSize: 16
-        	        }
-        	    },
-   				legend: {
-    		        display: false
-    		    }
-        	};
-
-        	var dataLiteracy = {
-        			labels: ['<%= selectLangQuestionList.get(0).getLangType()%>', '<%= selectLangQuestionList.get(1).getLangType()%>', '<%= selectLangQuestionList.get(2).getLangType()%>', '<%= selectLangQuestionList.get(3).getLangType()%>', '<%= selectLangQuestionList.get(4).getLangType()%>'],
-        	    datasets: [{
-        	        backgroundColor: "transparent",
-        	        fill : false,
-        	        borderColor: "rgb(109, 109, 176)",
-        	        pointBackgroundColor: "rgb(109, 109, 176)",
-        	        pointBorderColor: "#fff",
-        	        pointHoverBackgroundColor: "#fff",
-        	        pointHoverBorderColor: "rgb(109, 109, 176)",
-        	        data: [<%= selectLangReplyList.get(0).getLangReplyContent()%>, <%= selectLangReplyList.get(1).getLangReplyContent()%>, <%= selectLangReplyList.get(2).getLangReplyContent()%>, <%= selectLangReplyList.get(3).getLangReplyContent()%>, <%= selectLangReplyList.get(4).getLangReplyContent()%>]
-        	    }]
-        	};
-
-        	var myRadarChart = new Chart(ctx2, {
-        	    type: 'radar',
-        	    data: dataLiteracy,
-        	    options: options
-        	});
-        	
+    	
         
 </script>
 </body>

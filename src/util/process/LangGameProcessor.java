@@ -84,7 +84,7 @@ public class LangGameProcessor {
 	            Map.of("left", "15%", "top", "10%", "width", "15%"),
 	            Map.of("left", "40%", "top", "10%", "width", "15%"),
 	            Map.of("left", "4%", "top", "55%", "width", "16%"),
-	            Map.of("left", "26%", "top", "52%", "width", "17%"),
+	            Map.of("left", "28%", "top", "52%", "width", "14%"),
 	            Map.of("left", "50%", "top", "55%", "width", "15%"));
 	        correctAnswer = new int[]{1, 5, 3, 2, 4};
 	        pageNum = new int[]{1, 3, 5, 7, 9};
@@ -158,8 +158,8 @@ public class LangGameProcessor {
 		// 우측 약간 아래 버튼 2개
 		else if (langQuestionId == 49 && (langGameId == 1)) {
 	        buttonData = Arrays.asList(
-	                Map.of("left", "44%", "top", "46%", "width", "23%"),
-	                Map.of("left", "65%", "top", "46%", "width", "25%"));
+	                Map.of("left", "42%", "top", "30%", "width", "29%"),
+	                Map.of("left", "66%", "top", "30%", "width", "34%"));
 	        correctAnswer = new int[]{2};
 	        pageNum = new int[]{1};
 	        isImageDuplicated = false;
@@ -167,9 +167,9 @@ public class LangGameProcessor {
 		// 우측 약간 아래 버튼 3개
 		else if (langQuestionId == 49 && (langGameId == 2)) {
 	        buttonData = Arrays.asList(
-	                Map.of("left", "42%", "top", "46%", "width", "11%"),
-	                Map.of("left", "56%", "top", "46%", "width", "18%"),
-	                Map.of("left", "76%", "top", "46%", "width", "12%"));
+	                Map.of("left", "42%", "top", "30%", "width", "15%"),
+	                Map.of("left", "58%", "top", "30%", "width", "25%"),
+	                Map.of("left", "83%", "top", "30%", "width", "17%"));
 	        correctAnswer = new int[]{3};
 	        pageNum = new int[]{2};
 	        isImageDuplicated = false;

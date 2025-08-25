@@ -1,4 +1,5 @@
 <!-- n개 그림 버튼 중 선택 -->
+<!-- 2번, 10번, 26번, 39번, 42번, 47번, 49번 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ page import="model.dto.LangGame" %>

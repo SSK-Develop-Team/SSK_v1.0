@@ -148,17 +148,22 @@
 </div>
 <script>
 	var audio = new Audio();
-	audio.src="<%=langGameList.get(i).getLangGameVoice()%>";
+	audio.src = "<%=langGameList.get(i).getLangGameVoice()%>";
 	
-	window.onload = function () {
-		if(<%=audioEndedNextFlag%>==1){
-			audio.addEventListener("ended",function(){
-				setTimeout(() => getNextContent(<%=i%>,<%=gameID%>,<%=langGameList.size()%>),2000);
-			});
-		}
-		audio.load();
-		audio.play();
-	}
+	document.addEventListener("DOMContentLoaded", function () {
+	    if (<%=audioEndedNextFlag%> == 1) {
+	        audio.addEventListener("ended", function () {
+	            setTimeout(() => getNextContent(<%=i%>, <%=gameID%>, <%=langGameList.size()%>), 2000);
+	        });
+	    }
+	
+	    audio.load();
+	
+	    // 자동 재생 시도
+	    audio.play().catch(function (error) {
+	        console.warn("자동 재생 실패, 사용자 인터랙션 필요:", error);
+	    });
+	});
 	
 	function audioReplay() {
 		if (audio.paused) {

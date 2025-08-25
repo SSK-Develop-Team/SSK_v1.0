@@ -65,16 +65,14 @@ public class DoLangTest extends HttpServlet {
 
 
 			LangTestLogDAO.insertLangTestLog(conn, langTestLog);
+			
 
 			for (int i = 0; i < 5; i++) {
 				LangReply langReply = new LangReply();
 				langReply.setLangTestLogId(langTestLog.getLangTestLogId());
 				langReply.setLangQuestionId(langQuestionList.get(i).getLangQuestionId());
-				if(langQuestionList.get(4).getLangQuestionId() == 50 && i == 4){
-					langReply.setLangReplyContent(0);
-				}else{
-					langReply.setLangReplyContent(Integer.parseInt(request.getParameter("reply" + i)));
-				}
+				langReply.setLangReplyContent(Integer.parseInt(request.getParameter("reply" + i)));
+				
 				if (LangReplyDAO.insertLangReply(conn, langReply)) {
 					System.out.println(i + "번째 응답 삽입 성공");
 					langReplyList.add(langReply);
