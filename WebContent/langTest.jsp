@@ -96,23 +96,23 @@
 						</div>
 						<div class="w3-row w3-margin">
 							<div class="w3-col m3 l3">
-								<%if(langProgList.get(i) == 1){ %> <input type="radio" class="reply w3-radio" name="reply<%=i%>" value="1" checked="checked">
-								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="1"> <%} %>
+								<%if(langProgList.get(i) == 0){ %> <input type="radio" class="reply w3-radio" name="reply<%=i%>" value="0" checked="checked">
+								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="0"> <%} %>
 								<label class="lang-test-reply-content">전혀 못한다 (0%)</label>
 							</div>
 							<div class="w3-col m3 l3">
-								<%if(langProgList.get(i) == 2){ %> <input type="radio" class="reply w3-radio" name="reply<%=i%>" value="2" checked="checked">
-								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="2"> <%} %>
+								<%if(langProgList.get(i) == 1){ %> <input type="radio" class="reply w3-radio" name="reply<%=i%>" value="1" checked="checked">
+								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="1"> <%} %>
 								<label class="lang-test-reply-content">조금 할 수 있다 (30%)</label>
 							</div>
 							<div class="w3-col m2 l2">
-								<%if(langProgList.get(i) == 3){ %> <input type="radio" class="reply w3-radio" class="reply" name="reply<%=i%>" value="3" checked="checked">
-								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="3"> <%} %>
+								<%if(langProgList.get(i) == 2){ %> <input type="radio" class="reply w3-radio" class="reply" name="reply<%=i%>" value="2" checked="checked">
+								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="2"> <%} %>
 								<label class="lang-test-reply-content">잘한다 (60%)</label>
 							</div>
 							<div class="w3-col m3 l3">
-								<%if(langProgList.get(i) == 4){ %> <input type="radio" class="reply w3-radio" name="reply<%=i%>" value="4" checked="checked">
-								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="4"> <%} %>
+								<%if(langProgList.get(i) == 3){ %> <input type="radio" class="reply w3-radio" name="reply<%=i%>" value="3" checked="checked">
+								<%} else {%><input type="radio" class="reply w3-radio" name="reply<%=i%>" value="3"> <%} %>
 								<label class="lang-test-reply-content">매우 잘한다 (100%)</label>
 							</div>
 							<div class="w3-col w3-hide-small m2 l2"></div>
@@ -140,10 +140,6 @@
 		var reply3 = "<%=langProgList.get(2)%>";
 		var reply4 = "<%=langProgList.get(3)%>";
 		var reply5 = "<%=langProgList.get(4)%>";
-
-		if(50 == <%=currQuestionList.get(4).getLangQuestionId()%>){
-			reply5 = "0";
-		}
 		
 		$("input[name='reply0']").change(function(){
 			if($("input[name='reply0']:checked")){

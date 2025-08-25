@@ -3,6 +3,7 @@ package controller.sdq;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
@@ -17,14 +18,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.dao.AgeGroupDAO;
 import model.dao.SdqReplyDAO;
 import model.dao.SdqResultAnalysisDAO;
 import model.dao.SdqTestLogDAO;
 import model.dao.UserDAO;
+import model.dto.AgeGroup;
 import model.dto.SdqResultAnalysis;
 import model.dto.SdqResultOfType;
 import model.dto.SdqTestLog;
 import model.dto.User;
+import util.process.UserInfoProcessor;
 
 /**
  * @author Jiwon Lee
@@ -57,6 +61,23 @@ public class GetSdqResultAll extends HttpServlet {
 			int childId = Integer.parseInt(request.getParameter("childId"));
 		 	focusUser  = UserDAO.getUserById(conn, childId);
 		}
+	 	
+	 	System.out.println("isApp: " + (String)session.getAttribute("isApp"));
+	 	
+	 	// 현재 아동 연령 확인 (10세 이하(currAgeGroup < 14) : 부모용 / 10세 이상 (currAgeGroup == 14): 아동용) - 
+	 	Date userBirth = focusUser.getUserBirth();
+		int nowAge = UserInfoProcessor.getUserBirthToCurrAge(userBirth);
+		System.out.println("nowAge" + nowAge);
+		
+		AgeGroup currAgeGroup = AgeGroupDAO.getCurrAgeGroup(conn, nowAge);
+		System.out.println("currAgeGroup : " + currAgeGroup.getAgeGroupId());
+		
+		String sdqTarget = "PARENT";
+		if (currAgeGroup.getAgeGroupId() == 14) {
+			sdqTarget = "CHILD";
+		}
+	 	
+		
 		
 		//모든 SdqTestLog
 		List<SdqTestLog> sdqTestLogList = SdqTestLogDAO.getSdqTestLogAllByUserId(conn, focusUser.getUserId());
@@ -91,10 +112,13 @@ public class GetSdqResultAll extends HttpServlet {
  			for(int i=0;i<sdqResult.size();i++) {
  				System.out.println(sdqResult.get(i).getSdqType());
  				System.out.println(sdqResult.get(i).getResult());
- 				sdqResultAnalysisList.addAll(SdqResultAnalysisDAO.findSdqResultAnalysisByTypeAndValue(conn, sdqResult.get(i).getSdqType(),sdqResult.get(i).getResult()));
+ 				sdqResultAnalysisList.addAll(SdqResultAnalysisDAO.findSdqResultAnalysisByTypeAndValue(conn, sdqResult.get(i).getSdqType(),sdqResult.get(i).getResult(), sdqTarget));
  			}
  			
+ 			//System.out.println(sdqResultAnalysisList);
+ 			
  			request.setAttribute("focusUser", focusUser);
+ 			request.setAttribute("sdqTarget", sdqTarget);
  			request.setAttribute("sdqTestLogList", sdqTestLogList);
  			request.setAttribute("selectedSdqTestLog", selectedSdqTestLog);
  			request.setAttribute("sdqResult", sdqResult);

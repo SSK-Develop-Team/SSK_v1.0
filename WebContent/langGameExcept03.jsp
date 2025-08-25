@@ -1,4 +1,5 @@
 <!-- 이름쓰기 버튼 출력-->
+<!-- 30번, 35번, 60번, 63번 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ page import="model.dto.User" %>

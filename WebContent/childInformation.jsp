@@ -127,8 +127,8 @@
 										<!-- Add a hidden input field for alarmId -->
 										<input type="hidden" name="alarmId" value="<%=esmTime.get(i).getAlarmId() %>" />
 										 <td style="padding-left:0">[<%=(i+1)%>]</td>
-											<td><%=esmTime.get(i).getAlarmStartTime().getHours()%>시</td>
-											<td><%=esmTime.get(i).getAlarmEndTime().getHours() %>시</td>
+											<td><%=esmTime.get(i).getAlarmStartTime().getHours()%>시 <%=esmTime.get(i).getAlarmStartTime().getMinutes()%>분</td>
+											<td><%=esmTime.get(i).getAlarmEndTime().getHours() %>시 <%=esmTime.get(i).getAlarmStartTime().getMinutes()%>분</td>
 											<td><%=esmTime.get(i).getAlarmInterval() %>시간</td>
 											<td><%=esmTime.get(i).getAlarmStartDate() %> ~ <%=esmTime.get(i).getAlarmEndDate() %></td>
 										</tr>

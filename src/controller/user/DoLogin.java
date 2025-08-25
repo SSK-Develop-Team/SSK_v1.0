@@ -60,11 +60,18 @@ public class DoLogin extends HttpServlet {
 			
 			// 앱인 경우, 정서반복기록으로 바로 이동
 			String isApp = request.getParameter("isApp");
+			if (isApp != null) {
+			    session.setAttribute("isApp", isApp);
+			}else
+			{
+				isApp = "false";
+				session.setAttribute("isApp", isApp);
+			}
+			
 			System.out.println("isApp : " + isApp);
 			String redirectLocation = "";
 			
 			if ("true".equals(isApp)) {
-				System.out.println("Redirection!!!!!!");
 				redirectLocation = "/esmTestMain.jsp";
 			} else {
 				switch(currUser.getUserRole()) {

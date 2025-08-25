@@ -16,7 +16,8 @@
 <%
 	User focusUser = (User)request.getAttribute("focusUser");
 	User currUser = (User)session.getAttribute("currUser");
-
+	String sdqTarget = (String)request.getAttribute("sdqTarget");
+	
 	ArrayList<SdqTestLog> sdqTestLogList = (ArrayList<SdqTestLog>)request.getAttribute("sdqTestLogList");
 	SdqTestLog selectedSdqTestLog = (SdqTestLog)request.getAttribute("selectedSdqTestLog");
 	ArrayList<SdqResultOfType> sdqResult = (ArrayList<SdqResultOfType>)request.getAttribute("sdqResult");
@@ -113,6 +114,9 @@
         <%}%>
           ]);
         
+        var isApp = "<%= session.getAttribute("isApp") %>";
+        var fontSize = (isApp === "true") ? 14 : 20;
+        
         var view = new google.visualization.DataView(data);
         view.setColumns([0, 1,
                          { calc: "stringify",
@@ -125,7 +129,7 @@
         	annotations : {
         		alwaysOutside : true,
         	    textStyle: {
-        	        fontSize: 20
+        	        fontSize: fontSize
         	      }
         	},
           	vAxis : {
@@ -134,12 +138,12 @@
           			min : 0
           		},
           	    textStyle: {
-          	      fontSize: 20 // y축 눈금 글씨 크기
+          	      fontSize: fontSize // y축 눈금 글씨 크기
           	    }
           	},
             hAxis: {
                 textStyle: {
-                  fontSize: 20 // x축 항목 이름 글씨 크기
+                  fontSize: fontSize // x축 항목 이름 글씨 크기
                 }
               },
           	tooltip: {isHtml: true},
@@ -233,17 +237,19 @@
         <p class="dsc">
 			<div id="sdqAnalysis" style="text-align:center;">
 			
-				<!-- 토글 버튼 -->
+				<!-- 토글 버튼 
 				<div style="text-align: center; margin: 20px;">
 				    <button onclick="showTarget('CHILD')" class="w3-button w3-round-large w3-light-grey" style="font-size : 1.2em;">자녀용 보고서</button>
 				    <button onclick="showTarget('PARENT')" class="w3-button w3-round-large w3-light-grey" style="font-size : 1.2em;">부모용 보고서</button>
-				</div>
+				</div>-->
 				
 				<div id="printArea">
 					<div class="report-title" style="font-size:1.5em;font-weight:bold;"><정서⋅행동 발달 평가 결과 보고서></div>
 					<div>&nbsp;</div>
+					
+					
 					<!-- 안내문: 아동용 -->
-					<div class="report-intro" data-target="CHILD" style="display: block;text-align: left;">
+					<div class="report-intro" data-target="CHILD" style="display: <%= "CHILD".equals(sdqTarget) ? "block" : "none" %>;text-align: left;">					
 					    안녕하세요. 이화여자대학교 SSK 연구팀입니다.<br>
 					    본 검사는 아동·청소년의 정신 건강 상태를 평가하기 위해 전 세계적으로 널리 사용되는 표준화된 강점·난점 검사(SDQ)를 한국 실정에 적합하도록 수정한 것입니다.
 					    총 25개 문항을 통해 여러분의 심리적 상태를 다섯 가지 주요 영역(사회성 행동, 과잉행동, 정서적 상태, 품행문제, 또래관계문제)에서 종합적으로 평가합니다.
@@ -252,7 +258,7 @@
 					</div>
 					
 					<!-- 안내문: 부모용 -->
-					<div class="report-intro" data-target="PARENT" style="display: none;text-align: left;">
+					<div class="report-intro" data-target="PARENT" style="display: <%= "PARENT".equals(sdqTarget) ? "block" : "none" %>;text-align: left;">					
 					    안녕하세요. 이화여자대학교 SSK 연구팀입니다.<br>
 					    본 검사는 아동·청소년의 정신 건강 상태를 평가하기 위해 전 세계적으로 널리 사용되는 표준화된 강점·난점 검사(SDQ)를 한국 실정에 적합하도록 수정한 것입니다.
 					    총 25개 문항을 통해 자녀의 심리적 상태를 다섯 가지 주요 영역(사회성 행동, 과잉행동, 정서적 상태, 품행문제, 또래관계문제)에서 종합적으로 평가합니다.
@@ -271,12 +277,13 @@
 					    String description = result.getDescription();
 					%>
 					
-						<div class="report-result" data-target="<%= target %>" style="display: <%= "CHILD".equals(target) ? "block" : "none" %>;">
+						<div class="report-result" data-target="<%= sdqTarget %>">						
+						
 							<div>&nbsp;</div>
 							<p style="font-weight: bold; text-align: left;"><%= type %></p>
 							<p style="text-align: left;">
 								-
-						        <% if ("PARENT".equalsIgnoreCase(target)) { %>
+						        <% if ("PARENT".equalsIgnoreCase(sdqTarget)) { %>
 						            	자녀의 <%= type %> 행동은 
 						        <% } else { %>
 						            <%= focusUser.getUserName() %>의 <%= type %> 행동은 
@@ -317,7 +324,7 @@
 function showTarget(targetType) {
     const allBlocks = document.querySelectorAll('.result-block');
 
-    // 안내문 토글
+    // 안내문토글
     document.querySelectorAll(".report-intro").forEach(el => {
     	el.style.display = (el.getAttribute("data-target") === targetType) ? "block" : "none";
 

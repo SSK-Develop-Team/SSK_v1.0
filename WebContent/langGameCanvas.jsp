@@ -43,11 +43,14 @@
   <div class="w3-col w3-hide-small m1 l2">&nbsp;</div>
   <div class="w3-col w3-container s12 m10 l8" >
     <div style="font-size:1.3em;font-weight:bold;">직접평가 #<%= gameID %></div>
+    </div>
+    
     <div class="w3-container" style="font-size:1.3em;">
       <div class="w3-right">
-        <button class="w3-button w3-circle" style="background-color:#D9D9D9;transform:translateY(-0.5em);width:2.3em;height:2.3em;padding:0;margin-top:0.5em;" onclick="removePainting();">
+        <button class="w3-button w3-circle" style="background-color:#D9D9D9;transform:translateY(-0.5em);width:2.3em;height:2.3em;padding:0;margin-top:0.5em;margin-right:0.3em;" onclick="removePainting();">
           <img src="./image/reload.png" style="width:1.5em;height:1.5em;">
         </button>
+        <button class="w3-button w3-circle" style="background-color:#12192C;transform:translateY(-0.5em);width:2.3em;height:2.3em;padding:0;margin-top:0.5em;color:white;" onclick="history.go(-1);">X</button>
       </div>
       <%if(gameID==30 && currLangGameElement.getLangGameOrder()==2) { %>
 		<div class="w3-left">이름을 써보세요.</div>

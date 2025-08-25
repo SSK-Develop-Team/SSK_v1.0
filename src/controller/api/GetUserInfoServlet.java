@@ -79,13 +79,21 @@ public class GetUserInfoServlet extends HttpServlet {
         else{ // user가 존재하는 경우
             message = "success";
             result.put("message", message);
-
-            ArrayList<EsmAlarm> esmAlarms = EsmAlarmDAO.getEsmAlarmListByCurDate(conn, user.getUserId());
+            
+            
+            ArrayList<EsmAlarm> esmAlarms = new ArrayList<>();
             ArrayList<String> esmAlarmTimes = new ArrayList<>();
-            if (esmAlarms != null){
-            	esmAlarmTimes = EsmProcessor.convertChildEsmAlarmList(esmAlarms); // interval 간격 적용된 알람 시간 리스트
+            // 알람 활성화 여부 확인
+            if (user.getIsAlarmActive() == 1) {
+                esmAlarms = EsmAlarmDAO.getEsmAlarmListByCurDate(conn, user.getUserId());
+                
+                if (esmAlarms != null){
+                    esmAlarmTimes = EsmProcessor.convertChildEsmAlarmList(esmAlarms); // interval 간격 적용된 알람 시간 리스트
+                }
+            } else {
+            	esmAlarmTimes = null; // 알람 비활성화 상태
             }
-
+            
             data.put("id", user.getUserId());
             data.put("loginId",user.getUserLoginId());
             data.put("password", user.getUserPassword());

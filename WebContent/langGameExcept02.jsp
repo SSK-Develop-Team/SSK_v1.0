@@ -1,4 +1,5 @@
 <!-- n개 그림 버튼 중 선택 + 모달 출력 -->
+<!-- 4번 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ page import="model.dto.LangGame" %>

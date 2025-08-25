@@ -11,9 +11,9 @@ import model.dto.SdqResultAnalysis;
 
 
 public class SdqResultAnalysisDAO {
-	private final static String SQLST_SELECT_SDQ_RESULT_ANALYSIS_BY_TYPE_AND_VALUE= "select * from sdq_result_analysis where sdq_type = ? and min_value<=? and max_value>=?";
+	private final static String SQLST_SELECT_SDQ_RESULT_ANALYSIS_BY_TYPE_AND_VALUE= "select * from sdq_result_analysis where sdq_type = ? and min_value<=? and max_value>=? and sdq_target=?";
 	
-	public static List<SdqResultAnalysis> findSdqResultAnalysisByTypeAndValue(Connection con, String sdqType, int value) {
+	public static List<SdqResultAnalysis> findSdqResultAnalysisByTypeAndValue(Connection con, String sdqType, int value, String sdqTarget) {
 		
 		List<SdqResultAnalysis> resultList = new ArrayList<>();
 		
@@ -23,6 +23,7 @@ public class SdqResultAnalysisDAO {
 	        pstmt.setString(1, sdqType);
 	        pstmt.setInt(2, value);
 	        pstmt.setInt(3, value);
+	        pstmt.setString(4,  sdqTarget);
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
