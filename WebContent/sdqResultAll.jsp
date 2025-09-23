@@ -35,7 +35,7 @@
 	color:white;
 	font-size:1.2em;
 	align-items : center;
-	padding:0px;
+	padding:1px;
 }
 @media (max-width: 390px) {
   .fullBtn {
@@ -60,7 +60,14 @@
    border-color: #666;
    color: #000;
  }
- 
+  @media (max-width: 600px) {
+    .responsive-chart {
+      width: 100vw !important;
+      margin-left: -8px;  /* 또는 container 좌/우 padding만큼 보정 */
+      margin-right: -8px;
+    }
+  }
+  
 @media print {
     body {
         font-size: 16px !important;
@@ -107,52 +114,65 @@
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['정서 / 행동 발달 검사', '결과', {role:"style"},  {type: 'string', role: 'tooltip', p: {'html': true}}],
-          <%for(int i=0;i<sdqResult.size();i++){%>
-	          ['<%=sdqResultAnalysisList.get(i).getSdqType()%>', <%=sdqResult.get(i).getResult()%>, '<%=sdqResultAnalysisList.get(i).getColor()%>', '<div style="width:100px;margin:0px;padding:5px;"><b><%=sdqResultAnalysisList.get(i).getSdqType()%></b> <br>결과: <%=sdqResultAnalysisList.get(i).getSdqAnalysisResult()%></div>'],
-        <%}%>
-          ]);
-        
-        var isApp = "<%= session.getAttribute("isApp") %>";
-        var fontSize = (isApp === "true") ? 14 : 20;
-        
-        var view = new google.visualization.DataView(data);
-        view.setColumns([0, 1,
-                         { calc: "stringify",
-                           sourceColumn: 1,
-                           type: "string",
-                           role: "annotation" },
-                         2,3]);
+    	  const isApp = "<%= session.getAttribute("isApp") %>";
+    	  const isSmallScreen = window.innerWidth < 600;  // 원하는 너비로 조정 가능
+    	  
+    	  const fontSize = isSmallScreen ? 14 : (isApp === "true" ? 14 : 20);
 
-        var options = {
-        	annotations : {
-        		alwaysOutside : true,
-        	    textStyle: {
-        	        fontSize: fontSize
-        	      }
-        	},
-          	vAxis : {
-          		viewWindow : {
-          			max : 10,
-          			min : 0
-          		},
-          	    textStyle: {
-          	      fontSize: fontSize // y축 눈금 글씨 크기
-          	    }
-          	},
-            hAxis: {
-                textStyle: {
-                  fontSize: fontSize // x축 항목 이름 글씨 크기
-                }
-              },
-          	tooltip: {isHtml: true},
-        	'legend' : 'none'
-          	
-        };
-        
-        var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
-        chart.draw(view, options);
+    	  
+    	  const breakLabel = (label) => {
+    	    if (!isSmallScreen) return label;
+    	    return label.replace("행동", "\n행동")
+    	                .replace("상태", "\n상태")
+    	                .replace("문제", "\n문제")
+    	                .replace("관계", "\n관계");
+    	  };
+
+    	  const data = google.visualization.arrayToDataTable([
+    	    ['정서 / 행동 발달 검사', '결과', {role:"style"},  {type: 'string', role: 'tooltip', p: {'html': true}}],
+    	    <% for(int i=0; i<sdqResult.size(); i++) { 
+    	         String label = sdqResultAnalysisList.get(i).getSdqType();
+    	         String result = String.valueOf(sdqResult.get(i).getResult());
+    	         String color = sdqResultAnalysisList.get(i).getColor();
+    	         String tooltip = sdqResultAnalysisList.get(i).getSdqAnalysisResult();
+    	    %>
+    	      [breakLabel("<%=label%>"), <%=result%>, '<%=color%>',
+    	       '<div style="width:100px;margin:0px;padding:5px;"><b><%=label%></b> <br>결과: <%=tooltip%></div>'],
+    	    <% } %>
+    	  ]);
+    	  
+    	  const view = new google.visualization.DataView(data);
+    	  view.setColumns([0, 1,
+    	    { calc: "stringify", sourceColumn: 1, type: "string", role: "annotation" },
+    	    2, 3
+    	  ]);
+
+    	  const options = {
+    			  chartArea: {
+    				    left: 40,   // y축 숫자 여백
+    				    right: 20,
+    				    top: 20,
+    				    bottom: 60,  // x축 라벨 여백
+    				    width: '90%',  // 전체 폭 대비 사용 비율
+    				    height: '80%'  // 전체 높이 대비
+    				  },
+    			    annotations: {
+    			      alwaysOutside: true,
+    			      textStyle: { fontSize: fontSize }
+    			    },
+    			    vAxis: {
+    			      viewWindow: { max: 10, min: 0 },
+    			      textStyle: { fontSize: fontSize }
+    			    },
+    			    hAxis: {
+    			      textStyle: { fontSize: fontSize }
+    			    },
+    			    tooltip: { isHtml: true },
+    			    legend: 'none'
+    			  };
+
+    			  const chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+    			  chart.draw(view, options);
       }
     </script>
 
@@ -205,28 +225,29 @@
    
 	<!-- 시간별 그래프 뷰 -->
 	<div class="w3-row">
-		<div class="w3-col w3-hide-small m1 l2">&nbsp;</div>
-		<div class="w3-col s12 m10 l8">
-			<div id="columnchart_values" style="width:100%;height: 60vh;"></div>
+		<div class="w3-col w3-hide-small m1 l1">&nbsp;</div>
+		<div class="w3-col s12 m10 l10">
+			<div id="columnchart_values" class="responsive-chart" style="width:100%;height: 60vh; margin-left: -8px; margin-right: -8px; "></div>
 		</div>
-		<div class="w3-col w3-hide-small m1 l2">&nbsp;</div>
+		<div class="w3-col w3-hide-small m1 l1">&nbsp;</div>
 	</div>
 	
-	<div class="w3-row w3-margin-top">
-		<div class="w3-col s2 m2 l3">&nbsp;</div>
-		
-		<div class="w3-col w3-row s4 m3 l2">
+	<div class="w3-row w3-margin-top">		
+		<div class="w3-col m1 l2">&nbsp;</div>
+
+		<div class="w3-col w3-row s7 m4 l3">
 			<button class="w3-button w3-col fullBtn" onclick="document.getElementById('modal').style.display='block';">검사 결과 보고서</button>
 		</div>
-		<div class="w3-col s2 m1 l2">&nbsp;</div>
-		<div class="w3-col w3-row s3 m2 l1">
+		<div class="w3-col s1 m4 l3">&nbsp;</div>
+		<div class="w3-col w3-row s4 m2 l2">
 			<%if(currUser.getUserRole().equals("CHILD")){ %>
 			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;margin-left:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='sdqTestMain.jsp';">메인으로</button>
 			<%}else{ %>
 				<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;margin-left:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">메인으로</button>
 			<%} %>
 		</div>
-		<div class="w3-col s2 m2 l3">&nbsp;</div>
+		
+		<div class="w3-col m1 l2">&nbsp;</div>
 	</div>
 	
 	<!-- 검사 결과 보기 모달 -->

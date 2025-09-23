@@ -268,11 +268,11 @@ td {
 				</div>
 				
 				<div class="w3-row w3-margin-top">				
-					<div class="w3-col w3-row s4 m3 l4">
+					<div class="w3-col w3-row s7 m5 l4">
 						<button class="w3-button w3-col fullBtn w3-margin-top" onclick="document.getElementById('modal').style.display='block';">검사 결과 보고서</button>
 					</div>
-					<div class="w3-col s5 m7 l6">&nbsp;</div>
-					<div class="w3-col w3-row s3 m2 l2 btnbox">
+					<div class="w3-col s1 m5 l6">&nbsp;</div>
+					<div class="w3-col w3-row s4 m2 l2 btnbox">
 					<%if(currUser.getUserRole().equals("CHILD")){ %>
 						<input type="button" class="w3-button w3-right w3-round-large w3-margin-top" style="background-color: #1a2a3a;color:white;font-size:1.2em;margin-bottom:10px;height:50px;"id="mainBack" value="돌아가기" onClick="javascript:location.href='childHome.jsp'">
 					<%}else{ %>

@@ -40,7 +40,7 @@
 			</button>
 			직접평가 #<%= gameID %>
 		</div>
-		
+
 		<!-- 직접평가 이미지 -->
 		<div><img src="<%=currLangGameElement.getLangGameImg() %>.jpg" style="width:100%"/></div>
 		
