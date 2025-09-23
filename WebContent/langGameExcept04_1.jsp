@@ -39,6 +39,30 @@
 	  }
 	</style>
 	<title><%= gameID %>번 문항 직접 평가</title>
+<style>
+/* 시작 모달 스타일 지정 */
+.start-modal-content {
+	position: absolute;
+	top:50%;
+	left:50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	padding: 40px;
+	width: 90%;
+	max-width: 500px;
+	margin: 0 !important;         /* W3CSS 기본 margin:auto 제거 */
+  	box-sizing: border-box;       /* padding 포함해서 중앙 정렬 정확히 */
+}
+
+@media screen and (max-width: 600px) {
+	.start-modal-content {
+	    width: 90% !important;    /* 양 옆 공백 제거 */
+	    max-width: none !important;  /* 최대폭 제한 해제 */
+	    padding: 20px;
+	}
+}
+
+</style>
 </head>
 <body>
 <%@ include file="sidebar.jsp" %>
@@ -46,7 +70,7 @@
 <div class="w3-row">
 	<!-- 시작 알림 모달 -->
 	<div id="start-modal" class="w3-modal" style="display:block;">
-	  <div class="w3-modal-content w3-animate-opacity w3-round-large" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);text-align: center; padding: 40px;width:90%;max-width:500px;">
+	  <div class="w3-modal-content w3-animate-opacity w3-round-large start-modal-content">
 	    <h3>직접평가를 시작하시겠습니까?</h3>
 	    <button class="w3-button w3-round-large w3-margin-top" style="background-color:#12192C; color:white;" onclick="startEvaluation()">시작하기</button>
 	  </div>

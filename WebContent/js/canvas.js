@@ -2,16 +2,16 @@ console.log("canvas.js 로드됨");
 
 function initCanvas() {
   console.log("initCanvas 호출됨");
-  
-  const canvas = document.getElementById('jsCanvas');
-  const container = document.getElementById('canvas-container');
+
+  const canvas = document.getElementById("jsCanvas");
+  const container = document.getElementById("canvas-container");
 
   if (!canvas || !container) {
     console.warn("❌ canvas 요소나 canvas-container가 없습니다.");
     return;
   }
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   let painting = false;
 
   // 캔버스 크기 설정
@@ -21,60 +21,61 @@ function initCanvas() {
   // 선 색상 및 두께
   ctx.strokeStyle = "black";
   ctx.lineWidth = 2.5;
+  ctx.lineCap = "round"; // 끝부분 둥글게
+  ctx.lineJoin = "round"; // 모서리 둥글게
 
-  // 마우스 이벤트 함수들
-  function startPainting() { painting = true; }
-  function stopPainting() { painting = false; }
+  // ===== 마우스 이벤트 함수 =====
+  function startPainting(e) {
+    painting = true;
+    const rect = canvas.getBoundingClientRect();
+    ctx.beginPath();
+    ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+  }
 
-  function onMouseMove(event) {
-	    const rect = canvas.getBoundingClientRect();
-	    const x = event.clientX - rect.left;
-	    const y = event.clientY - rect.top;
+  function stopPainting() {
+    painting = false;
+  }
 
-	    if (!painting) {
-	        ctx.beginPath();
-	        ctx.moveTo(x, y);
-	    } else {
-	        ctx.lineTo(x, y);
-	        ctx.stroke();
-	    }
-	}
+  function onMouseMove(e) {
+    if (!painting) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  }
 
-  // 터치용 변수 및 함수
+  // ===== 터치 이벤트 변수 & 함수 =====
   const ongoingTouches = [];
 
   function handleStart(event) {
-    event.preventDefault();
-    const touches = event.changedTouches;
-    for (let i = 0; i < touches.length; i++) {
-      ongoingTouches.push(copyTouch(touches[i]));
-      ctx.beginPath();
-      ctx.arc(touches[i].pageX - canvas.offsetLeft, touches[i].pageY - canvas.offsetTop, 1, 0, 2 * Math.PI, false);
-      ctx.fill();
-    }
-  }
+	  event.preventDefault();
+	  const touches = event.changedTouches;
 
-  function handleMove(event) {
-	    event.preventDefault();
-	    const touches = event.changedTouches;
+	  for (let i = 0; i < touches.length; i++) {
+	    const { x, y } = getCanvasCoordinates(touches[i], canvas);
+	    ongoingTouches.push({ identifier: touches[i].identifier, x, y });
 
-	    for (let i = 0; i < touches.length; i++) {
-	        const rect = canvas.getBoundingClientRect();
-	        const x = touches[i].clientX - rect.left;
-	        const y = touches[i].clientY - rect.top;
+	    ctx.beginPath();
+	    ctx.moveTo(x, y);
+	  }
+	}
 
-	        const idx = ongoingTouchIndexById(touches[i].identifier);
+	function handleMove(event) {
+	  event.preventDefault();
+	  const touches = event.changedTouches;
 
-	        if (idx >= 0) {
-	            ctx.beginPath();
-	            ctx.moveTo(ongoingTouches[idx].x, ongoingTouches[idx].y);
-	            ctx.lineTo(x, y);
-	            ctx.stroke();
+	  for (let i = 0; i < touches.length; i++) {
+	    const { x, y } = getCanvasCoordinates(touches[i], canvas);
+	    const idx = ongoingTouchIndexById(touches[i].identifier);
 
-	            // 업데이트된 좌표로 바꾸기
-	            ongoingTouches.splice(idx, 1, { identifier: touches[i].identifier, x, y });
-	        }
+	    if (idx >= 0) {
+	      ctx.lineTo(x, y);
+	      ctx.stroke();
+
+	      ongoingTouches.splice(idx, 1, { identifier: touches[i].identifier, x, y });
 	    }
+	  }
 	}
 
   function handleEnd(event) {
@@ -83,11 +84,7 @@ function initCanvas() {
     for (let i = 0; i < touches.length; i++) {
       const idx = ongoingTouchIndexById(touches[i].identifier);
       if (idx >= 0) {
-        ctx.lineWidth = 4;
-        ctx.beginPath();
-        ctx.moveTo(ongoingTouches[idx].pageX - canvas.offsetLeft, ongoingTouches[idx].pageY - canvas.offsetTop);
-        ctx.lineTo(touches[i].pageX - canvas.offsetLeft, touches[i].pageY - canvas.offsetTop);
-        ctx.fillRect(touches[i].pageX - canvas.offsetLeft - 2, touches[i].pageY - canvas.offsetTop - 2, 4, 4);
+        // 마지막 선분은 handleMove에서 이미 그려졌으므로 여기서는 정리만
         ongoingTouches.splice(idx, 1);
       }
     }
@@ -98,7 +95,7 @@ function initCanvas() {
     const touches = event.changedTouches;
     for (let i = 0; i < touches.length; i++) {
       const idx = ongoingTouchIndexById(touches[i].identifier);
-      ongoingTouches.splice(idx, 1);
+      if (idx >= 0) ongoingTouches.splice(idx, 1);
     }
   }
 
@@ -111,16 +108,28 @@ function initCanvas() {
     return -1;
   }
 
-  function copyTouch(touch) {
-	    const rect = canvas.getBoundingClientRect();
-	    return {
-	        identifier: touch.identifier,
-	        x: touch.clientX - rect.left,
-	        y: touch.clientY - rect.top
-	    };
-	}
+  function getCanvasCoordinates(evt, canvas) {
+	  const rect = canvas.getBoundingClientRect();
+	  const scaleX = canvas.width / rect.width;
+	  const scaleY = canvas.height / rect.height;
 
-  // 이벤트 바인딩
+	  let clientX, clientY;
+	  if (evt.touches) { // 터치 이벤트
+	    clientX = evt.touches[0].clientX;
+	    clientY = evt.touches[0].clientY;
+	  } else { // 마우스 이벤트
+	    clientX = evt.clientX;
+	    clientY = evt.clientY;
+	  }
+
+	  return {
+	    x: (clientX - rect.left) * scaleX,
+	    y: (clientY - rect.top) * scaleY
+	  };
+	}
+  
+  
+  // ===== 이벤트 바인딩 =====
   canvas.addEventListener("mousedown", startPainting);
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mousemove", onMouseMove);
@@ -134,9 +143,9 @@ function initCanvas() {
 
 // 외부에서 호출 가능한 리셋 함수
 function removePainting() {
-  const canvas = document.getElementById('jsCanvas');
+  const canvas = document.getElementById("jsCanvas");
   if (canvas) {
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
   }
@@ -147,7 +156,7 @@ window.initCanvas = initCanvas;
 window.removePainting = removePainting;
 
 // DOM이 이미 로드된 경우 즉시 실행
-if (document.readyState === 'loading') {
+if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", function () {
     console.log("DOMContentLoaded - canvas.js 초기화");
   });

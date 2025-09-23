@@ -380,14 +380,21 @@ function openCanvasModal(instructionText) {
     document.getElementById('canvas-modal').style.display = 'block';
     document.getElementById('canvas-instruction').innerText = instructionText;
     
-    // 모달이 완전히 표시된 후 캔버스 초기화
+    // 모달이 표시된 후 캔버스 초기화
     setTimeout(() => {
+        const canvas = document.getElementById('jsCanvas');
+        if (canvas) {
+            // 현재 표시된 크기에 맞게 다시 초기화
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        }
+
         if (typeof initCanvas === 'function') {
             initCanvas();
         } else {
             console.error('initCanvas 함수를 찾을 수 없습니다.');
         }
-    }, 100);
+    }, 200);
 }
 
 function closeCanvasModal() {
