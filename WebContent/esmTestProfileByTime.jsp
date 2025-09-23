@@ -141,19 +141,21 @@
 	
 	<!-- page redirect button -->
 	<div class="w3-row">
-		<div class="w3-col s2 m3 l3">&nbsp;</div>
-		<div class="w3-col w3-row s4 m2 l2">
+		<div class="w3-col m1 l2">&nbsp;</div>
+
+		<div class="w3-col w3-row s7 m4 l3">
 			<button class="w3-button w3-col w3-padding" style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='GetEsmTestProfileByDay?date=<%=selectedDateEsmTestLogList.get(0).getEsmTestDate().toString()%>&childId=<%=focusUser.getUserId()%>';">일별 그래프 보기</button>
 		</div>
-		<div class="w3-col s1 m3 l3">&nbsp;</div>
-		<div class="w3-col w3-row s3 m1 l1">
+		<div class="w3-col s1 m4 l3">&nbsp;</div>
+		<div class="w3-col w3-row s4 m2 l2">
 		<%if(currUser.getUserRole().equals("CHILD")){ %>
 			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='esmTestMain.jsp';">메인으로</button>
 		<%}else{ %>
 			<button class="w3-button w3-col"style="border:1px solid #ff6666;border-radius:10px;background-color:#ff6666;margin-bottom:10px;height:50px;color:white;font-size:1.2em;align-items : center;padding:0px;"onclick="location.href='GoToChildHome?childId=<%=focusUser.getUserId()%>';">메인으로</button>
 		<%} %>
 		</div>
-		<div class="w3-col s2 m3 l3">&nbsp;</div>
+		
+		<div class="w3-col m1 l2">&nbsp;</div>
 	</div>
 
 </body>

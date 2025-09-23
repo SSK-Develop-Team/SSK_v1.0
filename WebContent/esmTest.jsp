@@ -60,10 +60,40 @@
 	appearance: none;
 	border: max(2px, 0.1em) solid gray;
 	border-radius: 50%;
-	width: 1.8em;
-	height: 1.8em;
 	margin: 0.3em;
 	transition: border 0.5s ease-in-out;
+}
+
+.radio1 {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.radio2 {
+    width: 2.0em;
+    height: 2.0em;
+}
+
+.radio3 {
+    width: 2.5em;
+    height: 2.5em;
+}
+
+.radio4 {
+    width: 3.0em;
+    height: 3.0em;
+}
+
+.radio5 {
+    width: 3.5em;
+    height: 3.5em;
+}
+
+.mobile-label {
+  display: none;
+}
+.desktop-label {
+  display: inline;
 }
 
 /* 라벨 줄바꿈 방지 */
@@ -77,17 +107,43 @@
 @media screen and (max-width: 600px) {
   .label-left, .label-right {
     font-size: 0.9em;
-    /*word-break: keep-all;*/
-  }
-
-  .radio-options input[type="radio"] {
-    width: 1.5em;
-    height: 1.5em;
   }
 
   .emotion-text {
     font-size: 1.1em;
   }
+
+	.radio1 {
+	    width: 1.0em;
+	    height: 1.0em;
+	}
+	
+	.radio2 {
+	    width: 1.5em;
+	    height: 1.5em;
+	}
+	
+	.radio3 {
+	    width: 2.0em;
+	    height: 2.0em;
+	}
+	
+	.radio4 {
+	    width: 2.5em;
+	    height: 2.5em;
+	}
+	
+	.radio5 {
+	    width: 3.0em;
+	    height: 3.0em;
+	}
+	
+	.mobile-label {
+	  display: inline;
+	}
+	.desktop-label {
+	  display: none;
+	}
 }
 
 
@@ -128,17 +184,23 @@
 				  </div>
 				
 				  <div class="w3-row radio-group">
-				    <div class="label-left w3-col s2 m2 l2">전혀 아니다.</div>
+				    <div class="label-left w3-col s2 m2 l2">
+					  <span class="desktop-label">전혀 아니다.</span>
+					  <span class="mobile-label">전혀<br>아니다.</span>
+					</div>
 				
 				    <div class="w3-col s8 m8 l8 radio-options">
-				      <input type="radio" class="w3-radio" style="width:1.50em; height:1.50em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="1" checked>
-				      <input type="radio" class="w3-radio" style="width:2.00em; height:2.00em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="2">
-				      <input type="radio" class="w3-radio" style="width:2.50em; height:2.50em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="3">
-				      <input type="radio" class="w3-radio" style="width:3.00em; height:3.00em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="4">
-				      <input type="radio" class="w3-radio" style="width:3.50em; height:3.50em;" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="5">
+				      <input type="radio" class="w3-radio radio1" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="1" checked>
+				      <input type="radio" class="w3-radio radio2" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="2">
+				      <input type="radio" class="w3-radio radio3" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="3">
+				      <input type="radio" class="w3-radio radio4" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="4">
+				      <input type="radio" class="w3-radio radio5" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="5">
 				    </div>
 				
-				    <div class="label-right w3-col s2 m2 l2">매우 그렇다.</div>
+				    <div class="label-right w3-col s2 m2 l2">
+					  <span class="desktop-label">매우 그렇다.</span>
+					  <span class="mobile-label">매우<br>그렇다.</span>
+					</div>
 				  </div>
 				</div>
 			

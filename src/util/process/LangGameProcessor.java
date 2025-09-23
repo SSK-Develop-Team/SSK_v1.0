@@ -36,9 +36,25 @@ public class LangGameProcessor {
 	 * : langGameLocation 지정 함수
 	 * : langGameId는 실제 DB에 저장된 langGameId의 -1한 값*/
 	public static String getForwardLocationByLangQuestionIdAndLangGameId(int langQuestionId, int langGameId){
-		String location = "/langGame.jsp";
-
+		String location = "/langGameTest.jsp";
+		
 		// 이미지 버튼 터치 게임 Except01
+		if (langQuestionId == 2 || langQuestionId == 3 || langQuestionId == 10 || langQuestionId == 26 || langQuestionId == 39 || 
+				langQuestionId == 42 || langQuestionId == 47 || langQuestionId == 49) {
+			location = "/langGameExcept01_1.jsp";
+		}else if (langQuestionId == 4) {
+		// 번호 터치 후 화면 전환 게임 Except02
+			location = "/langGameExcept02_1.jsp";
+		}else if (langQuestionId == 30 || langQuestionId == 35 || langQuestionId == 60 || langQuestionId == 63) {
+		// 글자쓰기 게임 Except 03
+			location = "/langGameExcept03_1.jsp";
+		} else if (langQuestionId == 50) {
+			location = "/langGameExcept04_1.jsp";
+		}
+		return location;
+			
+			
+		/*
 		if((langQuestionId == 2 && (langGameId == 1 || langGameId == 3 || langGameId == 5 || langGameId == 7 || langGameId == 9))||
 				(langQuestionId == 3 && (langGameId == 1 || langGameId == 2 || langGameId == 3))||
 				(langQuestionId == 10 && (langGameId == 1 || langGameId == 2 || langGameId == 3))||
@@ -49,7 +65,7 @@ public class LangGameProcessor {
 				(langQuestionId == 49 && (langGameId == 1 || langGameId == 2))){
 			location = "/langGameExcept01.jsp";
 		}
-		// 번호 터치 후 화면 전환 게임 Except02
+		
 		else if(langQuestionId == 4 && (langGameId == 1 || langGameId == 3 || langGameId == 5 || langGameId == 7)) {
 			location = "/langGameExcept02.jsp";
 		}
@@ -64,7 +80,7 @@ public class LangGameProcessor {
 		else if(langQuestionId == 50 && (langGameId == 1 || langGameId == 2 || langGameId == 3 || langGameId == 4)){
 			location = "/langGameExcept04.jsp";
 		}
-		return location;
+		return location;*/
 	}
 	
 	/*
