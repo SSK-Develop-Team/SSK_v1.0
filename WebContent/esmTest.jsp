@@ -190,11 +190,11 @@
 					</div>
 				
 				    <div class="w3-col s8 m8 l8 radio-options">
-				      <input type="radio" class="w3-radio radio1" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="1" checked>
-				      <input type="radio" class="w3-radio radio2" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="2">
-				      <input type="radio" class="w3-radio radio3" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="3">
-				      <input type="radio" class="w3-radio radio4" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="4">
-				      <input type="radio" class="w3-radio radio5" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="5">
+				      <input type="radio" class="w3-radio radio1" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="0" checked>
+				      <input type="radio" class="w3-radio radio2" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="1">
+				      <input type="radio" class="w3-radio radio3" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="2">
+				      <input type="radio" class="w3-radio radio4" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="3">
+				      <input type="radio" class="w3-radio radio5" name="<%=esmEmotionList.get(i).getEsmEmotion() %>" value="4">
 				    </div>
 				
 				    <div class="label-right w3-col s2 m2 l2">

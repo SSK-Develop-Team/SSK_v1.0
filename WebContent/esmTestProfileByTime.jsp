@@ -59,7 +59,7 @@
        	},
         vAxis : {
             viewWindow : {
-            	max : 25,
+            	max : 20,
                 min : 0
             },
       	    textStyle: {
