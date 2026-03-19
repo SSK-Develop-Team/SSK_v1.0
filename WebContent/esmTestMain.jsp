@@ -15,6 +15,10 @@
 <%@ include file = "sidebar.jsp" %>
 <% 
 	User currUser = (User)session.getAttribute("currUser"); 
+	if (currUser == null) {
+    response.sendRedirect(request.getContextPath() + "/login.jsp");
+    return;
+}
 	String name = currUser.getUserName();
 %>
 

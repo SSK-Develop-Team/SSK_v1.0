@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/style.css?v=1">
 
 <title>홈</title>
 </head>
@@ -44,6 +44,10 @@
 		<button class="w3-button w3-block w3-round-large w3-padding-16 sdq-button" onclick="location.href='esmTestMain.jsp'">정서 반복 기록</button>
 		<div>&nbsp;</div>
 		<button class="w3-button w3-block w3-round-large w3-padding-16 sdq-button" onclick="location.href='GetEsmRecordMain'">정서 다이어리</button>
+		<div>&nbsp;</div>
+		<div>&nbsp;</div>
+		<div class="section-title">맞춤형 동화 (언어·정서)</div>
+		<button class="w3-button w3-block w3-round-large w3-padding-16 book-button" onclick="location.href='bookMain.jsp'">맞춤형 동화책</button>
 		<div>&nbsp;</div>
 		<div>&nbsp;</div>
 		<div class="section-title">You Tube</div>

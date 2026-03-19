@@ -23,6 +23,11 @@ public class DoLogout extends HttpServlet {
       session.removeAttribute("focusUser");
       session.removeAttribute("selectedExpert");
       session.removeAttribute("selectedChild");
+      
+      session.removeAttribute("thread_id");
+      session.removeAttribute("booted");
+      session.removeAttribute("history");
+      
       response.sendRedirect("./login.jsp");
    }
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -7,6 +7,12 @@
 <!DOCTYPE html>
 <html>
 <% 
+	// 로그인 유저 확인
+	User currUser = (User) session.getAttribute("currUser");
+	if (currUser == null) {
+	    response.sendRedirect(request.getContextPath() + "/login.jsp");
+	    return;
+	}
 	String currDateStr = (String)request.getAttribute("currDateStr");
 	JSONObject eventsJsonObject = (JSONObject)request.getAttribute("eventsJsonObject");
 	JSONArray eventsJsonArray = (JSONArray)eventsJsonObject.get("events");	

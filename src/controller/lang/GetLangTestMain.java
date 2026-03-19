@@ -41,8 +41,14 @@ public class GetLangTestMain extends HttpServlet {
 		HttpSession session = request.getSession(true);
 
 		ServletContext sc = getServletContext();
-		Connection con = (Connection)sc.getAttribute("DBconnection");
-		User currUser = (User)session.getAttribute("currUser");
+		Connection con = (Connection)sc.getAttribute("DBconnection");		
+		
+        // 로그인 유저 확인
+        User currUser = (User) session.getAttribute("currUser");
+        if (currUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
 		
 		Date userBirth = currUser.getUserBirth();
 		int nowAge = UserInfoProcessor.getUserBirthToCurrAge(userBirth);

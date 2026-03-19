@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
   <display-name>PSLE</display-name>
+  
+  <!-- FastAPI base URL -->
+  <context-param>
+    <param-name>PY_BASE_URL</param-name>
+    <param-value>http://127.0.0.1:8000</param-value>
+  </context-param>
+  
+  <!-- Default PSLE WEB --> 
   <welcome-file-list>
     <welcome-file>login.jsp</welcome-file>
     <welcome-file>main.jsp</welcome-file>

@@ -8,6 +8,14 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 
+<%
+	// 로그인 유저 확인
+	User currUser = (User) session.getAttribute("currUser");
+	if (currUser == null) {
+	    response.sendRedirect(request.getContextPath() + "/login.jsp");
+	    return;
+	}
+%>
 <title>정서/행동 발달 검사</title>
 </head>
 
