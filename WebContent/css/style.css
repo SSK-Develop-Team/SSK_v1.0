@@ -5,10 +5,18 @@
 	font-size:1.8em;
 }
 
+.test-sub-title {
+	font-weight:bold;
+	text-align:center;
+	font-size:1.5em;
+}
+
 .test-main-description {
 	text-align:center;
 	font-size:1.2em;
 }
+
+/* 언어 */
 
 .lang-button {
 	background-color:#51459E;
@@ -37,6 +45,7 @@
 	font-size:1.2em;
 }
 
+/* 정서 */
 
 .sdq-button {
 	background-color:#FF92A4;
@@ -44,3 +53,211 @@
 	font-size:1.8em;
 }
 
+/* 동화책 */
+
+.book-button {
+	background-color: #69B5B9;
+	color:white;
+	font-size:1.8em;
+}
+.book-modal-primary-button {
+	background-color: #2E6D71;
+	color:white;
+	font-size:1.5em;
+}
+.book-modal-sub-button {
+	background-color: #56A3A7;
+	color:white;
+	font-size:1.5em;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #ddd;
+  width: min(520px, 90%);
+  margin: 0 auto;
+}
+
+.info-label {
+  font-weight: 700;
+  color: #222;
+}
+
+.info-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.gender-wrap {
+  display: flex;
+  gap: 12px;
+}
+
+.gender-toggle {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 1.05em;
+  cursor: pointer;
+  background: #eee;
+  color: #222;
+}
+
+.gender-toggle.active {
+  background: #67AFAE;
+  color: #fff;
+}
+
+/* 챗봇 */
+.chatArea {
+  padding-left: 12px;
+  padding-right: 12px;
+  box-sizing: border-box;
+}
+
+.chat-wrap {
+  width: 100%;
+  max-width: 980px;  /* 원하는 최대 폭 */
+  margin: 0 auto;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 12px 0;
+  padding-bottom: calc(140px + env(safe-area-inset-bottom));
+}
+
+.chat-list {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 12px 0;
+}
+
+/* assistant: 버블 없이 plain text */
+.msg.assistant {
+  align-self: flex-start;
+  max-width: calc(100% - 24px);
+  box-sizing: border-box;
+  min-width: 0;
+
+  color: #111;
+  font-size: 1.05em;
+  line-height: 1.6;
+  white-space: pre-wrap;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* user: 버블 유지 */
+.msg.user {
+  align-self: flex-end;
+
+  max-width: calc(100% - 24px);
+  width: fit-content;
+  box-sizing: border-box;
+  min-width: 0;
+
+  background: #e9f3f3;
+  padding: 12px 14px;
+  border-radius: 18px;
+  line-height: 1.5;
+  font-size: 1.05em;
+  white-space: pre-wrap;
+
+  overflow-wrap: anywhere;  /* 긴 단어/URL도 줄바꿈 */
+  word-break: break-word;
+}
+
+/* ===== Input bar ===== */
+.chat-input-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+
+  border-top: 1px solid #e8e8e8;
+  padding: 14px 0 calc(18px + env(safe-area-inset-bottom));
+}
+
+.chat-input-inner {
+  width: min(980px, 94vw);
+  margin: 0 auto;
+
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* textarea */
+.chat-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  resize: none;
+
+  font-size: 1.05em;
+  line-height: 1.5;
+
+  min-height: 44px;
+  max-height: 140px;
+  padding: 8px 6px;
+}
+
+/* send button */
+.send-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: #5fa9a8;
+  color: #fff;
+  font-size: 1.1em;
+}
+.send-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* bookChat Loading icon */
+.book-loading-overlay{
+  position:fixed; inset:0;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(6px);
+  z-index: 99999;
+  display:flex; align-items:center; justify-content:center;
+}
+
+.book-loading-card{
+  width: min(420px, 86vw);
+  text-align:center;
+  padding: 22px 18px;
+  border-radius: 18px;
+}
+
+.book-loading-img{
+  width: 220px;
+  height: auto;
+  display:block;
+  margin: 0 auto 14px;
+}

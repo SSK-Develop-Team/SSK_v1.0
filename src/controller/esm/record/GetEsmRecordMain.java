@@ -41,8 +41,12 @@ public class GetEsmRecordMain extends HttpServlet {
 	    ServletContext sc = getServletContext();
 	 	Connection conn= (Connection) sc.getAttribute("DBconnection");
 	 	
-	 	User currUser = (User)session.getAttribute("currUser");
-	 	
+        // 로그인 유저 확인
+        User currUser = (User) session.getAttribute("currUser");
+        if (currUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        } 	
 	 	
 	 	
 		/*사용자의 EsmRecord 목록 가져오기 -> session events JSON 객체로 저장*/ 

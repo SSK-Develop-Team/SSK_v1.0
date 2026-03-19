@@ -32,6 +32,7 @@
 			<a href="sdqTestMain.jsp" class="w3-bar-item w3-button sidebar">정서/행동 발달 검사</a>
 			<a href="esmTestMain.jsp" class="w3-bar-item w3-button sidebar">정서 반복 기록</a>
 			<a href="GetEsmRecordMain" class="w3-bar-item w3-button sidebar">정서 다이어리</a>
+			<a href="bookMain.jsp" class="w3-bar-item w3-button sidebar">맞춤형 동화책</a>
 		</c:when>
 		<c:otherwise>
 			<a href="login.jsp" class="w3-bar-item w3-button sidebar">로그인이 필요합니다. </a>
@@ -71,7 +72,7 @@
 	  		</div>
 	  		<div style="margin-left:2em; margin-right:2em; transform:translateY(-1.5em);">
 		  		<div class="logo w3-center" style="font-weight:bold; font-size:1.6rem;">
-		  			<a href="childHome.jsp" style="text-decoration:none; color:ingerit;">PSLE</a>
+		  			<a href="<%= request.getContextPath() %>/childHome.jsp" style="text-decoration:none; color:inherit;">PSLE</a>
 		  		</div>
 		  		<hr>
 	  		</div>

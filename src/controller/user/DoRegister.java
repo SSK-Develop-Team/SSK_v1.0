@@ -43,8 +43,9 @@ public class DoRegister extends HttpServlet {
 		String userRole = request.getParameter("userRole");
 		String usergender = request.getParameter("userGender");
 		String userbirth = request.getParameter("userBirth");
-		int isAlarmActive = Integer.parseInt(request.getParameter("isAlarmActive"));
-
+		//int isAlarmActive = Integer.parseInt(request.getParameter("isAlarmActive"));
+		int isAlarmActive = request.getParameter("isAlarmActive") != null ? 1 : 0;
+		
 		Date birth=null;
 		Date registrationDate = new Date(System.currentTimeMillis());
 		
@@ -73,7 +74,7 @@ public class DoRegister extends HttpServlet {
 				
 		join_result = UserDAO.insertUser(conn, user);
 
-		if(userRole.equals("CHILD")) {
+		if(userRole.equals("CHILD") && isAlarmActive == 1) {
 			//alarm
 			String[] alarmStartTimeParams = request.getParameterValues("alarmStartTime");
 			String[] alarmEndTimeParams = request.getParameterValues("alarmEndTime");
@@ -81,37 +82,62 @@ public class DoRegister extends HttpServlet {
 			String[] alarmStartDateParams = request.getParameterValues("alarmStartDate");
 			String[] alarmEndDateParams = request.getParameterValues("alarmEndDate");
 			
-			if (alarmStartTimeParams == null || alarmEndTimeParams == null || alarmIntervalParams == null) {
-				// 사용자 지정 알람 없는 경우
-			}
-			else {
-		        for (int i = 0; i < alarmStartTimeParams.length; i++) {
+		    if (alarmStartTimeParams != null && alarmEndTimeParams != null &&
+		            alarmIntervalParams != null && alarmStartDateParams != null &&
+		            alarmEndDateParams != null) {
 
-		        	 // HH:MM 형식을 HH:MM:SS 형식으로 변환
-		            String alarmStartTimeFormatted = alarmStartTimeParams[i].length() == 5 ? alarmStartTimeParams[i] + ":00" : alarmStartTimeParams[i];
-		            String alarmEndTimeFormatted = alarmEndTimeParams[i].length() == 5 ? alarmEndTimeParams[i] + ":00" : alarmEndTimeParams[i];
-		            
-		            Time alarmstarttime = Time.valueOf(alarmStartTimeFormatted);
-		            Time alarmendtime = Time.valueOf(alarmEndTimeFormatted);
-		            int alarminterval = Integer.parseInt(alarmIntervalParams[i]);
-					Date alarmstartdate = Date.valueOf(alarmStartDateParams[i]);
-					Date alarmenddate = Date.valueOf(alarmEndDateParams[i]);
-		            
-		            EsmAlarm alarm = new EsmAlarm();
-		            alarm.setAlarmStartTime(alarmstarttime);
-		            alarm.setAlarmEndTime(alarmendtime);
-		            alarm.setAlarmInterval(alarminterval);
-					alarm.setAlarmStartDate(alarmstartdate);
-					alarm.setAlarmEndDate(alarmenddate);
-		            alarm.setUserId(join_result);
+		            for (int i = 0; i < alarmStartTimeParams.length; i++) {
 
+		                if (alarmStartTimeParams[i] == null || alarmStartTimeParams[i].trim().isEmpty() ||
+		                    alarmEndTimeParams[i] == null || alarmEndTimeParams[i].trim().isEmpty() ||
+		                    alarmIntervalParams[i] == null || alarmIntervalParams[i].trim().isEmpty() ||
+		                    alarmStartDateParams[i] == null || alarmStartDateParams[i].trim().isEmpty() ||
+		                    alarmEndDateParams[i] == null || alarmEndDateParams[i].trim().isEmpty()) {
+		                    continue;
+		                }
 
-		            EsmAlarmDAO.insertUserAlarm(conn, alarm);
-		        }	
-			}
+		                String alarmStartTimeFormatted = alarmStartTimeParams[i].length() == 5
+		                        ? alarmStartTimeParams[i] + ":00"
+		                        : alarmStartTimeParams[i];
+
+		                String alarmEndTimeFormatted = alarmEndTimeParams[i].length() == 5
+		                        ? alarmEndTimeParams[i] + ":00"
+		                        : alarmEndTimeParams[i];
+
+		                Time alarmstarttime = Time.valueOf(alarmStartTimeFormatted);
+		                Time alarmendtime = Time.valueOf(alarmEndTimeFormatted);
+		                int alarminterval = Integer.parseInt(alarmIntervalParams[i]);
+		                Date alarmstartdate = Date.valueOf(alarmStartDateParams[i]);
+		                Date alarmenddate = Date.valueOf(alarmEndDateParams[i]);
+
+		                EsmAlarm alarm = new EsmAlarm();
+		                alarm.setAlarmStartTime(alarmstarttime);
+		                alarm.setAlarmEndTime(alarmendtime);
+		                alarm.setAlarmInterval(alarminterval);
+		                alarm.setAlarmStartDate(alarmstartdate);
+		                alarm.setAlarmEndDate(alarmenddate);
+		                alarm.setUserId(join_result);
+
+		                EsmAlarmDAO.insertUserAlarm(conn, alarm);
+		            }
+		        }
+		    }
+		
+        
+		/*삭제*/
+		System.out.println("userBirth = " + userbirth);
+		System.out.println("isAlarmActive = " + isAlarmActive);
+
+		String[] alarmIntervalParams = request.getParameterValues("alarmInterval");
+		if (alarmIntervalParams == null) {
+		    System.out.println("alarmIntervalParams = null");
+		} else {
+		    for (int i = 0; i < alarmIntervalParams.length; i++) {
+		        System.out.println("alarmIntervalParams[" + i + "] = " + alarmIntervalParams[i]);
+		    }
 		}
 		
-            
+		
 		
 		if(join_result == -1) {
 			PrintWriter out = response.getWriter();
