@@ -64,6 +64,72 @@ public class BookFinalizeServlet extends HttpServlet {
         Integer selCode = (Integer) session.getAttribute("story_theme_choice"); // 1~7번 SEL 번호
         String selLabel = (String) session.getAttribute("story_main_theme");	// 1~6번 세부 설명 or 7번 직접 입력
         
+        Integer depthCode = (Integer) session.getAttribute("input_depth_choice"); // 간단/심화 모드 번호
+        
+        String simpleInput = (String) session.getAttribute("simple_input"); // 간단 모드 -> 고민 입력값
+        
+        Integer hardSituationCode = (Integer) session.getAttribute("hard_situation_choice"); // 심화 모드 <Step1> 1~5번 상황 시작 번호
+        String hardSituation = (String) session.getAttribute("hard_situation"); // 심화 모드 <Step1> 1~4번 세부 설명 or 5번 직접 입력
+        String hardSituationDetail = (String) session.getAttribute("hard_situation_detail"); // 심화 모드 <Step2> 세부 사항 입력
+        Integer hardEmotionCode = (Integer) session.getAttribute("hard_emotion_choice"); // 심화 모드 <Step3> 1~8번 감정 번호
+        String hardEmotion = (String) session.getAttribute("hard_emotion"); // 심화 모드 <Step3> 1~7번 세부 설명 or 8번 직접 입력
+        Integer hardDesireCode = (Integer) session.getAttribute("hard_desire_choice"); // 심화 모드 <Step4> 1~6번 바람 번호
+        String hardDesire = (String) session.getAttribute("hard_desire"); // 심화 모드 <Step4> 1~5번 세부 설명 or 6번 직접 입력
+        String hardAdditional = (String) session.getAttribute("hard_additional"); // 심화 모드 <Step 5> 추가 입력
+        
+        String hardSituationSummary = (String) session.getAttribute("hard_situation_summary"); // 심화 모드에서 입력받은 상황 맥락 요약
+        
+        // 수집값 확인
+        System.out.println("=== SESSION DEBUG ===");
+
+        System.out.println("depthCode = " + depthCode);
+        System.out.println("simpleInput = " + simpleInput);
+
+        System.out.println("hardSituation = " + session.getAttribute("hard_situation"));
+        System.out.println("hardSituationDetail = " + session.getAttribute("hard_situation_detail"));
+        System.out.println("hardAdditional = " + session.getAttribute("hard_additional"));
+        System.out.println("hardSituationSummary = " + session.getAttribute("hard_situation_summary"));
+        System.out.println("hardEmotion = " + session.getAttribute("hard_emotion"));
+        System.out.println("hardDesire = " + session.getAttribute("hard_desire"));
+        
+        // null 방어용
+        if (simpleInput == null) simpleInput = "";
+
+        if (hardSituation == null) hardSituation = "";
+        if (hardSituationDetail == null) hardSituationDetail = "";
+        if (hardAdditional == null) hardAdditional = "";
+        if (hardSituationSummary == null) hardSituationSummary = "";
+        if (hardEmotion == null) hardEmotion = "";
+        if (hardDesire == null) hardDesire = "";
+       
+        // 저장용 변수 생성
+        String contextSituation = "";
+        String situationSummary = "";
+        String emotion = "";
+        String desire = "";
+        String extraNotes = null;
+
+        if (depthCode != null && depthCode == 1) {
+            // 1) 간단 모드
+            contextSituation = simpleInput;
+            situationSummary = simpleInput;
+            emotion = "";
+            desire = "";
+            extraNotes = "";
+        } else {
+            // 2) 심화 모드
+            contextSituation =
+                    "상황 맥락: " + hardSituation + ", " +
+                    "구체적 장면: " + hardSituationDetail + ", " +
+                    "추가 정보: " + hardAdditional;
+
+            situationSummary = hardSituationSummary;
+            emotion = hardEmotion;
+            desire = hardDesire;
+            extraNotes = hardAdditional;
+        }
+        
+        
         try {
             // 1) FastAPI /finalize 호출
             PythonChatClient client = new PythonChatClient(pyBase);
@@ -73,8 +139,33 @@ public class BookFinalizeServlet extends HttpServlet {
                     storyLanguage, storyElements, selLabel
             );
             
+            System.out.println("=== FINALIZE OUT ===");
+            System.out.println(out.toString());
+            
+            String outContextSituation = out.has("context_situation") && !out.get("context_situation").isJsonNull()
+                    ? out.get("context_situation").getAsString() : "";
+            String outSituationSummary = out.has("situation_summary") && !out.get("situation_summary").isJsonNull()
+                    ? out.get("situation_summary").getAsString() : "";
+            String outEmotion = out.has("emotion") && !out.get("emotion").isJsonNull()
+                    ? out.get("emotion").getAsString() : "";
+            String outDesire = out.has("desire") && !out.get("desire").isJsonNull()
+                    ? out.get("desire").getAsString() : "";
+            String outExtraNotes = out.has("extra_notes") && !out.get("extra_notes").isJsonNull()
+                    ? out.get("extra_notes").getAsString() : "";
+                    
+            if (!outSituationSummary.isEmpty()) situationSummary = outSituationSummary;
+            if (!outEmotion.isEmpty()) emotion = outEmotion;
+            if (!outDesire.isEmpty()) desire = outDesire;
+            
             String storyTitle = out.has("story_title") && !out.get("story_title").isJsonNull() ? out.get("story_title").getAsString(): "";
         	
+            System.out.println("=== DB SAVE DEBUG ===");
+            System.out.println("contextSituation = " + contextSituation);
+            System.out.println("situationSummary = " + situationSummary);
+            System.out.println("emotion = " + emotion);
+            System.out.println("desire = " + desire);
+            System.out.println("extraNotes = " + extraNotes);
+            
         	// 2) DB 저장
             Book book = new Book();
             book.setUserId(currUser.getUserId());
@@ -83,10 +174,12 @@ public class BookFinalizeServlet extends HttpServlet {
             book.setStoryElements(storyElements);
             book.setSelGoalCode(selCode);
             book.setSelGoalLabel(selLabel);
+            book.setContextSituation(contextSituation);
+            book.setSituationSummary(situationSummary);
+            book.setEmotion(emotion);
+            book.setDesire(desire);
+            book.setExtraNotes(extraNotes);
 
-            // contextSituation/extraNotes는 아직 수집 안 하면 null로 두면 됨
-            book.setContextSituation(null);
-            book.setExtraNotes(null);
 
             long bookId = BookDAO.insertBook(conn, book);
 

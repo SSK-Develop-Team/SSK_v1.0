@@ -77,7 +77,7 @@ public class BookPdfServlet extends HttpServlet {
             String filename = safeTitle + ".pdf";
 
 	         // RFC5987 인코딩
-	         String encoded = java.net.URLEncoder.encode(filename, java.nio.charset.StandardCharsets.UTF_8)
+            String encoded = java.net.URLEncoder.encode(filename, java.nio.charset.StandardCharsets.UTF_8)
 	                 .replaceAll("\\+", "%20");
 	
 	         response.setContentType("application/pdf");
