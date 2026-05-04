@@ -18,6 +18,7 @@ import com.google.gson.*;
 import integration.PythonChatClient;
 import model.dao.BookDAO;
 import model.dao.BookPageDAO;
+import model.dao.LangResultAnalysisDAO;
 import model.dao.ParentGuideDAO;
 import model.dto.Book;
 import model.dto.BookPage;
@@ -55,8 +56,26 @@ public class BookFinalizeServlet extends HttpServlet {
 		
         String childName = currUser.getUserName();
         Date userBirth = currUser.getUserBirth();
-		int nowAge = UserInfoProcessor.getUserBirthToCurrAge(userBirth);
+		int ageInMonths = UserInfoProcessor.getUserBirthToCurrAge(userBirth);
+		int nowAge = ageInMonths / 12;
 		String childGender = currUser.getUserGender();
+		
+		// 언어점수 결과 연동
+		int storyTargetAge = nowAge;
+		int userId = currUser.getUserId();
+		// 1. 최신 검사 결과 가져오기
+		int latestLangTestLogId = LangResultAnalysisDAO.findLatestLangTestLogId(conn, userId);
+		if (latestLangTestLogId != -1) {
+		    int totalLangScore = LangResultAnalysisDAO.findTotalLangScoreByLogId(conn, latestLangTestLogId);
+
+		    storyTargetAge = getStoryTargetAge(nowAge, totalLangScore);
+
+		    System.out.println("[PSLE] TotalLangScore(언어점수 합산 결과) = " + totalLangScore);
+		    System.out.println("[PSLE] nowAge(만 나이) = " + nowAge);
+		    System.out.println("[PSLE] storyTargetAge(언어점수 기반 연령대 조정) = " + storyTargetAge);
+		} else {
+		    System.out.println("[PSLE] 검사 기록 없음 → 기본 나이 사용");
+		}
 		
         // 세션에서 수집값
         String storyLanguage = (String) session.getAttribute("story_language"); // 선택 언어
@@ -135,7 +154,7 @@ public class BookFinalizeServlet extends HttpServlet {
             PythonChatClient client = new PythonChatClient(pyBase);
             JsonObject out = client.finalizeBook(
                     threadId,
-                    childName, nowAge, childGender,
+                    childName, storyTargetAge, childGender,
                     storyLanguage, storyElements, selLabel
             );
             
@@ -231,4 +250,20 @@ public class BookFinalizeServlet extends HttpServlet {
         if (s == null) return "";
         return s.replace("\\", "\\\\").replace("\"", "\\\"");
     }
+    
+    // 언어점수에 따른 아동 연령 조정 함수
+	private static int getStoryTargetAge(int nowAge, int totalLangScore) {
+	    if (totalLangScore > 10) {
+	        return nowAge;
+	    }
+
+	    // 10점 이하인 경우: 이전 발달 단계 수준으로 조정
+	    if (nowAge >= 5 && nowAge <= 6) {
+	        return 4; // 만 3~4세 수준
+	    } else if (nowAge >= 3 && nowAge <= 4) {
+	        return 2; // 만 2세 수준
+	    } else {
+	        return 2; // 만 2세는 그대로
+	    }
+	}
 }
