@@ -97,7 +97,7 @@ public class LangGameProcessor {
         // 화면 왼쪽 버튼 5개(위에 2개, 아래 3개)
 		if(langQuestionId == 2 && (langGameId == 1 || langGameId == 3 || langGameId == 5 || langGameId == 7 || langGameId == 9)) {
 			buttonData = Arrays.asList(
-	            Map.of("left", "15%", "top", "10%", "width", "15%"),
+				Map.of("left", "15%", "top", "10%", "width", "15%"),
 	            Map.of("left", "40%", "top", "10%", "width", "15%"),
 	            Map.of("left", "4%", "top", "55%", "width", "16%"),
 	            Map.of("left", "28%", "top", "52%", "width", "14%"),
@@ -108,7 +108,7 @@ public class LangGameProcessor {
         // 화면 오른쪽 버튼 2개
 		else if(langQuestionId == 3 && (langGameId == 1 || langGameId == 2 || langGameId == 3)) {
 			buttonData = Arrays.asList(
-	                Map.of("left", "42%", "top", "24%", "width", "25%"),
+	                Map.of("left", "42%", "top", "24%", "width" , "25%"),
 	                Map.of("left", "70%", "top", "24%", "width", "26%"));
 	        correctAnswer = new int[]{2, 1, 2};
 	        pageNum = new int[]{1, 2, 3};
