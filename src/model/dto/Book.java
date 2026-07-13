@@ -11,6 +11,10 @@ public class Book {
     private String storyElements;
     private Integer selGoalCode;
     private String selGoalLabel;
+    private String situationSummary;
+    private String emotion;
+    private String desire;
+    private String ttsClip;
 
     private String contextSituation ;
     private String extraNotes;
@@ -46,4 +50,16 @@ public class Book {
 
     public Timestamp getCreatedTime() { return createdTime; }
     public void setCreatedTime(Timestamp createdTime) { this.createdTime = createdTime; }
+    
+    public String getSituationSummary() { return situationSummary; }
+    public void setSituationSummary(String situationSummary) { this.situationSummary = situationSummary; }
+    
+    public String getEmotion() { return emotion; }
+    public void setEmotion(String emotion) { this.emotion = emotion; }
+    
+    public String getDesire() { return desire; }
+    public void setDesire(String desire) { this.desire = desire; }
+    
+    public String getTtsClip() { return ttsClip; }
+    public void setTtsClip(String ttsClip) { this.ttsClip = ttsClip; }
 }

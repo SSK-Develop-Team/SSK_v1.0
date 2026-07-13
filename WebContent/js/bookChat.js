@@ -68,8 +68,35 @@
   });
 
   function scrollToBottom() {
-    var last = chatList.lastElementChild;
-    if (last) last.scrollIntoView({ behavior: "smooth", block: "end" });
+    if (!chatList) return;
+
+    var scrollOnce = function (behavior) {
+      var page = document.scrollingElement || document.documentElement;
+      var bottom = Math.max(
+        document.body ? document.body.scrollHeight : 0,
+        document.documentElement ? document.documentElement.scrollHeight : 0,
+        page.scrollHeight
+      );
+
+      window.scrollTo({ top: bottom, behavior: behavior || "auto" });
+      page.scrollTop = bottom;
+      document.documentElement.scrollTop = bottom;
+      if (document.body) document.body.scrollTop = bottom;
+      chatList.scrollTop = chatList.scrollHeight;
+    };
+
+    requestAnimationFrame(function () {
+      scrollOnce("smooth");
+      setTimeout(function () { scrollOnce("auto"); }, 80);
+      setTimeout(function () { scrollOnce("auto"); }, 250);
+    });
+  }
+
+  if (window.ResizeObserver && chatList) {
+    var chatResizeObserver = new ResizeObserver(function () {
+      scrollToBottom();
+    });
+    chatResizeObserver.observe(chatList);
   }
 
   function stripStepPrefix(text) {
@@ -227,6 +254,7 @@
 
 	      typing.classList.remove("typing");
 	      renderAssistantMarkdownInto(typing, data.reply || "");
+	      scrollToBottom();
 
 	      saveHistory("assistant", data.reply || "");
 	    })
@@ -238,6 +266,7 @@
 	    .finally(function () {
 	      lockUI(false);
 	      msgInput.focus();
+	      scrollToBottom();
 	    });
 	}
   

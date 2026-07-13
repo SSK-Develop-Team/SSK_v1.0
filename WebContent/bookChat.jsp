@@ -102,6 +102,6 @@
   window.__CTX__ = "<%= request.getContextPath() %>";
   window.__THREAD_ID__ = "<%= (String)request.getAttribute("threadId") %>";
 </script>
-<script src="js/bookChat.js?v=1" charset="UTF-8"></script>
+<script src="js/bookChat.js?v=3" charset="UTF-8"></script>
 </body>
 </html>

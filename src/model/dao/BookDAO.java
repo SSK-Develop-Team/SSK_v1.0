@@ -10,8 +10,8 @@ public class BookDAO {
     public static long insertBook(Connection con, Book book) throws SQLException {
         String sql = "INSERT INTO book(" +
                 "user_id, story_title, story_language, story_elements, sel_goal_code, sel_goal_label," +
-                "context_situation, extra_notes" +
-                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "context_situation, situation_summary, emotion, desire, extra_notes" +
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, book.getUserId());
@@ -24,7 +24,10 @@ public class BookDAO {
 
             ps.setString(6, book.getSelGoalLabel());
             ps.setString(7, book.getContextSituation());
-            ps.setString(8, book.getExtraNotes());
+            ps.setString(8, book.getSituationSummary());
+            ps.setString(9, book.getEmotion());
+            ps.setString(10, book.getDesire());
+            ps.setString(11, book.getExtraNotes());
 
             ps.executeUpdate();
 
@@ -55,8 +58,13 @@ public class BookDAO {
 
                 b.setSelGoalLabel(rs.getString("sel_goal_label"));
                 b.setContextSituation(rs.getString("context_situation"));
+                b.setSituationSummary(rs.getString("situation_summary"));
+                b.setEmotion(rs.getString("emotion"));
+                b.setDesire(rs.getString("desire"));
                 b.setExtraNotes(rs.getString("extra_notes"));
                 b.setCreatedTime(rs.getTimestamp("created_time"));
+                
+                b.setTtsClip(rs.getString("tts_clip"));
                 return b;
             }
         }
@@ -82,13 +90,28 @@ public class BookDAO {
 
                     b.setSelGoalLabel(rs.getString("sel_goal_label"));
                     b.setContextSituation(rs.getString("context_situation"));
+                    b.setSituationSummary(rs.getString("situation_summary"));
+                    b.setEmotion(rs.getString("emotion"));
+                    b.setDesire(rs.getString("desire"));
                     b.setExtraNotes(rs.getString("extra_notes"));
                     b.setCreatedTime(rs.getTimestamp("created_Time"));
+                    
+                    b.setTtsClip(rs.getString("tts_clip"));
                     out.add(b);
                 }
             }
         }
         return out;
+    }
+    
+    public static void updateTtsClip(Connection con, long bookId, String ttsClip) throws SQLException {
+        String sql = "UPDATE book SET tts_clip=? WHERE book_id=?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, ttsClip);
+            ps.setLong(2, bookId);
+            ps.executeUpdate();
+        }
     }
     
     public boolean deleteBookById(Connection con, long bookId, int userId) throws SQLException {

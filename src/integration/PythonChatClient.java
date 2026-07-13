@@ -5,6 +5,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+import java.util.ArrayList;
+import model.dto.BookPage;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -57,7 +61,38 @@ public class PythonChatClient {
 
         return postJson("/finalize", body);
     }
+    
+    // -------------------------
+    // 영상 생성
+    // -------------------------
+    public JsonObject createBookVideo(String threadId, long bookId, ArrayList<BookPage> pages)
+            throws IOException {
+        JsonObject body = new JsonObject();
+        body.addProperty("thread_id", threadId);
+        body.addProperty("book_id", bookId);
 
+        JsonArray pageArr = new JsonArray();
+
+        for (BookPage p : pages) {
+            JsonObject obj = new JsonObject();
+            obj.addProperty("page_no", p.getPageNo());
+            obj.addProperty("page_text", p.getPageContent());
+
+            String imageUrl = "C:/SskImageData/generated/"
+                    + threadId
+                    + "/page_"
+                    + String.format("%02d", p.getPageNo())
+                    + ".png";
+
+            obj.addProperty("image_path", imageUrl);
+            pageArr.add(obj);
+        }
+
+        body.add("pages", pageArr);
+
+        return postJson("/bookVideo", body);
+    }
+    
     // -------------------------
     // internal
     // -------------------------

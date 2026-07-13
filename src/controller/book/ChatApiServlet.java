@@ -76,6 +76,17 @@ public class ChatApiServlet extends HttpServlet {
             session.removeAttribute("story_theme_choice");
             session.removeAttribute("story_main_theme");
             session.removeAttribute("step");
+            session.removeAttribute("input_depth_choice");
+            session.removeAttribute("simple_input");
+            session.removeAttribute("hard_situation_choice");
+            session.removeAttribute("hard_situation");
+            session.removeAttribute("hard_situation_detail");
+            session.removeAttribute("hard_emotion_choice");
+            session.removeAttribute("hard_emotion");
+            session.removeAttribute("hard_desire_choice");
+            session.removeAttribute("hard_desire");
+            session.removeAttribute("hard_additional");
+            session.removeAttribute("hard_situation_summary");
         }
         
         try {
@@ -109,6 +120,28 @@ public class ChatApiServlet extends HttpServlet {
                 session.setAttribute("story_theme_choice", out.get("story_theme_choice").getAsInt());
             if (out.has("story_main_theme") && !out.get("story_main_theme").isJsonNull())
                 session.setAttribute("story_main_theme", out.get("story_main_theme").getAsString());
+            if (out.has("input_depth_choice") && !out.get("input_depth_choice").isJsonNull())
+                session.setAttribute("input_depth_choice", out.get("input_depth_choice").getAsInt());
+            if (out.has("simple_input") && !out.get("simple_input").isJsonNull())
+                session.setAttribute("simple_input", out.get("simple_input").getAsString());
+            if (out.has("hard_situation_choice") && !out.get("hard_situation_choice").isJsonNull())
+                session.setAttribute("hard_situation_choice", out.get("hard_situation_choice").getAsInt());
+            if (out.has("hard_situation") && !out.get("hard_situation").isJsonNull())
+                session.setAttribute("hard_situation", out.get("hard_situation").getAsString());
+            if (out.has("hard_situation_detail") && !out.get("hard_situation_detail").isJsonNull())
+                session.setAttribute("hard_situation_detail", out.get("hard_situation_detail").getAsString());
+            if (out.has("hard_emotion_choice") && !out.get("hard_emotion_choice").isJsonNull())
+                session.setAttribute("hard_emotion_choice", out.get("hard_emotion_choice").getAsInt());
+            if (out.has("hard_emotion") && !out.get("hard_emotion").isJsonNull())
+                session.setAttribute("hard_emotion", out.get("hard_emotion").getAsString());
+            if (out.has("hard_desire_choice") && !out.get("hard_desire_choice").isJsonNull())
+                session.setAttribute("hard_desire_choice", out.get("hard_desire_choice").getAsInt());
+            if (out.has("hard_desire") && !out.get("hard_desire").isJsonNull())
+                session.setAttribute("hard_desire", out.get("hard_desire").getAsString());
+            if (out.has("hard_additional") && !out.get("hard_additional").isJsonNull())
+                session.setAttribute("hard_additional", out.get("hard_additional").getAsString());
+            if (out.has("hard_situation_summary") && !out.get("hard_situation_summary").isJsonNull())
+                session.setAttribute("hard_situation_summary", out.get("hard_situation_summary").getAsString());
 
             // 프론트로 그대로 전달
             JsonObject res = new JsonObject();

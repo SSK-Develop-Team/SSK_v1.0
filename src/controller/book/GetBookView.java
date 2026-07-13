@@ -65,7 +65,13 @@ public class GetBookView extends HttpServlet{
                 Map<String, Object> m = new HashMap<>();
                 m.put("pageNo", p.getPageNo());
                 m.put("pageText", p.getPageContent());
-                m.put("imageUrl", p.getPageImagePath());
+                String i_u = p.getPageImagePath();
+                // i_u = i_u.replace("/PSLE", "C:/SskImageData");
+                i_u = i_u.replace("\\", "/");
+                if (i_u.startsWith(request.getContextPath())) {
+                    i_u = i_u.substring(request.getContextPath().length());
+                }
+                m.put("imageUrl", request.getContextPath()+"/images" + i_u);
                 pagePayload.add(m);
             }
 

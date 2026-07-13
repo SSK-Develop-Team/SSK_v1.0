@@ -37,8 +37,12 @@
     .btnRow {display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap; white-space: nowrap;}
 
     /* 모달 스크롤 */
-	#detailModal .w3-modal-content{max-height: 85vh; overflow: hidden;}
-	#dGuideWrap{max-height: 70vh; overflow: auto; border-left: 0;}
+	#detailModal .w3-modal-content{max-height: 85vh; overflow: hidden;display: flex;flex-direction: column;}
+	#dGuideWrap{max-height: none; overflow-y: auto; overflow-x: hidden;border-left: 0;}
+	#detailModal .modal-content {flex: 1;min-height: 0;overflow: hidden;display: flex;flex-direction: column;border: 1px solid #2E6D71;}
+    #detailModal .modal-content > div {flex-shrink: 0;border-bottom: 1px solid #2E6D71;}
+    #detailModal .modal-content > div:last-child {flex: 1;min-height: 0;border-bottom: none;}
+
     
    /* 부모가이드 서식 */
 	#dGuide {white-space: normal; line-height: 1.45; font-size: 15px;}
@@ -106,11 +110,24 @@
                   <button class="w3-button btn btn-detail" onclick="openDetail(
                       <%= b.getBookId() %>,'<%= title.replace("\\", "\\\\").replace("'", "\\'") %>', '<%= created %>',
                       '<%= (b.getStoryElements()==null? "": b.getStoryElements()).replace("\\", "\\\\").replace("'", "\\'") %>',
-                      '<%= (b.getSelGoalLabel()==null? "": b.getSelGoalLabel()).replace("\\", "\\\\").replace("'", "\\'") %>'
+                      '<%= (b.getSelGoalLabel()==null? "": b.getSelGoalLabel()).replace("\\", "\\\\").replace("'", "\\'") %>',
+                      '<%= (b.getSituationSummary()==null? "": b.getSituationSummary()).replace("\\", "\\\\").replace("'", "\\'") %>'
                     )">세부 사항</button>
 
-                  <a class="w3-button btn btn-go" href="GetBookView?bookId=<%= b.getBookId() %>&page=1">동화책 보러 가기</a>
+                  <!-- <a class="w3-button btn btn-go" href="GetBookView?bookId=<%= b.getBookId() %>&page=1">동화책 보러 가기</a> -->
+                  
+                  <%
+   					 boolean hasVideo = b.getTtsClip() != null && !b.getTtsClip().trim().isEmpty();
+    				String viewUrl = hasVideo
+        				? "GetBookVideo?bookId=" + b.getBookId()
+        				: "GetBookView?bookId=" + b.getBookId() + "&page=1";
+    				String viewLabel = hasVideo ? "동화책 보러 가기" : "동화책 읽기";
+				%>
 
+				<a class="w3-button btn btn-go" href="<%= viewUrl %>">
+    				<%= viewLabel %>
+				</a>	
+				
                   <button class="w3-button btn btn-del" onclick="deleteBook(<%= b.getBookId() %>)">삭제</button>
                 </div>
               </td>
@@ -165,12 +182,23 @@
 <script>
   const CTX = "<%= request.getContextPath() %>";
 
-  function openDetail(bookId, title, date, elements, selLabel) {
+  function openDetail(bookId, title, date, elements, selLabel, situationSummary) {
     document.getElementById("detailModal").style.display = "block";
     document.getElementById("dTitle").textContent = title || "-";
     document.getElementById("dDate").textContent = date || "-";
     document.getElementById("dElements").textContent = elements || "-";
-    document.getElementById("dWorry").textContent = selLabel || "-";
+    let worryText = "";
+
+    if (selLabel) {
+        worryText += selLabel;
+    }
+
+    if (situationSummary) {
+        if (worryText) worryText += "\n\n";
+        worryText += "고민 상황 요약: " + situationSummary;
+    }
+
+    document.getElementById("dWorry").textContent = worryText || "-";
 
     const guideEl = document.getElementById("dGuide");
     guideEl.textContent = "불러오는 중...";
