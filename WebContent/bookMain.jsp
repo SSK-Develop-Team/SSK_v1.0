@@ -20,7 +20,7 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" type="text/css" href="css/style.css?v=1">
+<link rel="stylesheet" type="text/css" href="css/style.css?v=2">
 
 <title>맞춤형 동화책</title>
 </head>
@@ -30,7 +30,14 @@
 
 <div style="width:100%;background-color:#DDEDED;">
 	<div>&nbsp;</div><div>&nbsp;</div><div class="w3-hide-small">&nbsp;</div>
-	<div class="w3-center test-main-title"> 맞춤형 동화책 </div>
+	<div class="w3-center book-main-title">
+    	<span class="title-red">맞</span>
+    	<span class="title-orange">춤</span>
+    	<span class="title-green">형</span>
+    	<span class="title-purple">동</span>
+    	<span class="title-blue">화</span>
+    	<span class="title-navy">책</span>
+	</div>
 	<div class="w3-panel" style="width:100%;height:150px;">
 		<div class="w3-hide-small">&nbsp;</div>
 		<div class="w3-center test-main-description">
@@ -45,7 +52,7 @@
 	<div class="w3-col s1 m3 l4">&nbsp;</div>
 	<div class="w3-padding w3-col s10 m6 l4">
 
-		<button class="w3-button w3-block w3-round-large w3-padding-16 book-button"	onClick="location.href='GetChatBot'">시작하기</button> 
+		<button class="w3-button w3-block w3-round-large w3-padding-16 book-button"	onClick="location.href='GetBookReadMode'">시작하기</button> 
 		
 		<div>&nbsp;</div>
 

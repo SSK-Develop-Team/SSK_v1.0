@@ -46,13 +46,23 @@ public class GetChatBot extends HttpServlet {
 		ServletContext sc = getServletContext();
 		Connection con = (Connection)sc.getAttribute("DBconnection");
 		
+		System.out.println("[BOOK] readMode param = " + request.getParameter("readMode"));
+		
         // 로그인 유저 확인
         User currUser = (User) session.getAttribute("currUser");
         if (currUser == null) {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
-
+        
+        // 동화책 읽어주기 / 동화책 읽기 선택 확인
+        String readMode = request.getParameter("readMode");
+        if (readMode == null || readMode.trim().isEmpty()) {
+        	readMode = "read";
+        }
+        
+        session.setAttribute("bookReadMode", readMode);
+        
         // 1) 새로 입력하기로 들어온 경우(파라미터 우선)
         String userName = request.getParameter("userName");
         String userBirth = request.getParameter("userBirth");   // yyyy-MM-dd

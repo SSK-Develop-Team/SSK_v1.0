@@ -61,7 +61,12 @@ public class GetParentGuide extends HttpServlet {
 
             JsonObject out = new JsonObject();
             out.addProperty("bookId", bookId);
-            out.addProperty("guideText", parentGuide.getGuideText() == null ? "" : parentGuide.getGuideText());
+            //out.addProperty("guideText", parentGuide.getGuideText() == null ? "" : parentGuide.getGuideText());
+            if (parentGuide == null || parentGuide.getGuideText()== null) {
+            	out.addProperty("guideText", "");
+            } else {
+            	out.addProperty("guideText", parentGuide.getGuideText());
+            }
             resp.getWriter().write(out.toString());
 
         } catch (Exception e) {

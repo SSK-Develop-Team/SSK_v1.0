@@ -28,6 +28,7 @@ import java.util.*;
 @WebServlet("/BookPdf")
 public class BookPdfServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final String IMAGE_BASE_DIR = "C:/SskImageData";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -121,7 +122,6 @@ public class BookPdfServlet extends HttpServlet {
         float margin = 40f;
         float gap = 14f;
 
-        // 이미지 영역: 위쪽 60% 정도
         float imgAreaH = pageH * 0.60f;
         float textAreaH = pageH - margin * 2 - imgAreaH - gap;
 
@@ -134,30 +134,10 @@ public class BookPdfServlet extends HttpServlet {
         float textW = pageW - margin * 2;
 
         try (PDPageContentStream cs = new PDPageContentStream(doc, pdfPage)) {
-
-            // 1) 이미지 넣기
-        	String rawPath = page.getPageImagePath(); // 예: /PSLE/generated/....png
-        	if (rawPath != null && !rawPath.trim().isEmpty()) {
-        	    PDImageXObject pdImage = loadImageSmart(request, doc, rawPath.trim());
-        	    if (pdImage != null) {
-        	        float iw = pdImage.getWidth();
-        	        float ih = pdImage.getHeight();
-        	        float scale = Math.min(imgW / iw, imgAreaH / ih);
-        	        float drawW = iw * scale;
-        	        float drawH = ih * scale;
-        	        float dx = imgX + (imgW - drawW) / 2f;
-        	        float dy = imgY + (imgAreaH - drawH) / 2f;
-        	        cs.drawImage(pdImage, dx, dy, drawW, drawH);
-        	    } else {
-        	        System.out.println("[PDF] image NULL: " + rawPath);
-        	    }
-        	}
-        	
-            String imageUrl = page.getPageImagePath(); // DB에 저장된 절대 URL
+            String imageUrl = page.getPageImagePath();
             if (imageUrl != null && !imageUrl.trim().isEmpty()) {
                 PDImageXObject pdImage = loadImageSmart(request, doc, imageUrl.trim());
                 if (pdImage != null) {
-                    // 비율 유지해서 영역에 맞추기
                     float iw = pdImage.getWidth();
                     float ih = pdImage.getHeight();
                     float scale = Math.min(imgW / iw, imgAreaH / ih);
@@ -168,10 +148,11 @@ public class BookPdfServlet extends HttpServlet {
                     float dy = imgY + (imgAreaH - drawH) / 2f;
 
                     cs.drawImage(pdImage, dx, dy, drawW, drawH);
+                } else {
+                    System.out.println("[PDF] image NULL: " + imageUrl);
                 }
             }
 
-            // 2) 텍스트 넣기 (자동 줄바꿈)
             String text = page.getPageContent();
             if (text == null) text = "";
 
@@ -183,7 +164,6 @@ public class BookPdfServlet extends HttpServlet {
             cs.beginText();
             cs.setFont(font, fontSize);
 
-            // 텍스트 블록 시작점(상단부터 내려쓰기)
             float startY = textY + textAreaH - fontSize;
             cs.newLineAtOffset(textX, startY);
 
@@ -199,6 +179,7 @@ public class BookPdfServlet extends HttpServlet {
             cs.endText();
         }
     }
+
     private PDImageXObject loadImageFromUrl(PDDocument doc, String urlStr) {
     	HttpURLConnection conn = null;
         try {
@@ -256,23 +237,31 @@ public class BookPdfServlet extends HttpServlet {
         }
     }
 
-    private File resolveToLocalFile(HttpServletRequest req, String pathOrUrl) {
-        // DB에 /PSLE/generated/... 형태로 들어있으면 contextPath(/PSLE) 제거 → /generated/...
+    private File resolveToLocalFile(HttpServletRequest req, String pathOrUrl) throws IOException {
         String p = pathOrUrl;
 
-        // 이미 URL이면 로컬로 못 바꿈
         if (p.startsWith("http://") || p.startsWith("https://")) return null;
 
-        String ctx = req.getContextPath(); // /PSLE
+        String ctx = req.getContextPath();
         if (p.startsWith(ctx + "/")) {
-            p = p.substring(ctx.length()); // /generated/....
+            p = p.substring(ctx.length());
         }
 
-        // 이제 p는 /generated/... 로 기대
+        if (p.startsWith("/images/")) {
+            p = p.substring("/images".length());
+        }
+
         if (!p.startsWith("/")) p = "/" + p;
 
+        if (p.startsWith("/generated/")) {
+            File baseDir = new File(IMAGE_BASE_DIR).getCanonicalFile();
+            File file = new File(baseDir, p.substring(1)).getCanonicalFile();
+            if (!file.getPath().startsWith(baseDir.getPath() + File.separator)) return null;
+            return file;
+        }
+
         String real = getServletContext().getRealPath(p);
-        if (real == null) return null; // (WAR 외부 매핑이면 null 가능)
+        if (real == null) return null;
         return new File(real);
     }
 

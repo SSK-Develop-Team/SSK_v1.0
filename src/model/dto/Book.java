@@ -14,6 +14,7 @@ public class Book {
     private String situationSummary;
     private String emotion;
     private String desire;
+    private String ttsClip;
 
     private String contextSituation ;
     private String extraNotes;
@@ -58,4 +59,7 @@ public class Book {
     
     public String getDesire() { return desire; }
     public void setDesire(String desire) { this.desire = desire; }
+    
+    public String getTtsClip() { return ttsClip; }
+    public void setTtsClip(String ttsClip) { this.ttsClip = ttsClip; }
 }

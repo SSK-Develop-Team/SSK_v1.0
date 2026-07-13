@@ -63,6 +63,8 @@ public class BookDAO {
                 b.setDesire(rs.getString("desire"));
                 b.setExtraNotes(rs.getString("extra_notes"));
                 b.setCreatedTime(rs.getTimestamp("created_time"));
+                
+                b.setTtsClip(rs.getString("tts_clip"));
                 return b;
             }
         }
@@ -93,11 +95,23 @@ public class BookDAO {
                     b.setDesire(rs.getString("desire"));
                     b.setExtraNotes(rs.getString("extra_notes"));
                     b.setCreatedTime(rs.getTimestamp("created_Time"));
+                    
+                    b.setTtsClip(rs.getString("tts_clip"));
                     out.add(b);
                 }
             }
         }
         return out;
+    }
+    
+    public static void updateTtsClip(Connection con, long bookId, String ttsClip) throws SQLException {
+        String sql = "UPDATE book SET tts_clip=? WHERE book_id=?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, ttsClip);
+            ps.setLong(2, bookId);
+            ps.executeUpdate();
+        }
     }
     
     public boolean deleteBookById(Connection con, long bookId, int userId) throws SQLException {

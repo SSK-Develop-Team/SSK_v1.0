@@ -152,6 +152,7 @@ public class BookFinalizeServlet extends HttpServlet {
         try {
             // 1) FastAPI /finalize 호출
             PythonChatClient client = new PythonChatClient(pyBase);
+            String readMode = (String) session.getAttribute("bookReadMode");
             JsonObject out = client.finalizeBook(
                     threadId,
                     childName, storyTargetAge, childGender,
@@ -226,14 +227,38 @@ public class BookFinalizeServlet extends HttpServlet {
             BookPageDAO.insertPages(conn, pages);
 
             // parent guide 저장
-            String guide = out.has("parent_guide") ? out.get("parent_guide").getAsString() : "";
+            //String guide = out.has("parent_guide") ? out.get("parent_guide").getAsString() : "";
+            String guide = "";
+            if (out.has("parent_guide") && !out.get("parent_guide").isJsonNull()) {
+                guide = out.get("parent_guide").getAsString();
+            }
             ParentGuide pg = new ParentGuide();
             pg.setBookId(bookId);
             pg.setGuideText(guide);
             ParentGuideDAO.upsert(conn, pg);
 
             // 3) redirect URL 응답
-            String redirectUrl = request.getContextPath() + "/GetBookView?bookId=" + bookId + "&page=1";
+            boolean isListenMode = "listen".equals(readMode);
+            String videoUrl = null;
+
+            if (isListenMode) {
+                JsonObject videoOut = client.createBookVideo(threadId, bookId, pages);
+
+                if (videoOut.has("video_url") && !videoOut.get("video_url").isJsonNull()) {
+                	videoUrl = request.getContextPath()
+                            + "/images"
+                            + videoOut.get("video_url").getAsString();
+                    BookDAO.updateTtsClip(conn, bookId, videoUrl);
+                }
+            }
+
+            String redirectUrl;
+
+            if (isListenMode) {
+                redirectUrl = request.getContextPath() + "/GetBookVideo?bookId=" + bookId;
+            } else {
+                redirectUrl = request.getContextPath() + "/GetBookView?bookId=" + bookId + "&page=1";
+            }
 
             JsonObject res = new JsonObject();
             res.addProperty("redirectUrl", redirectUrl);

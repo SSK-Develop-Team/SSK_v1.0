@@ -114,6 +114,49 @@
   color: #fff;
 }
 
+/* 동화책 메인 타이틀 */
+@font-face {
+    font-family: 'Griun_Mongtori';
+    src: url('../fonts/Griun_Mongtori-Rg.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.book-main-title {
+    font-family: 'Griun_Mongtori', sans-serif;
+    font-size:3.5em;
+}
+
+.book-sub-title {
+    font-family: 'Griun_Mongtori', sans-serif;
+    font-size:2.5em;
+    color: #3A8B8F;
+}
+
+.title-red {
+    color: #ff4b3e;
+}
+
+.title-orange {
+    color: #ffa63d;
+}
+
+.title-green {
+    color: #7fc25b;
+}
+
+.title-purple {
+    color: #b86be3;
+}
+
+.title-blue {
+    color: #00a8d8;
+}
+
+.title-navy {
+    color: #586fae;
+}
+
 /* 챗봇 */
 .chatArea {
   padding-left: 12px;
